@@ -1,5 +1,6 @@
 package tty.balanceyourio
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when(item?.itemId){
             R.id.item_setting -> {
-
+                startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
             else -> false
