@@ -4,4 +4,7 @@
     <string name="records">数据</string>
     <string name="analysis">分析</string>
     <string name="title_activity_settings">设置</string>
+    <string name="income">收入</string>
+    <string name="outcome">支出</string>
+    <string name="food">餐饮</string>
 </resources>
