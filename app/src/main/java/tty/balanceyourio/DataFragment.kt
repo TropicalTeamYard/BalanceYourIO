@@ -1,6 +1,7 @@
 package tty.balanceyourio
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -19,7 +20,8 @@ class DataFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         f_data_fab_add.setOnClickListener {
-            Toast.makeText(this.context, "ADD RECORD", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this.context, "ADD RECORD", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this.context,AddBillActivity::class.java))
         }
     }
 
