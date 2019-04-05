@@ -8,4 +8,9 @@
     <string name="income">Income</string>
     <string name="outcome">Outcome</string>
     <string name="food">Food</string>
+    <string name="traffic">Traffic</string>
+    <string name="wages">Wages</string>
+    <string name="education">Education</string>
+    <string name="living_expenses">Living expenses</string>
+    <string name="part_time">Part-time job</string>
 </resources>

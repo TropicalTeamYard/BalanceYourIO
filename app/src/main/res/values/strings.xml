@@ -7,4 +7,9 @@
     <string name="income">收入</string>
     <string name="outcome">支出</string>
     <string name="food">餐饮</string>
+    <string name="traffic">交通</string>
+    <string name="education">教育</string>
+    <string name="wages">工资</string>
+    <string name="living_expenses">生活费</string>
+    <string name="part_time">兼职</string>
 </resources>
