@@ -87,7 +87,7 @@ category-default.json
 
 ```json
 {
-    "category":[{
+    "income":[{
         "name":"餐饮",
         "values":[{
             "name":"三餐",
@@ -105,6 +105,10 @@ category-default.json
             "name":"公交",
             "state":false
         }]
+    }],
+    "outcome":[{
+        "name":"工资",
+        "values":null
     }]
 }
 ```
@@ -115,9 +119,13 @@ category-user.json
 
 ```json
 {
-    "changes":[{
+    "income":[{
         "method":"add",
         "content":"餐饮-三餐"
+    }],
+    "outcome":[{
+        "method":"add",
+        "content":"工资-正式工资"
     }]
 }
 ```
