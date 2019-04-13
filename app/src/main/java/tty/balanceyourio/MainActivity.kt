@@ -5,10 +5,12 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.view.ViewPager
+import android.util.Log
 import tty.util.BYIOHelper
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import tty.util.BYIOType
 import tty.util.MainFragmentAdapter
 
 
@@ -44,9 +46,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        val db=BYIOHelper(this).writableDatabase
-//
-//        db.close()
+        //region test
+        //val iotype:BYIOType = BYIOType.default
+        //Log.d("globaltest",iotype.toString())
+        //endregion
+        //val db=BYIOHelper(this).writableDatabase
+        //
+        //db.close()
         adapter= MainFragmentAdapter(supportFragmentManager)
         main_viewPager.adapter=adapter
 

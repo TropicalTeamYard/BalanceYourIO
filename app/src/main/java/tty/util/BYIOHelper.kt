@@ -59,7 +59,10 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null,DB_V
         const val TAG="DBHELPER"
         const val DB_VERSION=1
         const val DB_NAME="byio.db"
-        const val CREATE_TABLE_BILL= "create table bill(" +
+        const val NAME_BILL = "bill"
+        const val NAME_SETTINGS = "settings"
+
+        const val CREATE_TABLE_BILL= "create table $NAME_BILL(" +
                         "_id integer primary key autoincrement, " +
                         "tag varchar(12) not null, " +
                         "time varchar(20) not null, " +
@@ -70,7 +73,7 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null,DB_V
                         "remark tinytext" +
                         ")"
         //region 数据库更改:VERSION=2
-        const val CREATE_TABLE_SETTINGS = "create table settings(_id integer primary key autoincrement,name varchar(20) not null,value text not null)"
+        const val CREATE_TABLE_SETTINGS = "create table $NAME_SETTINGS(_id integer primary key autoincrement,name varchar(20) not null,value text not null)"
         //endregion
     }
 }

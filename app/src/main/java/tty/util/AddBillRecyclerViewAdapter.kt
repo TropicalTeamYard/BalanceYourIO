@@ -33,4 +33,5 @@ class AddBillRecyclerViewAdapter(private var data: List<HashMap<String, Any>>):R
         var imageViewIcon:ImageView = itemView.findViewById(R.id.type_img)
         var textViewType: TextView = itemView.findViewById(R.id.type_class)
     }
+
 }

@@ -18,7 +18,7 @@ import java.util.ArrayList
 import java.util.HashMap
 
 class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener {
-    private val TAG = "AddBillActivity"
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var data: ArrayList<HashMap<String, Any>>
     private lateinit var adapter: AddBillRecyclerViewAdapter
@@ -55,4 +55,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener 
         recyclerView.layoutManager = GridLayoutManager(this, 2)
     }
 
+    companion object {
+        const val TAG = "AddBillActivity"
+    }
 }
