@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.RadioGroup
 import android.widget.SeekBar
 import android.widget.Toast
@@ -20,7 +21,15 @@ import java.util.ArrayList
 import java.util.HashMap
 
 class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
-    TextWatcher {
+    TextWatcher, View.OnClickListener {
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.add_bill_bt_save -> {
+                Log.d(TAG, "SAVE")
+            }
+        }
+    }
+
     override fun afterTextChanged(s: Editable?) {
 
     }
@@ -97,15 +106,13 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
             } else if(nowMoney>999999){
                 nowMoney=999999.0
             }
-            Log.d("ABA", "now: $nowMoney")
+            //Log.d("ABA", "now: $nowMoney")
             add_show_now_money.text= "￥ $nowMoney"
         } else {
             shouldMoneyChange=true
         }
 
     }
-
-    private val TAG = "AddBillActivity"
     private lateinit var recyclerView: RecyclerView
     private lateinit var data: ArrayList<HashMap<String, Any>>
     private lateinit var adapter: AddBillRecyclerViewAdapter
@@ -139,13 +146,16 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         adapter = AddBillRecyclerViewAdapter(data)
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = GridLayoutManager(this, 4)
+        val layoutManager=GridLayoutManager(this, 2)
+        layoutManager.orientation=GridLayoutManager.HORIZONTAL
+        recyclerView.layoutManager = layoutManager
         add_sb_money.setOnSeekBarChangeListener(this)
         add_show_now_money.text="￥ $nowMoney"
         add_input_money.addTextChangedListener(this)
+        add_bill_bt_save.setOnClickListener(this)
     }
 
     companion object {
-        const val TAG = "AddBillActivity"
+        const val TAG = "ABA"
     }
 }
