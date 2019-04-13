@@ -16,16 +16,46 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_bill.*
 import tty.util.AddBillRecyclerViewAdapter
 import tty.util.DataOperator
+import java.lang.NullPointerException
 import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.HashMap
 
 class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
-    TextWatcher, View.OnClickListener {
+    TextWatcher, View.OnClickListener, AddBillRecyclerViewAdapter.OnItemClickListener {
+    override fun onItemClick(view: View, position: Int) {
+        Log.d(TAG, "pos: $position")
+        for(p in data){
+            p["chosen"]=false
+        }
+        data[position]["chosen"]=true
+        adapter.notifyDataSetChanged()
+    }
+
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.add_bill_bt_save -> {
                 Log.d(TAG, "SAVE")
+                try {
+                    var flag=false
+                    var type=""
+                    for(p in data){
+                        if(p["chosen"] as Boolean){
+                            flag=true
+                            type= p["class"] as String
+                            break
+                        }
+                    }
+                    if(flag){
+                        Log.i(TAG, "mode: ${add_bill_radio_group.checkedRadioButtonId}, type: $type, amount: $nowMoney")
+                        Toast.makeText(this, "mode: ${add_bill_radio_group.checkedRadioButtonId}, type: $type, amount: $nowMoney", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "类型不能为空！", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: TypeCastException){
+
+                }
+
             }
         }
     }
@@ -153,6 +183,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         add_show_now_money.text="￥ $nowMoney"
         add_input_money.addTextChangedListener(this)
         add_bill_bt_save.setOnClickListener(this)
+        adapter.setOnItemClickListener(this)
     }
 
     companion object {

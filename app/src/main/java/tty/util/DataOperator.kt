@@ -13,6 +13,7 @@ class DataOperator{
                 map["class"] = node.name
                 //TODO("需要重写图标逻辑")
                 map["icon"] = BitmapFactory.decodeResource(context.resources,R.drawable.fork)
+                map["chosen"] = false
                 outcomeData.add(map)
             }
             return outcomeData
@@ -39,6 +40,7 @@ class DataOperator{
                 map["class"] = node.name
                 //TODO("需要重写图标逻辑")
                 map["icon"] = BitmapFactory.decodeResource(context.resources,R.drawable.swap)
+                map["chosen"] = false
                 incomeData.add(map)
             }
 
