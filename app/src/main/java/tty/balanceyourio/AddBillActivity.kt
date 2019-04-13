@@ -31,7 +31,6 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         if(shouldInputMoneyChange){
-            val decimalFormat = DecimalFormat("0.00")
             try {
                 if(s?.length!! >0&&s.toString().toDouble()>=0){
                     nowMoney=s.toString().toDouble()
@@ -67,6 +66,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
     var nowProgress=8.0
     private var shouldMoneyChange=true
     private var shouldInputMoneyChange=true
+    private val decimalFormat = DecimalFormat("0.00")
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
         //Log.d("ABA", "stop: "+seekBar?.progress)
         shouldMoneyChange=false
@@ -91,12 +91,13 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                 nowMoney--
             }
             nowProgress= seekBar.progress.toDouble()
+            nowMoney=decimalFormat.format(nowMoney).toDouble()
             if(nowMoney<=0){
                 nowMoney= 0.0
             } else if(nowMoney>999999){
                 nowMoney=999999.0
             }
-            Log.d("ABA", "now:$nowMoney")
+            Log.d("ABA", "now: $nowMoney")
             add_show_now_money.text= "￥ $nowMoney"
         } else {
             shouldMoneyChange=true
