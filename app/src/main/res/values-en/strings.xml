@@ -14,4 +14,6 @@
     <string name="living_expenses">Living expenses</string>
     <string name="part_time">Part-time job</string>
     <string name="save">Save</string>
+    <string name="input_the_amount">Input the amount</string>
+    <string name="class_edit">Edit Classes</string>
 </resources>

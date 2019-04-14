@@ -14,7 +14,7 @@ class MainFragmentAdapter(fm:FragmentManager): FragmentPagerAdapter(fm) {
         pages.add(AnalysisFragment())
     }
     override fun getCount(): Int {
-        return pages.size;
+        return pages.size
     }
 
     override fun getItem(p0: Int): Fragment? {

@@ -86,5 +86,3 @@ class BYIONode(var name: String, var icon: Int, vararg items: BYIONodeItem) {
 }
 
 class BYIONodeItem(var name:String,var icon:Int,var state:Boolean = true)
-{
-}

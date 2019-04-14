@@ -1,14 +1,16 @@
 package tty.balanceyourio
 
-import android.annotation.SuppressLint
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.RadioGroup
 import android.widget.SeekBar
@@ -16,10 +18,8 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_bill.*
 import tty.util.AddBillRecyclerViewAdapter
 import tty.util.DataOperator
-import java.lang.NullPointerException
 import java.text.DecimalFormat
-import java.util.ArrayList
-import java.util.HashMap
+import java.util.*
 
 class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
     TextWatcher, View.OnClickListener, AddBillRecyclerViewAdapter.OnItemClickListener {
@@ -47,8 +47,22 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                         }
                     }
                     if(flag){
-                        Log.i(TAG, "mode: ${add_bill_radio_group.checkedRadioButtonId}, type: $type, amount: $nowMoney")
-                        Toast.makeText(this, "mode: ${add_bill_radio_group.checkedRadioButtonId}, type: $type, amount: $nowMoney", Toast.LENGTH_SHORT).show()
+                        Log.i(TAG,
+                            "mode: ${
+                                            when(add_bill_radio_group.checkedRadioButtonId){
+                                                R.id.add_bill_radio_income -> "income"
+                                                R.id.add_bill_radio_outcome -> "outcome"
+                                                else -> "other"
+                                            }}, " +
+                                    "type: $type, amount: $nowMoney")
+                        Toast.makeText(this,
+                            "mode: ${
+                                        when(add_bill_radio_group.checkedRadioButtonId){
+                                            R.id.add_bill_radio_income -> "income"
+                                            R.id.add_bill_radio_outcome -> "outcome"
+                                            else -> "other"
+                                        }}, " +
+                                    "type: $type, amount: $nowMoney", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(this, "类型不能为空！", Toast.LENGTH_SHORT).show()
                     }
@@ -184,6 +198,22 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         add_input_money.addTextChangedListener(this)
         add_bill_bt_save.setOnClickListener(this)
         adapter.setOnItemClickListener(this)
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_add_bill, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when(item?.itemId){
+            R.id.menu_add_bill_settings -> {
+                Toast.makeText(this, "编辑分类", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> false
+        }
     }
 
     companion object {
