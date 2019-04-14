@@ -14,12 +14,14 @@ import android.widget.RadioGroup
 import android.widget.SeekBar
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_bill.*
+import tty.data.BYIOHelper
+import tty.model.BillRecord
+import tty.model.IOType
 import tty.util.AddBillRecyclerViewAdapter
 import tty.util.DataOperator
 import java.lang.NullPointerException
 import java.text.DecimalFormat
-import java.util.ArrayList
-import java.util.HashMap
+import java.util.*
 
 class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
     TextWatcher, View.OnClickListener, AddBillRecyclerViewAdapter.OnItemClickListener {
@@ -48,6 +50,31 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                     }
                     if(flag){
                         Log.i(TAG, "mode: ${add_bill_radio_group.checkedRadioButtonId}, type: $type, amount: $nowMoney")
+
+                        //region 与数据库的交互
+                        val record:BillRecord = BillRecord()
+                        record.id = -1
+                        record.tag = "#UNSET"
+                        record.time = Date()
+                        Log.d(TAG,"time: ${record.time}")
+                        record.amount = nowMoney
+                        record.goodsType = type
+                        record.ioType = when(add_bill_radio_group.checkedRadioButtonId){
+                            R.id.add_bill_radio_income->IOType.Income
+                            R.id.add_bill_radio_outcome->IOType.OutCome
+                            else -> IOType.Unset
+                        }
+                        record.channel = "#UNSET"
+                        record.remark = null
+
+                        val helper = BYIOHelper(this)
+                        helper.setBill(record)
+
+                        Log.d(TAG,"添加了一条记录")
+
+                        //endregion
+                        //helper.printBill()
+
                         Toast.makeText(this, "mode: ${add_bill_radio_group.checkedRadioButtonId}, type: $type, amount: $nowMoney", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(this, "类型不能为空！", Toast.LENGTH_SHORT).show()
