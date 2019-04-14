@@ -13,6 +13,8 @@
     <string name="living_expenses">生活费</string>
     <string name="part_time">兼职</string>
     <string name="save">保 存</string>
+    <string name="input_the_amount">手动输入数额</string>
+    <string name="class_edit">编辑分类</string>
     <string name="fruit">水果</string>
     <string name="shopping">购物</string>
     <string name="investment">投资</string>
