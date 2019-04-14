@@ -20,7 +20,7 @@ class DataOperator{
             return value
         }
 
-        fun getOutcomeClassList(context: Context):ArrayList<HashMap<String, Any>>{
+        fun getOutcomeTypeList(context: Context):ArrayList<HashMap<String, Any>>{
             val outcomeData=ArrayList<HashMap<String, Any>>()
             for (node in BYIOCategory.getInstance().outcome){
                 val map = HashMap<String,Any>()
@@ -47,7 +47,7 @@ class DataOperator{
 //            return outcomeData
         }
 
-        fun getIncomeClassList(context: Context):ArrayList<HashMap<String, Any>>{
+        fun getIncomeTypeList(context: Context):ArrayList<HashMap<String, Any>>{
             val incomeData=ArrayList<HashMap<String, Any>>()
             for (node in BYIOCategory.getInstance().income){
                 val map = HashMap<String,Any>()
