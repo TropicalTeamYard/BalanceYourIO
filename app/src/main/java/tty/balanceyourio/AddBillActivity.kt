@@ -216,7 +216,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         adapter = AddBillRecyclerViewAdapter(data)
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
-        val layoutManager=GridLayoutManager(this, 2)
+        val layoutManager=GridLayoutManager(this, 1)
         layoutManager.orientation=GridLayoutManager.HORIZONTAL
         recyclerView.layoutManager = layoutManager
         add_sb_money.setOnSeekBarChangeListener(this)

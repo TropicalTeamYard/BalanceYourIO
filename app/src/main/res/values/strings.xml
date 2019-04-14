@@ -21,4 +21,5 @@
     <string name="entertainment">娱乐</string>
     <string name="interest">利息</string>
     <string name="others">其他</string>
+    <string name="input_remark">备注：</string>
 </resources>
