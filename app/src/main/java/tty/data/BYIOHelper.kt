@@ -1,4 +1,4 @@
-package tty.util
+package tty.data
 
 import android.content.ContentValues
 import android.content.Context
@@ -6,8 +6,15 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import tty.model.BillRecord
+import tty.model.IOType
+import java.text.SimpleDateFormat
+import java.util.*
 
-class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null,DB_VERSION) {
+class BYIOHelper(context : Context): SQLiteOpenHelper(context,
+    DB_NAME,null,
+    DB_VERSION
+) {
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
 
     }
@@ -16,6 +23,59 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null,DB_V
         db?.execSQL(CREATE_TABLE_BILL)
         db?.execSQL(CREATE_TABLE_SETTINGS)
     }
+
+
+    //region 账单读写操作
+    fun setBill(record: BillRecord) {
+        val contentValues:ContentValues = ContentValues()
+        if (record.tag!=null)
+            contentValues.put("tag",record.tag!!)
+        if (record.time!= null)
+            contentValues.put("time",SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(record.time!!))
+        if (record.ioType!= IOType.Unset)
+            contentValues.put("iotype",when (record.ioType){
+                IOType.Income-> 1
+                IOType.OutCome -> 2
+                else -> 0
+            })
+        if (record.goodsType!= null)
+            contentValues.put("goodstype",record.goodsType!!)
+        if (record.amount!=null){
+            contentValues.put("amount",record.amount!!)
+        }
+        if (record.channel!=null){
+            contentValues.put("channel",record.channel!!)
+        }
+        if (record.remark!= null){
+            contentValues.put("remark",record.remark!!)
+        }
+
+        if (record.id== -1){
+            writableDatabase.insert(NAME_BILL,null,contentValues)
+        } else  {
+            writableDatabase.update(NAME_BILL,contentValues,"id = ?", arrayOf(record.id.toString()))
+        }
+
+    }
+    fun printBill(){
+        val cursor = readableDatabase.rawQuery("select * from $NAME_BILL", arrayOf<String>())
+        if (cursor.moveToFirst() && cursor.count > 0){
+            do {
+                Log.d(TAG,"id: ${cursor.getInt(cursor.getColumnIndex("_id"))} " +
+                        "time: ${cursor.getString(cursor.getColumnIndex("time"))} " +
+                        "iotype: ${cursor.getInt(cursor.getColumnIndex("iotype"))} " +
+                        "goodstype: ${cursor.getString(cursor.getColumnIndex("goodstype"))} " +
+                        "amount: ${cursor.getString(cursor.getColumnIndex("amount"))}")
+            } while (cursor.moveToNext())
+        }
+
+        cursor.close()
+    }
+
+
+
+    //endregion
+
 
     //region 设置的读写操作[封装的API]
     fun getSettingsValue(key:String,default:String):String?{

@@ -5,12 +5,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.view.ViewPager
-import android.util.Log
-import tty.util.BYIOHelper
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
-import tty.util.BYIOType
 import tty.util.MainFragmentAdapter
 
 
