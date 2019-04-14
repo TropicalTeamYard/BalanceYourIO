@@ -19,7 +19,7 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null,DB_V
 
     //region 设置的读写操作[封装的API]
     fun getSettingsValue(key:String,default:String):String?{
-        val cursor:Cursor =  readableDatabase.rawQuery("select value from settings where name = ? limit 1", arrayOf(key));
+        val cursor:Cursor =  readableDatabase.rawQuery("select value from settings where name = ? limit 1", arrayOf(key))
         var result:String = default
         if (cursor.moveToFirst() && (cursor.count > 0)){
             result = cursor.getString(cursor.getColumnIndex("name"))
@@ -30,7 +30,7 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null,DB_V
     }
 
     fun setSettingsValue(key:String,value:String){
-        val cursor:Cursor = readableDatabase.rawQuery("select value from settings where name= ? limit 1", arrayOf(key));
+        val cursor:Cursor = readableDatabase.rawQuery("select value from settings where name= ? limit 1", arrayOf(key))
         if (cursor.moveToFirst() && (cursor.count > 0)){
             //说明已经有储存的数据
             val values:ContentValues= ContentValues()
@@ -44,7 +44,7 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null,DB_V
             values.put("value",value)
             val _newId:Long = writableDatabase.insert("settings",null,values)
             if (_newId == -1L){
-                Log.d(TAG,"尝试在settings表中新建一条记录，但出现错误");
+                Log.d(TAG,"尝试在settings表中新建一条记录，但出现错误")
             }
             else{
                 Log.d(TAG,"在settings表中新建了一条记录，id为$_newId")
