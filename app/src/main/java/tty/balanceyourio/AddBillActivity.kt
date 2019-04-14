@@ -190,14 +190,14 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         when(checkedId){
             R.id.add_bill_radio_income -> {
                 Toast.makeText(this, "Outcome chosen", Toast.LENGTH_SHORT).show()
-                data=DataOperator.getIncomeClassList(this)
+                data=DataOperator.getIncomeTypeList(this)
                 adapter.setData(data)
                 adapter.notifyDataSetChanged()
 
             }
             R.id.add_bill_radio_outcome -> {
                 Toast.makeText(this, "Income chosen", Toast.LENGTH_SHORT).show()
-                data=DataOperator.getOutcomeClassList(this)
+                data=DataOperator.getOutcomeTypeList(this)
                 adapter.setData(data)
                 adapter.notifyDataSetChanged()
             }
@@ -211,7 +211,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_bill)
         add_bill_radio_group.setOnCheckedChangeListener(this)
-        data=DataOperator.getOutcomeClassList(this)
+        data=DataOperator.getOutcomeTypeList(this)
         recyclerView = findViewById(R.id.add_bill_rec_view)
         adapter = AddBillRecyclerViewAdapter(data)
         recyclerView.itemAnimator = DefaultItemAnimator()
