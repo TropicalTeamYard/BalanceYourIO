@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:padding="16dp"
-              android:orientation="vertical"
-              tools:context=".AddBillActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                tools:context=".AddBillActivity">
 
     <RadioGroup
             android:id="@+id/add_bill_radio_group"
@@ -19,7 +17,7 @@
                 android:id="@+id/add_bill_radio_outcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/outcome" android:layout_marginEnd="80dp"/>
+                android:text="@string/outcome" android:layout_marginEnd="160dp"/>
         <RadioButton
                 android:id="@+id/add_bill_radio_income"
                 android:layout_width="wrap_content"
@@ -32,6 +30,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-    />
-    <View android:layout_width="match_parent" android:layout_height="240dp" android:background="#ccffff00"/>
-</LinearLayout>
+            android:layout_below="@+id/add_bill_radio_group"/>
+
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:background="#ccccff" android:layout_alignParentBottom="true">
+        <SeekBar
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:max="16"
+                android:progress="8"
+                android:id="@+id/add_sb_money"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+            <TextView android:id="@+id/add_show_now_money" android:layout_width="wrap_content"
+                      android:layout_height="40dp"
+                      android:layout_marginTop="0dp" android:textSize="24sp" android:text="￥ 8" android:padding="4dp"
+                      android:layout_marginEnd="8dp"
+                      android:singleLine="true" android:maxWidth="160dp" android:layout_gravity="center_horizontal"/>
+            <EditText android:id="@+id/add_input_money" android:layout_width="match_parent" android:layout_height="40dp"
+                      android:hint="@string/input_the_amount"
+                      android:background="@drawable/border" android:paddingLeft="8dp" android:paddingRight="8dp"
+                      android:paddingBottom="4dp" android:paddingTop="4dp"
+                      android:inputType="numberDecimal" android:layout_marginEnd="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:layout_marginStart="8dp" android:layout_marginEnd="8dp">
+            <EditText android:paddingStart="8dp" android:hint="@string/input_remark" android:paddingEnd="8dp" android:paddingTop="4dp" android:paddingBottom="4dp" android:id="@+id/add_bill_ed_remark" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/border"
+                      android:inputType="text" android:importantForAutofill="no"/>
+        </LinearLayout>
+
+        <Button android:id="@+id/add_bill_bt_save" android:layout_width="match_parent" android:layout_height="40dp"
+                android:background="@drawable/border" android:text="@string/save"
+                android:layout_marginTop="24dp" android:layout_marginStart="8dp" android:layout_marginEnd="8dp" android:layout_marginBottom="8sp"
+                android:textSize="20sp"/>
+    </LinearLayout>
+</RelativeLayout>

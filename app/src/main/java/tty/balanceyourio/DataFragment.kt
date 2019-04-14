@@ -20,7 +20,6 @@ class DataFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         f_data_fab_add.setOnClickListener {
-            //Toast.makeText(this.context, "ADD RECORD", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this.context,AddBillActivity::class.java))
         }
     }

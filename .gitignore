@@ -10,8 +10,8 @@
 /captures
 .externalNativeBuild
 .idea/codeStyles/Project.xml
-.idea/codeStyles/Project.xml
 .idea/misc.xml
 build.gradle
 gradle/wrapper/gradle-wrapper.properties
 gradlew
+.idea/codeStyles/Project.xml
