@@ -189,14 +189,14 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
         when(checkedId){
             R.id.add_bill_radio_income -> {
-                Toast.makeText(this, "Outcome chosen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Income chosen", Toast.LENGTH_SHORT).show()
                 data=DataOperator.getIncomeTypeList(this)
                 adapter.setData(data)
                 adapter.notifyDataSetChanged()
 
             }
             R.id.add_bill_radio_outcome -> {
-                Toast.makeText(this, "Income chosen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Outcome chosen", Toast.LENGTH_SHORT).show()
                 data=DataOperator.getOutcomeTypeList(this)
                 adapter.setData(data)
                 adapter.notifyDataSetChanged()
