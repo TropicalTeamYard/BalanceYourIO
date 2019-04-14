@@ -6,11 +6,26 @@ import tty.balanceyourio.R
 
 class DataOperator{
     companion object {
+        private fun getFriendString(context:Context,input:String):String{
+            var value:String = ""
+            if (input.startsWith("key.")){
+                val key:Int? =  input.substring(4).toIntOrNull()
+                if (key != null)
+                    value = context.getString(key)
+                else
+                    value = "KeyNotFound"
+            }
+            else {
+                value  = input
+            }
+            return value
+        }
+
         fun getOutcomeClassList(context: Context):ArrayList<HashMap<String, Any>>{
             val outcomeData=ArrayList<HashMap<String, Any>>()
             for (node in BYIOCategory.getInstance().outcome){
                 val map = HashMap<String,Any>()
-                map["class"] = node.name
+                map["class"] = getFriendString(context,node.name)
                 //TODO("需要重写图标逻辑")
                 map["icon"] = BitmapFactory.decodeResource(context.resources,R.drawable.fork)
                 map["chosen"] = false
@@ -37,7 +52,7 @@ class DataOperator{
             val incomeData=ArrayList<HashMap<String, Any>>()
             for (node in BYIOCategory.getInstance().income){
                 val map = HashMap<String,Any>()
-                map["class"] = node.name
+                map["class"] = getFriendString(context,node.name)
                 //TODO("需要重写图标逻辑")
                 map["icon"] = BitmapFactory.decodeResource(context.resources,R.drawable.swap)
                 map["chosen"] = false

@@ -7,7 +7,7 @@
     <string name="income">收入</string>
     <string name="outcome">支出</string>
     <string name="food">餐饮</string>
-    <string name="traffic">交通</string>
+    <string name="transportation">交通</string>
     <string name="education">教育</string>
     <string name="wages">工资</string>
     <string name="living_expenses">生活费</string>
@@ -15,4 +15,10 @@
     <string name="save">保 存</string>
     <string name="input_the_amount">手动输入数额</string>
     <string name="class_edit">编辑分类</string>
+    <string name="fruit">水果</string>
+    <string name="shopping">购物</string>
+    <string name="investment">投资</string>
+    <string name="entertainment">娱乐</string>
+    <string name="interest">利息</string>
+    <string name="others">其他</string>
 </resources>

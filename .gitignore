@@ -16,3 +16,5 @@ build.gradle
 gradle/wrapper/gradle-wrapper.properties
 gradlew
 .idea/codeStyles/Project.xml
+build.gradle
+.idea/misc.xml
