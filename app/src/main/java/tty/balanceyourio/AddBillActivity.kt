@@ -58,7 +58,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                                     }}, " +
                                     "type: $type, amount: $nowMoney")
                         //region 与数据库的交互
-                        val record:BillRecord = BillRecord()
+                        val record = BillRecord()
                         record.id = -1
                         record.tag = "#UNSET"
                         record.time = Date()
