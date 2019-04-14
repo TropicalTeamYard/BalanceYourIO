@@ -3,6 +3,7 @@ package tty.data
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
@@ -56,6 +57,12 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context,
             writableDatabase.update(NAME_BILL,contentValues,"id = ?", arrayOf(record.id.toString()))
         }
 
+        try {
+            writableDatabase.close()
+        } catch (e:SQLException){
+            e.printStackTrace()
+        }
+
     }
 
 
@@ -85,7 +92,13 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context,
         if (cursor.moveToFirst() && (cursor.count > 0)){
             result = cursor.getString(cursor.getColumnIndex("name"))
         }
-        cursor.close()
+
+        try {
+            cursor.close()
+            readableDatabase.close()
+        } catch (e:SQLException){
+            e.printStackTrace()
+        }
 
         return result
     }
@@ -112,7 +125,13 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context,
             }
         }
 
-        cursor.close()
+        try {
+            cursor.close()
+            readableDatabase.close()
+            writableDatabase.close()
+        } catch (e:SQLException){
+            e.printStackTrace()
+        }
     }
     //endregion
 
