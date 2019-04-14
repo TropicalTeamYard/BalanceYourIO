@@ -7,16 +7,15 @@ import tty.balanceyourio.R
 class DataOperator{
     companion object {
         private fun getFriendString(context:Context,input:String):String{
-            var value:String = ""
-            if (input.startsWith("key.")){
+            val value: String
+            value = if (input.startsWith("key.")){
                 val key:Int? =  input.substring(4).toIntOrNull()
                 if (key != null)
-                    value = context.getString(key)
+                    context.getString(key)
                 else
-                    value = "KeyNotFound"
-            }
-            else {
-                value  = input
+                    "KeyNotFound"
+            } else {
+                input
             }
             return value
         }
