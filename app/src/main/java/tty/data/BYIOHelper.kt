@@ -57,6 +57,9 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context,
         }
 
     }
+
+
+
     fun printBill(){
         val cursor = readableDatabase.rawQuery("select * from $NAME_BILL", arrayOf<String>())
         if (cursor.moveToFirst() && cursor.count > 0){
@@ -71,8 +74,6 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context,
 
         cursor.close()
     }
-
-
 
     //endregion
 

@@ -71,7 +71,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                             else -> IOType.Unset
                         }
                         record.channel = "#UNSET"
-                        record.remark = null
+                        record.remark = add_bill_ed_remark.text.toString()
 
                         val helper = BYIOHelper(this)
                         helper.setBill(record)
