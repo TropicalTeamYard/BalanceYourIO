@@ -141,8 +141,8 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
 
     }
 
-    var nowMoney=8.0
-    var nowProgress=8.0
+    private var nowMoney= max_val
+    private var nowProgress= max_val
     private var shouldMoneyChange=true
     private var shouldInputMoneyChange=true
     private val decimalFormat = DecimalFormat("0.00")
@@ -151,7 +151,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         shouldMoneyChange=false
         shouldInputMoneyChange=false
         seekBar?.progress=8
-        nowProgress= 8.0
+        nowProgress= max_val
         add_input_money.setText("")
 
     }
@@ -164,12 +164,12 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         //Log.d("ABA", "changed: "+seekBar?.progress)
         shouldInputMoneyChange=false
         if(shouldMoneyChange){
-            if(nowProgress<seekBar?.progress!!){
-                nowMoney++
-            } else if(nowProgress> seekBar.progress) {
-                nowMoney--
+            if(nowProgress<seekBar?.progress!!*delta){
+                nowMoney+= delta
+            } else if(nowProgress> seekBar.progress*delta) {
+                nowMoney-= delta
             }
-            nowProgress= seekBar.progress.toDouble()
+            nowProgress= seekBar.progress.toDouble()* delta
             nowMoney=decimalFormat.format(nowMoney).toDouble()
             if(nowMoney<=0){
                 nowMoney= 0.0
@@ -244,5 +244,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
 
     companion object {
         const val TAG = "ABA"
+        const val delta = 0.5
+        const val max_val:Double = 4.0
     }
 }
