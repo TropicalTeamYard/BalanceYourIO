@@ -89,6 +89,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                                         else -> "other"
                                     }}, " +
                                     "type: $type, amount: $nowMoney", Toast.LENGTH_SHORT).show()
+                        finish()
                     } else {
                         Toast.makeText(this, "类型不能为空！", Toast.LENGTH_SHORT).show()
                     }

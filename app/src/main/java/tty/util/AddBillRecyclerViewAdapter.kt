@@ -53,7 +53,6 @@ class AddBillRecyclerViewAdapter(private var data: List<HashMap<String, Any>>):R
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         override fun onClick(v: View?) {
             mListener.onItemClick(itemView, layoutPosition)
-            //imageViewIcon.setBackgroundColor(0x99ffff00.toInt())
         }
 
         constructor(itemView: View, listener: OnItemClickListener?) : this(itemView){

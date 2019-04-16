@@ -22,4 +22,6 @@
     <string name="interest">利息</string>
     <string name="others">其他</string>
     <string name="input_remark">备注：</string>
+    <string name="type">种类</string>
+    <string name="icon">图标</string>
 </resources>
