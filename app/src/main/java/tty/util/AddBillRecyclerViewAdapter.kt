@@ -11,6 +11,7 @@ import tty.balanceyourio.R
 import java.lang.NullPointerException
 import java.util.*
 
+@Deprecated("请改用AddBillIconAdapter")
 class AddBillRecyclerViewAdapter(private var data: List<HashMap<String, Any>>):RecyclerView.Adapter<AddBillRecyclerViewAdapter.ViewHolder>() {
     private var mClickListener: OnItemClickListener? = null
 

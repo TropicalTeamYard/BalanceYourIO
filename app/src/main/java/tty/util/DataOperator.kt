@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import tty.balanceyourio.R
 
+@Deprecated("请改用IOTypeProvider")
 class DataOperator{
     companion object {
         private fun getFriendString(context:Context,input:String):String{
