@@ -9,7 +9,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/item_nav_analysis"
-        android:icon="@drawable/fork"
+        android:icon="@drawable/ic_show_chart_black_24dp"
         android:orderInCategory="101"
         android:title="@string/analysis"
         app:showAsAction="ifRoom" />

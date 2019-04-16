@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="ShowBillItem">
+        <attr name="title" format="string"/>
+        <attr name="chartMode" format="string"/>
+    </declare-styleable>
+</resources>

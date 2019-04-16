@@ -62,7 +62,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                                     }}, " +
                                     "type: $type, amount: $nowMoney")
                         //region 与数据库的交互
-                        val record:BillRecord = BillRecord()
+                        val record = BillRecord()
                         record.id = -1
                         record.tag = "#UNSET"
                         record.time = Date()
@@ -93,6 +93,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                                         else -> "other"
                                     }}, " +
                                     "type: $type, amount: $nowMoney", Toast.LENGTH_SHORT).show()
+                        finish()
                     } else {
                         Toast.makeText(this, "类型不能为空！", Toast.LENGTH_SHORT).show()
                     }
@@ -193,7 +194,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
         when(checkedId){
             R.id.add_bill_radio_income -> {
-                Toast.makeText(this, "Outcome chosen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Income chosen", Toast.LENGTH_SHORT).show()
                 //data=DataOperator.getIncomeTypeList(this)
                 //adapter.setData(data)
                 data = IOTypeProvider(this).inComeTypeList
@@ -202,7 +203,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
 
             }
             R.id.add_bill_radio_outcome -> {
-                Toast.makeText(this, "Income chosen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Outcome chosen", Toast.LENGTH_SHORT).show()
                 //data=DataOperator.getOutcomeTypeList(this)
                 data = IOTypeProvider(this).outComeTypeList
                 //adapter.setData(data)
