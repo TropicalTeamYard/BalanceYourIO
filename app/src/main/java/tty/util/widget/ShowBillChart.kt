@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.View
 import tty.balanceyourio.R
 
-class ShowBillItem : View {
+class ShowBillChart : View {
 
     private var _title: String?=null
     private var _chartMode: String? = null
@@ -63,11 +63,11 @@ class ShowBillItem : View {
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
 
-        val a = context.obtainStyledAttributes(attrs, R.styleable.ShowBillItem, defStyle, 0)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.ShowBillChart, defStyle, 0)
 
-        _title = a.getString(R.styleable.ShowBillItem_title)
+        _title = a.getString(R.styleable.ShowBillChart_title)
 
-        _chartMode = a.getString(R.styleable.ShowBillItem_chartMode)
+        _chartMode = a.getString(R.styleable.ShowBillChart_chartMode)
 
         a.recycle()
 

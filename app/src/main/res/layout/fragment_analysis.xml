@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/analysis"/>
-    <tty.util.widget.ShowBillItem
+    <tty.util.widget.ShowBillChart
             android:id="@+id/analysis_chart"
             android:background="#ccddff"
             android:layout_width="match_parent"

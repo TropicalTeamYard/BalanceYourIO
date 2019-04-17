@@ -1,5 +1,5 @@
 <resources>
-    <declare-styleable name="ShowBillItem">
+    <declare-styleable name="ShowBillChart">
         <attr name="title" format="string"/>
         <attr name="chartMode" format="string"/>
     </declare-styleable>

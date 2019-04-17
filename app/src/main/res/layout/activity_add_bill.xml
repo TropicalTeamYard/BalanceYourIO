@@ -5,13 +5,13 @@
                 android:layout_height="match_parent"
                 android:padding="0dp"
                 tools:context=".AddBillActivity">
-
     <RadioGroup
             android:id="@+id/add_bill_radio_group"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:gravity="center_horizontal"
             android:checkedButton="@id/add_bill_radio_outcome"
+            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp">
         <RadioButton
