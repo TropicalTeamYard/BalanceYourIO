@@ -11,6 +11,7 @@ import tty.balanceyourio.R
 import java.lang.NullPointerException
 import java.util.*
 
+@Deprecated("请改用AddBillIconAdapter")
 class AddBillRecyclerViewAdapter(private var data: List<HashMap<String, Any>>):RecyclerView.Adapter<AddBillRecyclerViewAdapter.ViewHolder>() {
     private var mClickListener: OnItemClickListener? = null
 
@@ -53,7 +54,6 @@ class AddBillRecyclerViewAdapter(private var data: List<HashMap<String, Any>>):R
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         override fun onClick(v: View?) {
             mListener.onItemClick(itemView, layoutPosition)
-            //imageViewIcon.setBackgroundColor(0x99ffff00.toInt())
         }
 
         constructor(itemView: View, listener: OnItemClickListener?) : this(itemView){

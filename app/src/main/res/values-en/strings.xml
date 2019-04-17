@@ -23,4 +23,7 @@
     <string name="interest">Interest</string>
     <string name="others">Others</string>
     <string name="input_remark">Input remark here</string>
+    <string name="icon">icon</string>
+    <string name="type">type</string>
+    <string name="default_amount">￥ 4</string>
 </resources>

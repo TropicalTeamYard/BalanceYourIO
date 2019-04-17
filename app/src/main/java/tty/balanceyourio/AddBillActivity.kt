@@ -15,17 +15,22 @@ import android.widget.RadioGroup
 import android.widget.SeekBar
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_bill.*
+import tty.balanceyourio.adapter.AddBillIconAdapter
+import tty.balanceyourio.converter.ColorIconConverter
+import tty.balanceyourio.converter.IconConverter
+import tty.balanceyourio.provider.IOTypeProvider
 import tty.data.BYIOHelper
 import tty.model.BillRecord
 import tty.model.IOType
 import tty.util.AddBillRecyclerViewAdapter
+import tty.util.BYIOCategory
 import tty.util.DataOperator
 import java.text.DecimalFormat
 import java.util.*
 
 class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
-    TextWatcher, View.OnClickListener, AddBillRecyclerViewAdapter.OnItemClickListener {
-    override fun onItemClick(view: View, position: Int) {
+    TextWatcher, View.OnClickListener,AddBillIconAdapter.OnItemClickListener {
+    override fun onItemClick(v: View?, position: Int) {
         Log.d(TAG, "pos: $position")
         for(p in data){
             p["chosen"]=false
@@ -89,6 +94,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                                         else -> "other"
                                     }}, " +
                                     "type: $type, amount: $nowMoney", Toast.LENGTH_SHORT).show()
+                        finish()
                     } else {
                         Toast.makeText(this, "类型不能为空！", Toast.LENGTH_SHORT).show()
                     }
@@ -146,6 +152,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
     private var shouldMoneyChange=true
     private var shouldInputMoneyChange=true
     private val decimalFormat = DecimalFormat("0.00")
+
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
         //Log.d("ABA", "stop: "+seekBar?.progress)
         shouldMoneyChange=false
@@ -185,20 +192,25 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
     }
     private lateinit var recyclerView: RecyclerView
     private lateinit var data: ArrayList<HashMap<String, Any>>
-    private lateinit var adapter: AddBillRecyclerViewAdapter
+    private lateinit var adapter:AddBillIconAdapter
+
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
         when(checkedId){
             R.id.add_bill_radio_income -> {
                 Toast.makeText(this, "Income chosen", Toast.LENGTH_SHORT).show()
-                data=DataOperator.getIncomeTypeList(this)
-                adapter.setData(data)
+                //data=DataOperator.getIncomeTypeList(this)
+                //adapter.setData(data)
+                data = IOTypeProvider(this).inComeTypeList
+                adapter.source = data
                 adapter.notifyDataSetChanged()
 
             }
             R.id.add_bill_radio_outcome -> {
                 Toast.makeText(this, "Outcome chosen", Toast.LENGTH_SHORT).show()
-                data=DataOperator.getOutcomeTypeList(this)
-                adapter.setData(data)
+                //data=DataOperator.getOutcomeTypeList(this)
+                data = IOTypeProvider(this).outComeTypeList
+                //adapter.setData(data)
+                adapter.source = data
                 adapter.notifyDataSetChanged()
             }
             else -> {
@@ -211,13 +223,20 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_bill)
         add_bill_radio_group.setOnCheckedChangeListener(this)
-        data=DataOperator.getOutcomeTypeList(this)
-        recyclerView = findViewById(R.id.add_bill_rec_view)
-        adapter = AddBillRecyclerViewAdapter(data)
+        //data=DataOperator.getOutcomeTypeList(this)
+        //TODO("与数据库交互，获取BYIOCategory")
+        data = IOTypeProvider(this).outComeTypeList
+
+        //init RecyclerView
+        recyclerView = add_bill_rec_view
+        adapter = AddBillIconAdapter(data,ColorIconConverter())
+
+        //recyclerView = findViewById(R.id.add_bill_rec_view)
+        //adapter = AddBillRecyclerViewAdapter(data)
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
-        val layoutManager=GridLayoutManager(this, 1)
-        layoutManager.orientation=GridLayoutManager.HORIZONTAL
+        val layoutManager=GridLayoutManager(this, 6)
+        layoutManager.orientation=GridLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
         add_sb_money.setOnSeekBarChangeListener(this)
         add_show_now_money.text="￥ $nowMoney"
