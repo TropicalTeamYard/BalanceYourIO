@@ -140,7 +140,6 @@ class ShowBillItem : View {
      */
     private fun drawPieChart(){
 
-
     }
 
     /**

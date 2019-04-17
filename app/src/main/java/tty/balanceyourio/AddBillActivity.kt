@@ -17,6 +17,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_bill.*
 import tty.balanceyourio.adapter.AddBillIconAdapter
 import tty.balanceyourio.converter.ColorIconConverter
+import tty.balanceyourio.converter.IconConverter
 import tty.balanceyourio.provider.IOTypeProvider
 import tty.data.BYIOHelper
 import tty.model.BillRecord
@@ -29,7 +30,7 @@ import java.util.*
 
 class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
     TextWatcher, View.OnClickListener,AddBillIconAdapter.OnItemClickListener {
-    override fun onItemClick(view: View?, position: Int) {
+    override fun onItemClick(v: View?, position: Int) {
         Log.d(TAG, "pos: $position")
         for(p in data){
             p["chosen"]=false
@@ -151,6 +152,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
     private var shouldMoneyChange=true
     private var shouldInputMoneyChange=true
     private val decimalFormat = DecimalFormat("0.00")
+
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
         //Log.d("ABA", "stop: "+seekBar?.progress)
         shouldMoneyChange=false
@@ -191,6 +193,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
     private lateinit var recyclerView: RecyclerView
     private lateinit var data: ArrayList<HashMap<String, Any>>
     private lateinit var adapter:AddBillIconAdapter
+
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
         when(checkedId){
             R.id.add_bill_radio_income -> {
@@ -226,7 +229,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
 
         //init RecyclerView
         recyclerView = add_bill_rec_view
-        adapter = AddBillIconAdapter(data,ColorIconConverter(),this)
+        adapter = AddBillIconAdapter(data,ColorIconConverter())
 
         //recyclerView = findViewById(R.id.add_bill_rec_view)
         //adapter = AddBillRecyclerViewAdapter(data)
@@ -239,7 +242,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         add_show_now_money.text="￥ $nowMoney"
         add_input_money.addTextChangedListener(this)
         add_bill_bt_save.setOnClickListener(this)
-        //adapter.setOnItemClickListener(this)
+        adapter.setOnItemClickListener(this)
     }
 
 

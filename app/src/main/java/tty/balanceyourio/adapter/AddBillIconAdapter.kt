@@ -18,7 +18,7 @@ import java.lang.NullPointerException
  * @param source 数据源
  * @param iconConverter index:int->resource:int 用于转换icon储存索引到资源的id
  */
-class AddBillIconAdapter(var source:List<HashMap<String,Any>>,var iconConverter: IconConverter,var mListener:OnItemClickListener?):RecyclerView.Adapter<AddBillIconAdapter.ViewHolder>(){
+class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var iconConverter: IconConverter):RecyclerView.Adapter<AddBillIconAdapter.ViewHolder>(){
 
     private lateinit var context:Context
     private var mClickListener:OnItemClickListener?=null
@@ -46,9 +46,9 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>,var iconConverter:
 
         try {
             if((source[p1]["chosen"] as Boolean?)!!){
-                p0.imageView.setBackgroundColor(0x99ffff00.toInt())
+                p0.linearLayout.setBackgroundColor(0x99ffff00.toInt())
             } else {
-                p0.imageView.setBackgroundColor(0x99fafafa.toInt())
+                p0.linearLayout.setBackgroundColor(0x99fafafa.toInt())
             }
         } catch (e: NullPointerException){
 
@@ -60,7 +60,7 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>,var iconConverter:
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener){
-        mListener = listener
+        this.mClickListener = listener
     }
 
     companion object {
@@ -83,17 +83,20 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>,var iconConverter:
         }
     }
 
-    inner class ViewHolder(v: View,var listener:OnItemClickListener?):RecyclerView.ViewHolder(v),View.OnClickListener{
+    inner class ViewHolder(v: View, private var listener:OnItemClickListener?):RecyclerView.ViewHolder(v),View.OnClickListener{
         override fun onClick(v: View?) {
             listener?.onItemClick(v,layoutPosition)
         }
 
+        private var mListener: OnItemClickListener
+
         var imageView:ImageView = v.type_img
         var textView:TextView = v.type_class
+        var linearLayout = v.type_container
 
         init {
             v.setOnClickListener(this)
-            mListener=listener
+            mListener= this.listener!!
         }
     }
 }
