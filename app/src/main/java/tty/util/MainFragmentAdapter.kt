@@ -18,7 +18,7 @@ class MainFragmentAdapter(fm:FragmentManager): FragmentPagerAdapter(fm) {
     }
 
     override fun getItem(p0: Int): Fragment? {
-        return pages.get(p0)
+        return pages[p0]
     }
 
 }

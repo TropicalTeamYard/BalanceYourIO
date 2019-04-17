@@ -17,14 +17,10 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_bill.*
 import tty.balanceyourio.adapter.AddBillIconAdapter
 import tty.balanceyourio.converter.ColorIconConverter
-import tty.balanceyourio.converter.IconConverter
 import tty.balanceyourio.provider.IOTypeProvider
 import tty.data.BYIOHelper
 import tty.model.BillRecord
 import tty.model.IOType
-import tty.util.AddBillRecyclerViewAdapter
-import tty.util.BYIOCategory
-import tty.util.DataOperator
 import java.text.DecimalFormat
 import java.util.*
 

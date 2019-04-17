@@ -1,6 +1,5 @@
 package tty.util
 
-import android.view.ViewGroup
 import tty.balanceyourio.R
 
 class BYIOCategory(var outcome:BYIOType,var income:BYIOType)
@@ -16,7 +15,7 @@ class BYIOCategory(var outcome:BYIOType,var income:BYIOType)
     }
 
     companion object {
-        val default:BYIOCategory = BYIOCategory(
+        private val default:BYIOCategory = BYIOCategory(
             //outcome branch
             BYIOType(
                 BYIONode("key." + R.string.food,0),
@@ -55,10 +54,10 @@ class BYIOType(vararg items:BYIONode):Iterable<BYIONode>
         return items.iterator()
     }
 
-    var items:List<BYIONode> = items.toList()
+    private var items:List<BYIONode> = items.toList()
 
     override fun toString(): String {
-        var str:String =""
+        var str =""
         for (node in items){
             str += "- ${node.name}\n"
         }

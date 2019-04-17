@@ -101,7 +101,7 @@ class ShowBillItem : View {
         val contentHeight = height - paddingTop - paddingBottom
 
         title?.let {
-            canvas.drawText(it, paddingLeft + (contentWidth - textWidth) / 2, (textHeight+paddingTop).toFloat(), textPaint)
+            canvas.drawText(it, paddingLeft + (contentWidth - textWidth) / 2, (textHeight+paddingTop), textPaint)
         }
 
         data?.let {

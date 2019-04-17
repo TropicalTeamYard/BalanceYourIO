@@ -3,17 +3,45 @@ package tty.balanceyourio
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import tty.data.BYIOHelper
+import tty.model.BillRecord
 
 class AnalysisFragment : Fragment() {
+
+    private var helper: BYIOHelper? = null
+    private lateinit var data:ArrayList<BillRecord>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
+        helper = context?.let { BYIOHelper(it) }
         return inflater.inflate(R.layout.fragment_analysis, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        data= helper?.getBill()!!
+        Log.d(TAG, "一共有 ${data.size.toString()} 条记录" )
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        data= helper!!.getBill()
+        Log.d(TAG, "一共有 ${data.size.toString()} 条记录" )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "AF destroy")
+        helper?.close()
+    }
+
+    companion object{
+        const val TAG = "AF"
+    }
 }

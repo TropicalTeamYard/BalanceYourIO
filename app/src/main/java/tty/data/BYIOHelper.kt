@@ -11,6 +11,7 @@ import tty.model.BillRecord
 import tty.model.IOType
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_VERSION) {
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -25,7 +26,7 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
 
     //region 账单读写操作
     fun setBill(record: BillRecord) {
-        val contentValues:ContentValues = ContentValues()
+        val contentValues = ContentValues()
         if (record.tag!=null)
             contentValues.put("tag",record.tag!!)
         if (record.time!= null)
@@ -62,7 +63,39 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
 
     }
 
+    /**
+     * 默认获取所有账单记录
+     */
+    fun getBill():ArrayList<BillRecord> {
+        val cursor = readableDatabase.rawQuery("select * from $NAME_BILL", arrayOf<String>())
+        val data=ArrayList<BillRecord>()
+        if(cursor.moveToFirst() && cursor.count > 0){
+            do {
+                val billRecord=BillRecord()
+                billRecord.id=cursor.getInt(cursor.getColumnIndex("_id"))
+                billRecord.time=simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex("time")))
+                billRecord.ioType=when(cursor.getInt(cursor.getColumnIndex("iotype"))){
+                    1 -> IOType.Income
+                    2 -> IOType.OutCome
+                    else -> IOType.Unset
+                }
+                billRecord.channel=cursor.getString(cursor.getColumnIndex("channel"))
+                billRecord.goodsType=cursor.getString(cursor.getColumnIndex("goodstype"))
+                billRecord.amount=cursor.getString(cursor.getColumnIndex("amount")).toDouble()
+                billRecord.tag=cursor.getString(cursor.getColumnIndex("tag"))
+                billRecord.remark=cursor.getString(cursor.getColumnIndex("remark"))
+                data.add(billRecord)
+            } while (cursor.moveToNext())
+        }
+        try {
+            cursor.close()
+            writableDatabase.close()
+        } catch (e:SQLException){
+            e.printStackTrace()
+        }
 
+        return data
+    }
 
     fun printBill(){
         val cursor = readableDatabase.rawQuery("select * from $NAME_BILL", arrayOf<String>())
@@ -152,6 +185,8 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
         //region 数据库更改:VERSION=2
         const val CREATE_TABLE_SETTINGS = "create table $NAME_SETTINGS(_id integer primary key autoincrement,name varchar(20) not null,value text not null)"
         //endregion
+
+        val simpleDateFormat=SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
     }
 }
 
