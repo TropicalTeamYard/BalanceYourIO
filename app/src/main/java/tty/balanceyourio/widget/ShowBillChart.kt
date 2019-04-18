@@ -195,15 +195,6 @@ class ShowBillChart : View {
 
     }
 
-//    override fun onTouchEvent(event: MotionEvent?): Boolean {
-//        return super.onTouchEvent(event)
-//        Log.d(TAG,"X,Y=($x, $y)")
-//    }
-//
-//    override fun setOnTouchListener(l: OnTouchListener?) {
-//        super.setOnTouchListener(l)
-//    }
-
     /**
      * 折线图表格
      */
