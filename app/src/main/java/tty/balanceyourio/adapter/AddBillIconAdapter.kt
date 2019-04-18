@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import kotlinx.android.synthetic.main.item_in_out_come.view.*
+import kotlinx.android.synthetic.main.item_type_in_out_come.view.*
 import tty.balanceyourio.R
 import tty.balanceyourio.converter.IconConverter
 
@@ -29,7 +29,7 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var iconC
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         context = p0.context
-        return ViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.item_in_out_come,p0,false), mClickListener)
+        return ViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.item_type_in_out_come,p0,false), mClickListener)
     }
 
     override fun getItemCount(): Int {

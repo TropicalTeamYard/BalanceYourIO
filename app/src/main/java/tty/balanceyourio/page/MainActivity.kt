@@ -12,6 +12,7 @@ import tty.balanceyourio.R
 import tty.balanceyourio.adapter.MainFragmentAdapter
 
 
+
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         return when(p0.itemId){

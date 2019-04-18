@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import tty.balanceyourio.R
 import tty.balanceyourio.data.BYIOHelper
 import tty.balanceyourio.model.BillRecord
 
@@ -26,14 +25,14 @@ class AnalysisFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         data= helper?.getBill()!!
-        Log.d(TAG, "一共有 ${data.size.toString()} 条记录" )
-
+        Log.d(TAG, "一共有 ${data.size} 条记录" )
+        view.analysis_chart.data=data
     }
 
     override fun onResume() {
         super.onResume()
         data= helper!!.getBill()
-        Log.d(TAG, "一共有 ${data.size.toString()} 条记录" )
+        Log.d(TAG, "一共有 ${data.size} 条记录" )
     }
 
     override fun onDestroy() {

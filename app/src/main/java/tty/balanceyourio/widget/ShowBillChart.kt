@@ -6,8 +6,10 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import tty.balanceyourio.R
+import tty.balanceyourio.model.BillRecord
 
 class ShowBillChart : View {
 
@@ -18,7 +20,10 @@ class ShowBillChart : View {
     private var textWidth: Float = 0f
     private var textHeight: Float = 0f
 
-    private var _data: ArrayList<HashMap<String, Int>>? = null
+    private var _data: ArrayList<BillRecord>? = null
+
+    private var positionStart=Position(0F, 0F)
+    private var positionEnd=Position(0F, 0F)
 
     private var title: String?
         get() = _title
@@ -28,9 +33,9 @@ class ShowBillChart : View {
         }
 
     /**
-     * data should be
+     * data should be array of BillRecord
      */
-    private var data: ArrayList<HashMap<String, Int>>?
+    var data: ArrayList<BillRecord>?
         get() = _data
         set(value) {
             _data = value
@@ -52,13 +57,75 @@ class ShowBillChart : View {
         init(null, 0)
     }
 
-
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init(attrs, 0)
     }
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init(attrs, defStyle)
+    }
+
+    private fun dp2px(dpValue: Float) : Int {
+        val scale = context.resources.displayMetrics.density;
+        return ((dpValue * scale + 0.5f).toInt())
+    }
+
+    fun px2dp(pxValue: Float): Int {
+        val scale = context.resources.displayMetrics.density
+        return (pxValue / scale + 0.5f).toInt()
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        super.onTouchEvent(event)
+        performClick()
+        if(event?.y!! < textHeight+paddingTop){
+            return false
+        }
+        when (event.action) {
+            MotionEvent.ACTION_DOWN->{
+                //Log.d(TAG, "DOWN")
+                positionStart.x=event.x
+                positionStart.y=event.y
+
+            }
+            MotionEvent.ACTION_MOVE->{
+                //Log.d(TAG, "MOVE")
+                positionEnd.x=event.x
+                positionEnd.y=event.x
+                if(positionEnd.x-positionStart.x>dp2px(2F)) {
+                    Log.d(TAG, "MOVE RIGHT")
+                } else if(positionEnd.x-positionStart.x<dp2px(-2F)) {
+                    Log.d(TAG, "MOVE LEFT")
+                }
+                positionStart.x=event.x
+                positionStart.y=event.y
+            }
+            MotionEvent.ACTION_UP->{
+                //Log.d(TAG, "UP")
+//                positionEnd.x=event.x
+//                positionEnd.y=event.x
+//                if(positionEnd.x-positionStart.x>0){
+//                    Log.d(TAG, "MOVE RIGHT")
+//                } else {
+//                    Log.d(TAG, "MOVE LEFT")
+//                }
+                Log.d(TAG, "init position")
+                positionEnd.x=0F
+                positionEnd.y=0F
+                positionStart.x=0F
+                positionStart.y=0F
+            }
+            else->{
+                //Log.d(TAG, "Other")
+            }
+        }
+        //Log.d(TAG,"X, Y = ${event.x}, ${event.y}")
+        //Toast.makeText(context, "X,Y=(${event?.x}, ${event?.y})", Toast.LENGTH_SHORT).show()
+        return true
+    }
+
+    override fun performClick(): Boolean {
+        return super.performClick()
     }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
@@ -128,6 +195,15 @@ class ShowBillChart : View {
 
     }
 
+//    override fun onTouchEvent(event: MotionEvent?): Boolean {
+//        return super.onTouchEvent(event)
+//        Log.d(TAG,"X,Y=($x, $y)")
+//    }
+//
+//    override fun setOnTouchListener(l: OnTouchListener?) {
+//        super.setOnTouchListener(l)
+//    }
+
     /**
      * 折线图表格
      */
@@ -147,9 +223,12 @@ class ShowBillChart : View {
      */
     private fun drawCylindricalChart(){
 
+
     }
 
     companion object{
         const val TAG = "SBI"
     }
+
+    data class Position(var x: Float,var y:Float)
 }
