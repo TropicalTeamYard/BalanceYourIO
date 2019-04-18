@@ -18,9 +18,9 @@ import kotlinx.android.synthetic.main.activity_add_bill.*
 import tty.balanceyourio.adapter.AddBillIconAdapter
 import tty.balanceyourio.converter.ColorIconConverter
 import tty.balanceyourio.provider.IOTypeProvider
-import tty.data.BYIOHelper
-import tty.model.BillRecord
-import tty.model.IOType
+import tty.balanceyourio.data.BYIOHelper
+import tty.balanceyourio.model.BillRecord
+import tty.balanceyourio.model.IOType
 import java.text.DecimalFormat
 import java.util.*
 

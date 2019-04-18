@@ -1,4 +1,4 @@
-package tty .util.widget
+package tty.balanceyourio.widget
 
 import android.content.Context
 import android.graphics.Canvas
@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import tty.balanceyourio.R
-import tty.model.BillRecord
+import tty.balanceyourio.model.BillRecord
 
 class ShowBillChart : View {
 

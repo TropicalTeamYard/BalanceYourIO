@@ -1,8 +1,9 @@
-package tty.util
+package tty.balanceyourio.util
 
 import android.content.Context
 import android.graphics.BitmapFactory
 import tty.balanceyourio.R
+import tty.balanceyourio.data.BYIOCategory
 
 @Deprecated("请改用IOTypeProvider")
 class DataOperator{

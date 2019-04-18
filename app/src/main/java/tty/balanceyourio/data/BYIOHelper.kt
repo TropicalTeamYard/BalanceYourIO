@@ -1,4 +1,4 @@
-package tty.data
+package tty.balanceyourio.data
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,8 +7,8 @@ import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import tty.model.BillRecord
-import tty.model.IOType
+import tty.balanceyourio.model.BillRecord
+import tty.balanceyourio.model.IOType
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

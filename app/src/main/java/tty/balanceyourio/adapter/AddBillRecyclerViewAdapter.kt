@@ -1,4 +1,4 @@
-package tty.util
+package tty.balanceyourio.adapter
 
 import android.graphics.Bitmap
 import android.support.v7.widget.RecyclerView
@@ -47,7 +47,7 @@ class AddBillRecyclerViewAdapter(private var data: List<HashMap<String, Any>>):R
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        val view = LayoutInflater.from(p0.context).inflate(R.layout.item_in_out_come, p0, false)
+        val view = LayoutInflater.from(p0.context).inflate(R.layout.item_type_in_out_come, p0, false)
         return ViewHolder(view, mClickListener)
     }
 

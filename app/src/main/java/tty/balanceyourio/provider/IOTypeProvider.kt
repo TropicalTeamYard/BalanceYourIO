@@ -1,7 +1,7 @@
 package tty.balanceyourio.provider
 
 import android.content.Context
-import tty.util.BYIOCategory
+import tty.balanceyourio.data.BYIOCategory
 
 class IOTypeProvider(var context: Context){
 

@@ -8,8 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_analysis.view.*
-import tty.data.BYIOHelper
-import tty.model.BillRecord
+import tty.balanceyourio.data.BYIOHelper
+import tty.balanceyourio.model.BillRecord
 
 class AnalysisFragment : Fragment() {
 
