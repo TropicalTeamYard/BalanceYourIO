@@ -1,4 +1,4 @@
-package tty.util.widget
+package tty.balanceyourio.widget
 
 import android.content.Context
 import android.graphics.Canvas

@@ -1,4 +1,4 @@
-package tty.balanceyourio
+package tty.balanceyourio.page
 
 
 import android.os.Bundle
@@ -7,8 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import tty.data.BYIOHelper
-import tty.model.BillRecord
+import tty.balanceyourio.R
+import tty.balanceyourio.data.BYIOHelper
+import tty.balanceyourio.model.BillRecord
 
 class AnalysisFragment : Fragment() {
 

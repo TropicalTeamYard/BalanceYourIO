@@ -1,4 +1,4 @@
-package tty.balanceyourio
+package tty.balanceyourio.page
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -15,17 +15,20 @@ import android.widget.RadioGroup
 import android.widget.SeekBar
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_bill.*
+import tty.balanceyourio.R
 import tty.balanceyourio.adapter.AddBillIconAdapter
 import tty.balanceyourio.converter.ColorIconConverter
+import tty.balanceyourio.converter.PxlIconConverter
 import tty.balanceyourio.provider.IOTypeProvider
-import tty.data.BYIOHelper
-import tty.model.BillRecord
-import tty.model.IOType
+import tty.balanceyourio.data.BYIOHelper
+import tty.balanceyourio.model.BillRecord
+import tty.balanceyourio.model.IOType
 import java.text.DecimalFormat
 import java.util.*
 
 class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
     TextWatcher, View.OnClickListener,AddBillIconAdapter.OnItemClickListener {
+
     override fun onItemClick(v: View?, position: Int) {
         Log.d(TAG, "pos: $position")
         for(p in data){
@@ -50,7 +53,8 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                         }
                     }
                     if(flag){
-                        Log.i(TAG,
+                        Log.i(
+                            TAG,
                             "mode: ${
                                     when(add_bill_radio_group.checkedRadioButtonId){
                                         R.id.add_bill_radio_income -> "income"
@@ -67,8 +71,8 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                         record.amount = nowMoney
                         record.goodsType = type
                         record.ioType = when(add_bill_radio_group.checkedRadioButtonId){
-                            R.id.add_bill_radio_income->IOType.Income
-                            R.id.add_bill_radio_outcome->IOType.OutCome
+                            R.id.add_bill_radio_income ->IOType.Income
+                            R.id.add_bill_radio_outcome ->IOType.OutCome
                             else -> IOType.Unset
                         }
                         record.channel = "#UNSET"
@@ -167,9 +171,9 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         //Log.d("ABA", "changed: "+seekBar?.progress)
         shouldInputMoneyChange=false
         if(shouldMoneyChange){
-            if(nowProgress<seekBar?.progress!!*delta){
+            if(nowProgress<seekBar?.progress!!* delta){
                 nowMoney+= delta
-            } else if(nowProgress> seekBar.progress*delta) {
+            } else if(nowProgress> seekBar.progress* delta) {
                 nowMoney-= delta
             }
             nowProgress= seekBar.progress.toDouble()* delta
@@ -225,7 +229,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
 
         //init RecyclerView
         recyclerView = add_bill_rec_view
-        adapter = AddBillIconAdapter(data,ColorIconConverter())
+        adapter = AddBillIconAdapter(data,PxlIconConverter())
 
         //recyclerView = findViewById(R.id.add_bill_rec_view)
         //adapter = AddBillRecyclerViewAdapter(data)

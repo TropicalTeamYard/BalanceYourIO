@@ -1,4 +1,4 @@
-package tty.balanceyourio
+package tty.balanceyourio.page
 
 import android.content.Context
 import android.support.v4.view.ViewPager

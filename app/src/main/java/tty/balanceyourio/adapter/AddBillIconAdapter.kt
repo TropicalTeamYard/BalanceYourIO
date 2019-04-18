@@ -1,6 +1,11 @@
 package tty.balanceyourio.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.provider.CalendarContract
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +36,7 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var iconC
         return source.count()
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         val iconRes:Int = iconConverter.getIconRes( source[p1]["icon"] as Int)
         //查找并未发现该图标资源
@@ -44,6 +50,21 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var iconC
         p0.textView.text = getFriendString(context ,source[p1]["class"] as String)
 
         try {
+            //重新设计选中的变色逻辑
+//            val chosen = source[p1]["chosen"] as Boolean
+//            p0.imageView.drawable.clearColorFilter()
+//            p0.imageView.drawable.setTintMode(PorterDuff.Mode.SRC_IN)
+//            if (!chosen){
+//                p0.imageView.drawable.setTint(R.color.colorAccent)
+//            } else{
+//                //outCome
+//                if (source[p1]["type"] as Int == 1){
+//                    p0.imageView.drawable.setTint(R.color.colorTypeChosenOutcome)
+//                } else{
+//                    p0.imageView.drawable.setTint(R.color.colorTypeChosenIncome)
+//                }
+//            }
+
             if((source[p1]["chosen"] as Boolean?)!!){
                 p0.linearLayout.setBackgroundColor(0x99ffff00.toInt())
             } else {

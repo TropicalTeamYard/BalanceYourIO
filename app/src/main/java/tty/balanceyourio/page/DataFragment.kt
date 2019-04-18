@@ -1,4 +1,4 @@
-package tty.balanceyourio
+package tty.balanceyourio.page
 
 
 import android.content.Intent
@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_data.*
+import tty.balanceyourio.R
 
 class DataFragment : Fragment() {
 
@@ -19,7 +20,7 @@ class DataFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         f_data_fab_add.setOnClickListener {
-            startActivity(Intent(this.context,AddBillActivity::class.java))
+            startActivity(Intent(this.context, AddBillActivity::class.java))
         }
     }
 

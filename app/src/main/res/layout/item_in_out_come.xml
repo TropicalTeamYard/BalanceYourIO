@@ -10,7 +10,7 @@
             android:id="@+id/type_img"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/ic_color_explore"
+            android:src="@drawable/ic_pxl_camera"
             android:layout_gravity="center_horizontal"
             android:padding="8dp"/>
     <TextView

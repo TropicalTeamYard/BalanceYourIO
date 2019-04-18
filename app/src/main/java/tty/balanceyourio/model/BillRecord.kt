@@ -1,4 +1,4 @@
-package tty.model
+package tty.balanceyourio.model
 
 import java.util.*
 

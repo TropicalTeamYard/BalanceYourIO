@@ -4,9 +4,8 @@ import tty.balanceyourio.R
 
 
 class ColorIconConverter: IconConverter {
-    override var count: Int
+    override val count: Int
         get() = 24
-        set(value) {}
 
     override fun getIconRes(index: Int): Int {
         return when(index){

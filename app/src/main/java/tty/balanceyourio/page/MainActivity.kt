@@ -1,4 +1,4 @@
-package tty.balanceyourio
+package tty.balanceyourio.page
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -8,7 +8,8 @@ import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
-import tty.util.MainFragmentAdapter
+import tty.balanceyourio.R
+import tty.balanceyourio.adapter.MainFragmentAdapter
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     }
 
-    private var adapter:MainFragmentAdapter?=null
+    private var adapter: MainFragmentAdapter?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

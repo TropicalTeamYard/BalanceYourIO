@@ -1,8 +1,9 @@
-package tty.util
+package tty.balanceyourio.data
 
 import android.content.Context
 import android.graphics.BitmapFactory
 import tty.balanceyourio.R
+import tty.balanceyourio.provider.BYIOCategory
 
 @Deprecated("请改用IOTypeProvider")
 class DataOperator{
@@ -25,7 +26,7 @@ class DataOperator{
             val outcomeData=ArrayList<HashMap<String, Any>>()
             for (node in BYIOCategory.getInstance().outcome){
                 val map = HashMap<String,Any>()
-                map["class"] = getFriendString(context,node.name)
+                map["class"] = getFriendString(context, node.name)
                 //TODO("需要重写图标逻辑")
                 map["icon"] = BitmapFactory.decodeResource(context.resources,R.drawable.fork)
                 map["chosen"] = false
@@ -52,7 +53,7 @@ class DataOperator{
             val incomeData=ArrayList<HashMap<String, Any>>()
             for (node in BYIOCategory.getInstance().income){
                 val map = HashMap<String,Any>()
-                map["class"] = getFriendString(context,node.name)
+                map["class"] = getFriendString(context, node.name)
                 //TODO("需要重写图标逻辑")
                 map["icon"] = BitmapFactory.decodeResource(context.resources,R.drawable.swap)
                 map["chosen"] = false

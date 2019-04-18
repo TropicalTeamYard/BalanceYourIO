@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#03A9F4</color>
     <color name="colorAccent">#FFEB3B</color>
     <color name="colorNormal">#999999</color>
+    <color name="colorTypeChosenOutcome">#FFAA00</color>
+    <color name="colorTypeChosenIncome">#AAFF00</color>
 </resources>

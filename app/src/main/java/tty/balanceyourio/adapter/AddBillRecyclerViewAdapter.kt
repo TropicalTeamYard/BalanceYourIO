@@ -1,4 +1,4 @@
-package tty.util
+package tty.balanceyourio.adapter
 
 import android.graphics.Bitmap
 import android.support.v7.widget.RecyclerView

@@ -1,9 +1,10 @@
-package tty.balanceyourio
+package tty.balanceyourio.page
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 
 import kotlinx.android.synthetic.main.activity_settings.*
+import tty.balanceyourio.R
 
 class SettingsActivity : AppCompatActivity() {
 
