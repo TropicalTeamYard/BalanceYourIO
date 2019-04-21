@@ -1,5 +1,6 @@
 package tty.balanceyourio.page
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
@@ -95,6 +96,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                                     }}, " +
                                     "type: $type, amount: $nowMoney", Toast.LENGTH_SHORT).show()
                         finish()
+                        startActivity(Intent(this, MainActivity::class.java))
                     } else {
                         Toast.makeText(this, "类型不能为空！", Toast.LENGTH_SHORT).show()
                     }
