@@ -7,9 +7,18 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import tty.balanceyourio.R
+import tty.balanceyourio.data.BYIOHelper
 import tty.balanceyourio.model.BillRecord
 
-class ShowBillListAdapter(var context: Context, private var billList: ArrayList<ArrayList<BillRecord>>) : BaseExpandableListAdapter() {
+class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
+
+    private var billList: ArrayList<ArrayList<BillRecord>> = ArrayList()
+
+    init{
+        val tmp= BYIOHelper(context).getBill()
+
+    }
+
     override fun getGroup(groupPosition: Int): Any {
         return billList[groupPosition]
     }
