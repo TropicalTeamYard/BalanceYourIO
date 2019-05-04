@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_data.*
 import tty.balanceyourio.R
+import tty.balanceyourio.adapter.ShowBillListAdapter
 
 class DataFragment : Fragment() {
 
@@ -19,6 +20,7 @@ class DataFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        elv_show_bill_data.setAdapter(ShowBillListAdapter(this.context!!))
         f_data_fab_add.setOnClickListener {
             startActivity(Intent(this.context, AddBillActivity::class.java))
         }
