@@ -42,6 +42,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
                         tData.add(allBillRecord[j])
                     }
                 }
+                tData.reverse()
                 billList.add(tData)
             }
         }
@@ -122,7 +123,8 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
         }
         viewHolder.comment.text = "备注："+(getChild(groupPosition, childPosition) as BillRecord).remark
         viewHolder.money.append((getChild(groupPosition, childPosition) as BillRecord).amount.toString()+" 元")
-        viewHolder.type.text = (getChild(groupPosition, childPosition) as BillRecord).goodsType
+        viewHolder.type.text = getFriendString(context, (getChild(groupPosition, childPosition) as BillRecord).goodsType!!)
+
 
         return view
     }
@@ -146,6 +148,21 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
     }
 
     companion object{
+
+        private fun getFriendString(context: Context, input:String):String{
+            val value: String
+            value = if (input.startsWith("key.")){
+                val key:Int? =  input.substring(4).toIntOrNull()
+                if (key != null)
+                    context.getString(key)
+                else
+                    "KeyNotFound"
+            } else {
+                input
+            }
+            return value
+        }
+
         class ParentViewHolder{
             lateinit var date:TextView
         }
