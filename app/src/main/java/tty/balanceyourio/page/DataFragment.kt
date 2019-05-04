@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.fragment_data.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.ShowBillListAdapter
 import tty.balanceyourio.model.BillRecord
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DataFragment : Fragment(), ExpandableListView.OnChildClickListener {
 
@@ -20,8 +22,9 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener {
         val detail=BillDetailFragment()
         val bill: BillRecord=adapter.getChild(groupPosition, childPosition) as BillRecord
         val bundle=Bundle()
+        bundle.putInt("id",bill.id)
         bundle.putString("type",bill.goodsType)
-        bundle.putString("date",bill.time)
+        bundle.putString("date", SimpleDateFormat("yyyy-MM-dd ", Locale.CHINA).format(bill.time))
         detail.arguments=bundle
         detail.show(this.fragmentManager, "BDF")
         return true
