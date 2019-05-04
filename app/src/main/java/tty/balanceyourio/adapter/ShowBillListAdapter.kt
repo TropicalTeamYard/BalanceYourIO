@@ -121,7 +121,8 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
                 viewHolder.money.setTextColor(Color.GRAY)
             }
         }
-        viewHolder.comment.text = "备注："+(getChild(groupPosition, childPosition) as BillRecord).remark
+        viewHolder.comment.text = "备注："
+        viewHolder.comment.append((getChild(groupPosition, childPosition) as BillRecord).remark)
         viewHolder.money.append((getChild(groupPosition, childPosition) as BillRecord).amount.toString()+" 元")
         viewHolder.type.text = getFriendString(context, (getChild(groupPosition, childPosition) as BillRecord).goodsType!!)
 
@@ -137,18 +138,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
         return billList.size
     }
 
-
-    fun getData():ArrayList<ArrayList<BillRecord>>{
-        return billList
-    }
-
-    fun updateData(){
-        //var db=BYIOHelper(context).readableDatabase
-
-    }
-
     companion object{
-
         private fun getFriendString(context: Context, input:String):String{
             val value: String
             value = if (input.startsWith("key.")){
@@ -166,6 +156,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
         class ParentViewHolder{
             lateinit var date:TextView
         }
+
         class ChildViewHolder{
             lateinit var icon: ImageView
             lateinit var type: TextView

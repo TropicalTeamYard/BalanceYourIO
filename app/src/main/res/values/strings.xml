@@ -28,4 +28,5 @@
     <string name="default_date">2019&#8211;4&#8211;28 星期日</string>
     <string name="default_money">24 元</string>
     <string name="currency">￥</string>
+    <string name="comment">备注:</string>
 </resources>

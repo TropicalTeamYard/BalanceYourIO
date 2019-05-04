@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".page.BillDetailFragment" android:orientation="vertical">
+    <TextView android:id="@+id/detail_type" android:layout_width="match_parent"
+              android:gravity="center" android:textSize="24sp" android:textStyle="bold"
+              android:layout_height="40dp" android:text="@string/type"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:id="@+id/detail_time" android:textSize="12sp"
+              android:paddingStart="8dp" android:paddingEnd="8dp"
+              android:text="@string/default_date" android:layout_marginTop="8dp"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:text="@string/default_money" android:textSize="36sp"
+              android:gravity="center" android:layout_marginTop="16dp" android:layout_marginBottom="16dp"
+              android:id="@+id/detail_money"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:id="@+id/detail_comment" android:textSize="16sp" android:text="@string/comment"
+              android:padding="8dp"
+              android:maxLines="4"/>
+
+</LinearLayout>
