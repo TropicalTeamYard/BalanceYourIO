@@ -18,12 +18,11 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_bill.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.AddBillIconAdapter
-import tty.balanceyourio.converter.ColorIconConverter
 import tty.balanceyourio.converter.PxlIconConverter
-import tty.balanceyourio.provider.IOTypeProvider
 import tty.balanceyourio.data.BYIOHelper
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
+import tty.balanceyourio.provider.IOTypeProvider
 import java.text.DecimalFormat
 import java.util.*
 
@@ -77,7 +76,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                             else -> IOType.Unset
                         }
                         record.channel = "#UNSET"
-                        record.remark = add_bill_ed_remark.text.toString()
+                        record.remark = if(add_bill_ed_remark.text.toString().isNotEmpty()){add_bill_ed_remark.text.toString()} else { "（无）" }
 
                         val helper = BYIOHelper(this)
                         helper.setBill(record)

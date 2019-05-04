@@ -1,6 +1,7 @@
 package tty.balanceyourio.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.TextView
 import tty.balanceyourio.R
 import tty.balanceyourio.data.BYIOHelper
 import tty.balanceyourio.model.BillRecord
+import tty.balanceyourio.model.IOType
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -17,14 +19,31 @@ import kotlin.collections.ArrayList
 class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
 
     private var billList: ArrayList<ArrayList<BillRecord>> = ArrayList()
+    private var dateList: ArrayList<String> = ArrayList()
 
     init{
         val allBillRecord = BYIOHelper(context).getBill()
         if(allBillRecord.size==0){
-            val tData=ArrayList<BillRecord>()
-            billList.add(tData)
+//            val tData=ArrayList<BillRecord>()
+//            billList.add(tData)
         } else {
-            Map<String, >
+            val dateSet=HashSet<String>()
+            for(i in 0 until allBillRecord.size){
+                dateSet.add(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(allBillRecord[i].time))
+                //SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format((getChild(groupPosition,0) as BillRecord).time)
+            }
+            dateList= ArrayList(dateSet)
+            dateList.sort()
+            dateList.reverse()
+            for(i in 0 until dateList.size){
+                val tData=ArrayList<BillRecord>()
+                for(j in 0 until allBillRecord.size){
+                    if(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(allBillRecord[j].time) == dateList[i]){
+                        tData.add(allBillRecord[j])
+                    }
+                }
+                billList.add(tData)
+            }
         }
 
     }
@@ -54,7 +73,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             viewHolder = view.tag as ParentViewHolder
         }
 
-        viewHolder.date.text= SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format((getChild(groupPosition,0) as BillRecord).time)
+        viewHolder.date.text= SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format((getChild(groupPosition,0) as BillRecord).time)
 
         return view
     }
@@ -86,10 +105,23 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             view = convertView
             viewHolder = view.tag as ChildViewHolder
         }
-
+        //TODO CHT 将索引转换为具体内容
         viewHolder.icon.setImageResource(R.drawable.ic_color_tag)
-        viewHolder.comment.text = (getChild(groupPosition, childPosition) as BillRecord).remark
-        viewHolder.money.text = (getChild(groupPosition, childPosition) as BillRecord).amount.toString()
+        when((getChild(groupPosition, childPosition) as BillRecord).ioType){
+            IOType.Income->{
+                viewHolder.money.text="+"
+                viewHolder.money.setTextColor(Color.GREEN)
+            }
+            IOType.OutCome-> {
+                viewHolder.money.text="-"
+                viewHolder.money.setTextColor(Color.RED)
+            }
+            else -> {
+                viewHolder.money.setTextColor(Color.GRAY)
+            }
+        }
+        viewHolder.comment.text = "备注："+(getChild(groupPosition, childPosition) as BillRecord).remark
+        viewHolder.money.append((getChild(groupPosition, childPosition) as BillRecord).amount.toString()+" 元")
         viewHolder.type.text = (getChild(groupPosition, childPosition) as BillRecord).goodsType
 
         return view
@@ -101,6 +133,16 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
 
     override fun getGroupCount(): Int {
         return billList.size
+    }
+
+
+    fun getData():ArrayList<ArrayList<BillRecord>>{
+        return billList
+    }
+
+    fun updateData(){
+        //var db=BYIOHelper(context).readableDatabase
+
     }
 
     companion object{

@@ -5,6 +5,7 @@
               android:layout_height="match_parent">
     <TextView android:id="@+id/show_bill_date"
               android:textSize="16sp"
+              android:padding="6dp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/default_date"/>

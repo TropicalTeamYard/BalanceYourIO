@@ -12,6 +12,7 @@ import tty.balanceyourio.R
 import tty.balanceyourio.adapter.ShowBillListAdapter
 
 class DataFragment : Fragment() {
+    lateinit var adapter:ShowBillListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -20,10 +21,23 @@ class DataFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        elv_show_bill_data.setAdapter(ShowBillListAdapter(this.context!!))
         f_data_fab_add.setOnClickListener {
             startActivity(Intent(this.context, AddBillActivity::class.java))
         }
+        adapter=ShowBillListAdapter(this.context!!)
+        elv_show_bill_data.setAdapter(adapter)
+        elv_show_bill_data.setGroupIndicator(null)
+        try {
+            elv_show_bill_data.expandGroup(0)
+        } catch (e: IndexOutOfBoundsException){
+
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
 }

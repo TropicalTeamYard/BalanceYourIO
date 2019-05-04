@@ -11,14 +11,14 @@
         <!--android:layout_height="match_parent"-->
         <!--android:text="@string/records" />-->
     <ExpandableListView android:id="@+id/elv_show_bill_data" android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:layoutDirection="rtl"/>
+                        android:layout_height="match_parent" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/f_data_fab_add"
         app:fabSize="normal"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/plus"
         android:scaleType="center"

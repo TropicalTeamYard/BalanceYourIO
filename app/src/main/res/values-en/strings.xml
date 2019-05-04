@@ -28,4 +28,5 @@
     <string name="default_amount">$ 4</string>
     <string name="default_date">2019&#8211;4&#8211;28 Sun</string>
     <string name="default_money">$ 24</string>
+    <string name="currency">$</string>
 </resources>
