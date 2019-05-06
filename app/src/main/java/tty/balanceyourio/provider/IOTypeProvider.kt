@@ -5,8 +5,6 @@ import tty.balanceyourio.data.BYIOCategory
 
 class IOTypeProvider(var context: Context){
 
-
-
     val outComeTypeList:ArrayList<HashMap<String,Any>>
     get() {
         val list = ArrayList<HashMap<String,Any>>()

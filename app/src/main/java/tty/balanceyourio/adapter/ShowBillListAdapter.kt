@@ -2,6 +2,7 @@ package tty.balanceyourio.adapter
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +11,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import tty.balanceyourio.R
 import tty.balanceyourio.converter.CatagoryConverter
+import tty.balanceyourio.converter.PxlIconConverter
+import tty.balanceyourio.data.BYIOCategory
 import tty.balanceyourio.data.BYIOHelper
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
+import tty.balanceyourio.provider.IOTypeProvider
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -107,8 +112,20 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             view = convertView
             viewHolder = view.tag as ChildViewHolder
         }
-        //TODO CHT 将索引转换为具体内容
-        viewHolder.icon.setImageResource(R.drawable.ic_color_tag)
+
+        try {
+            //viewHolder.icon.setImageResource(BYIOCategory.getInstance().getIconIndex((getChild(groupPosition, childPosition) as BillRecord).goodsType!!));
+            val goodsType = (getChild(groupPosition,childPosition) as BillRecord).goodsType!!
+            Log.d("Adapter",goodsType);
+            val iconindex = BYIOCategory.getInstance().getIconIndex(goodsType);
+            viewHolder.icon.setImageResource(PxlIconConverter().getResID(iconindex));
+        } catch (e:Exception){
+            //DONE CHT 将索引转换为具体内容
+            viewHolder.icon.setImageResource(R.drawable.ic_color_tag)
+        }
+
+
+
         when((getChild(groupPosition, childPosition) as BillRecord).ioType){
             IOType.Income->{
                 viewHolder.money.text="+"

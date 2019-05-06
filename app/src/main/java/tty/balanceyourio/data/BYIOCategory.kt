@@ -15,12 +15,25 @@ class BYIOCategory(var outcome: BYIOType, var income: BYIOType)
         return str
     }
 
+    fun getIconIndex(name:String):Int
+    {
+        for (i in tty.balanceyourio.data.BYIOCategory.getInstance().outcome  ){
+            if (i.name == name)
+                return i.icon
+        }
+        for (i in tty.balanceyourio.data.BYIOCategory.getInstance().income){
+            if (i.name == name)
+                return i.icon
+        }
+        return -1
+    }
+
     companion object {
         private val default: BYIOCategory = BYIOCategory(
             //outcome branch
             BYIOType(
                 BYIONode("key." + CatagoryConverter.Food, 0),
-                BYIONode("key." + CatagoryConverter.Fruit, 0),
+                BYIONode("key." + CatagoryConverter.Fruit, 1),
                 BYIONode("key." + CatagoryConverter.Transportation, 0),
                 BYIONode("key." + CatagoryConverter.Shopping, 0),
                 BYIONode("key." + CatagoryConverter.Investment, 0),
