@@ -16,7 +16,6 @@ import android.widget.RadioGroup
 import android.widget.SeekBar
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_bill.*
-import kotlinx.android.synthetic.main.activity_add_bill.view.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.AddBillIconAdapter
 import tty.balanceyourio.converter.PxlIconConverter
@@ -234,7 +233,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         add_input_money.addTextChangedListener(this)
         add_bill_bt_save.setOnClickListener(this)
         adapter.setOnItemClickListener(this)
-        add_bill_choose_date.s
+//        add_bill_choose_date.
     }
 
 
