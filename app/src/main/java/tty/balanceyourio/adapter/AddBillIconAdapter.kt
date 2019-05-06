@@ -2,11 +2,8 @@ package tty.balanceyourio.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.provider.CalendarContract
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,14 +12,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.item_type_in_out_come.view.*
 import tty.balanceyourio.R
-import tty.balanceyourio.converter.IconConverter
+import tty.balanceyourio.converter.CatagoryConverter
+import tty.balanceyourio.converter.RConverter
 
 /**
  * 选择输入输出类型图标的适配器
  * @param source 数据源
- * @param iconConverter index:int->resource:int 用于转换icon储存索引到资源的id
+ * @param rConverter index:int->resource:int 用于转换icon储存索引到资源的id
  */
-class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var iconConverter: IconConverter):RecyclerView.Adapter<AddBillIconAdapter.ViewHolder>(){
+class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConverter: RConverter):RecyclerView.Adapter<AddBillIconAdapter.ViewHolder>(){
 
     private lateinit var context:Context
     private var mClickListener:OnItemClickListener?=null
@@ -38,7 +36,7 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var iconC
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        val iconRes:Int = iconConverter.getIconRes( source[p1]["icon"] as Int)
+        val iconRes:Int = rConverter.getResID( source[p1]["icon"] as Int)
         //查找并未发现该图标资源
         if (iconRes == -1){
             //TODO("检查图标资源索引。")
@@ -92,8 +90,11 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var iconC
             val value: String
             value = if (input.startsWith("key.")){
                 val key:Int? =  input.substring(4).toIntOrNull()
-                if (key != null)
-                    context.getString(key)
+                if (key != null){
+                    //Log.d("Adapter",key.toString())
+                    context.getString(CatagoryConverter().getResID(key))
+                    //"Hello world!"
+                }
                 else
                     "KeyNotFound"
             } else {

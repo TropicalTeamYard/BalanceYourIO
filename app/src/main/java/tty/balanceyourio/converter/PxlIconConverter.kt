@@ -2,8 +2,8 @@ package tty.balanceyourio.converter
 
 import tty.balanceyourio.R
 
-class PxlIconConverter:IconConverter{
-    override fun getIconRes(index: Int): Int {
+class PxlIconConverter:RConverter{
+    override fun getResID(index: Int): Int {
         return when(index){
             CALENDAR -> R.drawable.ic_pxl_calendar
             CAMERA -> R.drawable.ic_pxl_camera

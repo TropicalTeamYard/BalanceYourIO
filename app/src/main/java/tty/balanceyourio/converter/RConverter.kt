@@ -1,8 +1,8 @@
 package tty.balanceyourio.converter
 
-interface IconConverter
+interface RConverter
 {
-    fun getIconRes(index:Int):Int
+    fun getResID(index:Int):Int
     val count:Int
 }
 

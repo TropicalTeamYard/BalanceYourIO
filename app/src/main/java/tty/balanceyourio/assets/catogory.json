@@ -1,0 +1,16 @@
+{
+  "key": "catogory",
+  "value": [{
+    "key": 0,
+    "zh-CN": "餐饮",
+    "en-US": "Food"
+  },{
+    "key": 1,
+    "zh-CN": "教育",
+    "en-US": "Education"
+  },{
+    "key": 2,
+    "zh-CN": "娱乐",
+    "en-US": "Entertainment"
+  }]
+}

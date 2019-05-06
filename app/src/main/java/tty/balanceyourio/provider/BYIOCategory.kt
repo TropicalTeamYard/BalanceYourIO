@@ -1,7 +1,7 @@
 package tty.balanceyourio.provider
 
 import tty.balanceyourio.R
-import tty.balanceyourio.converter.ColorIconConverter
+import tty.balanceyourio.converter.CatagoryConverter
 import tty.balanceyourio.converter.PxlIconConverter
 
 class BYIOCategory(var outcome: BYIOType, var income: BYIOType)
@@ -17,22 +17,28 @@ class BYIOCategory(var outcome: BYIOType, var income: BYIOType)
     }
 
     companion object {
+//        init {
+//            nameDic.
+//        }
+//
+//        private val nameDic:HashMap<Int,String> = HashMap();
+
         private val default: BYIOCategory = BYIOCategory(
             //outcome branch
             BYIOType(
-                BYIONode("key." + R.string.food, PxlIconConverter.CARD),
-                BYIONode("key." + R.string.fruit, PxlIconConverter.WASH),
-                BYIONode("key." + R.string.transportation, PxlIconConverter.CAR),
-                BYIONode("key." + R.string.shopping, PxlIconConverter.CALENDAR),
-                BYIONode("key." + R.string.investment, PxlIconConverter.EXCHANGE),
-                BYIONode("key." + R.string.entertainment, PxlIconConverter.GAME),
-                BYIONode("key." + R.string.education, PxlIconConverter.CAMERA),
-                BYIONode("key." + R.string.others, PxlIconConverter.COSMETOLOGY)
+                BYIONode("key." + CatagoryConverter.Food, PxlIconConverter.CARD),
+                BYIONode("key." + CatagoryConverter.Fruit, PxlIconConverter.WASH),
+                BYIONode("key." + CatagoryConverter.Transportation, PxlIconConverter.CAR),
+                BYIONode("key." + CatagoryConverter.Shopping, PxlIconConverter.CALENDAR),
+                BYIONode("key." + CatagoryConverter.Investment, PxlIconConverter.EXCHANGE),
+                BYIONode("key." + CatagoryConverter.Entertainment, PxlIconConverter.GAME),
+                BYIONode("key." + CatagoryConverter.Education, PxlIconConverter.CAMERA),
+                BYIONode("key." + CatagoryConverter.Others, PxlIconConverter.COSMETOLOGY)
             ),
             BYIOType(
-                BYIONode("key." + R.string.wages, 0),
-                BYIONode("key." + R.string.part_time, 0),
-                BYIONode("key." + R.string.interest, 0)
+                BYIONode("key." + CatagoryConverter.Wages, 0),
+                BYIONode("key." + CatagoryConverter.PartTime, 0),
+                BYIONode("key." + CatagoryConverter.Interest, 0)
             )
         )
 

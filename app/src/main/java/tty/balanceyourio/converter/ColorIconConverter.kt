@@ -3,11 +3,11 @@ package tty.balanceyourio.converter
 import tty.balanceyourio.R
 
 
-class ColorIconConverter: IconConverter {
+class ColorIconConverter: RConverter {
     override val count: Int
         get() = 24
 
-    override fun getIconRes(index: Int): Int {
+    override fun getResID(index: Int): Int {
         return when(index){
             ADD_USER -> R.drawable.ic_color_adduser
             CALENDAR -> R.drawable.ic_color_calendar
