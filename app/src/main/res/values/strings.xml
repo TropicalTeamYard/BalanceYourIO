@@ -29,4 +29,5 @@
     <string name="default_money">24 元</string>
     <string name="currency">￥</string>
     <string name="comment">备注:</string>
+    <string name="choose_date">选择日期</string>
 </resources>

@@ -16,6 +16,7 @@ import android.widget.RadioGroup
 import android.widget.SeekBar
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_bill.*
+import kotlinx.android.synthetic.main.activity_add_bill.view.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.AddBillIconAdapter
 import tty.balanceyourio.converter.PxlIconConverter
@@ -53,8 +54,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                         }
                     }
                     if(flag){
-                        Log.i(
-                            TAG,
+                        Log.i(TAG,
                             "mode: ${
                                     when(add_bill_radio_group.checkedRadioButtonId){
                                         R.id.add_bill_radio_income -> "income"
@@ -199,8 +199,6 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         when(checkedId){
             R.id.add_bill_radio_income -> {
                 Toast.makeText(this, "Income chosen", Toast.LENGTH_SHORT).show()
-                //data=DataOperator.getIncomeTypeList(this)
-                //adapter.setData(data)
                 data = IOTypeProvider(this).inComeTypeList
                 adapter.source = data
                 adapter.notifyDataSetChanged()
@@ -208,9 +206,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
             }
             R.id.add_bill_radio_outcome -> {
                 Toast.makeText(this, "Outcome chosen", Toast.LENGTH_SHORT).show()
-                //data=DataOperator.getOutcomeTypeList(this)
                 data = IOTypeProvider(this).outComeTypeList
-                //adapter.setData(data)
                 adapter.source = data
                 adapter.notifyDataSetChanged()
             }
@@ -224,16 +220,10 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_bill)
         add_bill_radio_group.setOnCheckedChangeListener(this)
-        //data=DataOperator.getOutcomeTypeList(this)
         //TODO("与数据库交互，获取BYIOCategory")
         data = IOTypeProvider(this).outComeTypeList
-
-        //init RecyclerView
         recyclerView = add_bill_rec_view
         adapter = AddBillIconAdapter(data,PxlIconConverter())
-
-        //recyclerView = findViewById(R.id.add_bill_rec_view)
-        //adapter = AddBillRecyclerViewAdapter(data)
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
         val layoutManager=GridLayoutManager(this, 6)
@@ -244,6 +234,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         add_input_money.addTextChangedListener(this)
         add_bill_bt_save.setOnClickListener(this)
         adapter.setOnItemClickListener(this)
+        add_bill_choose_date.s
     }
 
 

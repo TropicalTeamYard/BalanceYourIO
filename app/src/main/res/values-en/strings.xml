@@ -30,4 +30,5 @@
     <string name="default_money">$ 24</string>
     <string name="currency">$</string>
     <string name="comment">Comment:</string>
+    <string name="choose_date">Choose Date</string>
 </resources>
