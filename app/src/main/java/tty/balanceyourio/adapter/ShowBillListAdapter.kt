@@ -16,8 +16,6 @@ import tty.balanceyourio.data.BYIOCategory
 import tty.balanceyourio.data.BYIOHelper
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
-import tty.balanceyourio.provider.IOTypeProvider
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -117,8 +115,8 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             //viewHolder.icon.setImageResource(BYIOCategory.getInstance().getIconIndex((getChild(groupPosition, childPosition) as BillRecord).goodsType!!));
             val goodsType = (getChild(groupPosition,childPosition) as BillRecord).goodsType!!
             Log.d("Adapter",goodsType);
-            val iconindex = BYIOCategory.getInstance().getIconIndex(goodsType);
-            viewHolder.icon.setImageResource(PxlIconConverter().getResID(iconindex));
+            val iconIndex = BYIOCategory.getInstance().getIconIndex(goodsType);
+            viewHolder.icon.setImageResource(PxlIconConverter().getResID(iconIndex));
         } catch (e:Exception){
             //DONE CHT 将索引转换为具体内容
             viewHolder.icon.setImageResource(R.drawable.ic_color_tag)

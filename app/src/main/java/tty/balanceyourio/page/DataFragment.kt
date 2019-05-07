@@ -24,7 +24,7 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener {
         val bundle=Bundle()
         bundle.putInt("id",bill.id)
         bundle.putString("type",bill.goodsType)
-        bundle.putString("date", SimpleDateFormat("yyyy-MM-dd ", Locale.CHINA).format(bill.time))
+        bundle.putString("date", SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(bill.time))
         detail.arguments=bundle
         detail.show(this.fragmentManager, "BDF")
         return true

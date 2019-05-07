@@ -23,11 +23,17 @@ import tty.balanceyourio.data.BYIOHelper
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.provider.IOTypeProvider
+import tty.balanceyourio.util.DateConverter
 import java.text.DecimalFormat
 import java.util.*
 
 class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
-    TextWatcher, View.OnClickListener,AddBillIconAdapter.OnItemClickListener {
+    TextWatcher, View.OnClickListener,AddBillIconAdapter.OnItemClickListener, ChooseDateFragment.SendDate {
+    override fun getStr(date: String) {
+        isDateChoose=true
+        this.date=DateConverter.getSimpleDate(date)
+        Log.d("ABA", DateConverter.getString(this.date))
+    }
 
     override fun onItemClick(v: View?, position: Int) {
         Log.d(TAG, "pos: $position")
@@ -37,6 +43,9 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         data[position]["chosen"]=true
         adapter.notifyDataSetChanged()
     }
+
+    var isDateChoose=false
+    var date:Date= Date()
 
     override fun onClick(v: View?) {
         when(v?.id){
@@ -233,7 +242,10 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         add_input_money.addTextChangedListener(this)
         add_bill_bt_save.setOnClickListener(this)
         adapter.setOnItemClickListener(this)
-//        add_bill_choose_date.
+        add_bill_choose_date.setOnClickListener {
+            val dialog=ChooseDateFragment()
+            dialog.show(this.supportFragmentManager,"CDF")
+        }
     }
 
 
