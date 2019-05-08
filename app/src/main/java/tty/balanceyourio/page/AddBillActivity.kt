@@ -29,9 +29,9 @@ import java.util.*
 
 class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
     TextWatcher, View.OnClickListener,AddBillIconAdapter.OnItemClickListener, ChooseDateFragment.SendDate {
-    override fun getStr(date: String) {
+    override fun getDate(date: Date) {
         isDateChoose=true
-        this.date=DateConverter.getSimpleDate(date)
+        this.date=date
         Log.d("ABA", DateConverter.getString(this.date))
     }
 
@@ -74,7 +74,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                         val record = BillRecord()
                         record.id = -1
                         record.tag = "#UNSET"
-                        record.time = Date()
+                        record.time = date
                         Log.d(TAG,"time: ${record.time}")
                         record.amount = nowMoney
                         record.goodsType = type

@@ -31,4 +31,8 @@
     <string name="currency">$</string>
     <string name="comment">Comment:</string>
     <string name="choose_date">Choose Date</string>
+    <string name="morning">Afternoon</string>
+    <string name="noon">Noon</string>
+    <string name="afternoon">Evening</string>
+    <string name="evening">Evening</string>
 </resources>

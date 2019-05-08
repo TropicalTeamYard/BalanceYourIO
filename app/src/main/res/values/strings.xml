@@ -30,4 +30,8 @@
     <string name="currency">￥</string>
     <string name="comment">备注:</string>
     <string name="choose_date">选择日期</string>
+    <string name="morning">上午</string>
+    <string name="noon">中午</string>
+    <string name="afternoon">下午</string>
+    <string name="evening">晚上</string>
 </resources>
