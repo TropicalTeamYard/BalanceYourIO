@@ -16,11 +16,9 @@ import java.util.*
 class ChooseDateFragment : DialogFragment(), View.OnClickListener {
     private val calendar:Calendar=Calendar.getInstance()
     private var chooseTime=0
-    private var timeChose=false
-    private var dateChose=false
     private var year:Int=calendar.get(Calendar.YEAR)
     private var month:Int=calendar.get(Calendar.MONTH)
-    private var day:Int=0
+    private var day:Int=calendar.get(Calendar.DATE)
 
     override fun onClick(v: View?) {
         when(v?.id){
@@ -30,9 +28,8 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
                 choose_date_afternoon.setTextColor(Color.GRAY)
                 choose_date_evening.setTextColor(Color.GRAY)
                 chooseTime=0
-                timeChose=true
-
-                checkDismiss(timeChose, dateChose)
+                //timeChose=true
+                //checkDismiss(timeChose, dateChose)
             }
             R.id.choose_date_noon->{
                 choose_date_morning.setTextColor(Color.GRAY)
@@ -40,8 +37,8 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
                 choose_date_afternoon.setTextColor(Color.GRAY)
                 choose_date_evening.setTextColor(Color.GRAY)
                 chooseTime=1
-                timeChose=true
-                checkDismiss(timeChose, dateChose)
+                //timeChose=true
+                //checkDismiss(timeChose, dateChose)
             }
             R.id.choose_date_afternoon->{
                 choose_date_morning.setTextColor(Color.GRAY)
@@ -49,8 +46,8 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
                 choose_date_afternoon.setTextColor(Color.YELLOW)
                 choose_date_evening.setTextColor(Color.GRAY)
                 chooseTime=2
-                timeChose=true
-                checkDismiss(timeChose, dateChose)
+                //timeChose=true
+                //checkDismiss(timeChose, dateChose)
             }
             R.id.choose_date_evening->{
                 choose_date_morning.setTextColor(Color.GRAY)
@@ -58,8 +55,8 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
                 choose_date_afternoon.setTextColor(Color.GRAY)
                 choose_date_evening.setTextColor(Color.YELLOW)
                 chooseTime=3
-                timeChose=true
-                checkDismiss(timeChose, dateChose)
+                //timeChose=true
+                //checkDismiss(timeChose, dateChose)
             }
             else->{
                 Log.d(TAG, "button not used")
@@ -96,40 +93,43 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         choose_date_calendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
             Toast.makeText(this.context, "$year-${month+1}-$dayOfMonth", Toast.LENGTH_SHORT).show()
-            dateChose=true
+            //dateChose=true
 //            result="$year-${month+1}-$dayOfMonth"
             this.year=year
             this.month=month
             this.day=dayOfMonth
-            checkDismiss(timeChose, dateChose)
+            //checkDismiss(timeChose, dateChose)
         }
         choose_date_morning.setOnClickListener(this)
         choose_date_noon.setOnClickListener(this)
         choose_date_afternoon.setOnClickListener(this)
         choose_date_evening.setOnClickListener(this)
+
+        choose_date_submit.setOnClickListener {
+            confirmAndDismiss()
+        }
     }
 
     interface SendDate{
         fun getDate(date: Date)
     }
 
-    private fun checkDismiss(time: Boolean, date: Boolean){
-        if(time&&date){
-            calendar.set(
-                year,
-                month,
-                day,
-                when(chooseTime){
-                    0->8
-                    1->11
-                    2->15
-                    3->21
-                    else->0
-                },
-                0)
-            sendDate.getDate(calendar.time)
-            dismiss()
-        }
+    private fun confirmAndDismiss(){
+        dismiss()
+        calendar.set(
+            year,
+            month,
+            day,
+            when(chooseTime){
+                0->8
+                1->11
+                2->15
+                3->21
+                else->0
+            },
+            0)
+        sendDate.getDate(calendar.time)
+        //choose_date_submit.hide()
     }
 
     companion object{

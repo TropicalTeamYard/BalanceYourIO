@@ -14,7 +14,15 @@ object DateConverter {
     }
 
     fun getSimpleString(d: Date): String{
-        return SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(d)
+        val calendar: Calendar= Calendar.getInstance()
+        calendar.time=d
+        val h=calendar.get(Calendar.HOUR)
+        return SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(d)+when(h){
+            in 6..10->"上午"
+            in 11..12->"中午"
+            in 13..18->"下午"
+            else->"UNDEFINED"
+        }
     }
 
     fun getSimpleDate(s: String): Date{

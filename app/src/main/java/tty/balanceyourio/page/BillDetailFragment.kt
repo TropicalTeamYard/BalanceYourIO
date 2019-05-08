@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.util.DisplayMetrics
 import android.view.*
-import kotlinx.android.synthetic.main.fragment_bill_detail.*
 
 
 class BillDetailFragment : DialogFragment() {
@@ -26,7 +25,7 @@ class BillDetailFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        detail_type.text=""
+        //detail_type.text=""
     }
 
 }

@@ -32,6 +32,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
     override fun getDate(date: Date) {
         isDateChoose=true
         this.date=date
+        add_bill_show_date.text=DateConverter.getSimpleString(date)
         Log.d("ABA", DateConverter.getString(this.date))
     }
 
@@ -62,6 +63,7 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
                         }
                     }
                     if(flag){
+                        add_bill_bt_save.isClickable=false
                         Log.i(TAG,
                             "mode: ${
                                     when(add_bill_radio_group.checkedRadioButtonId){

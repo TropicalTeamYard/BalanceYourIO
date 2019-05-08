@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/f_data_fab_add"
-        app:fabSize="mini"
+        app:fabSize="normal"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/plus"
