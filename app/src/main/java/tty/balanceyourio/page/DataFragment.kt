@@ -8,7 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ExpandableListView
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_data.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.ShowBillListAdapter
@@ -16,7 +18,19 @@ import tty.balanceyourio.model.BillRecord
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DataFragment : Fragment(), ExpandableListView.OnChildClickListener {
+class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, AdapterView.OnItemLongClickListener {
+    override fun onItemLongClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long): Boolean {
+        val packedPosition = elv_show_bill_data.getExpandableListPosition(position)
+        val groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition)
+        val childPosition = ExpandableListView.getPackedPositionChild(packedPosition)
+        Log.d("DF", "position--$position")
+        Log.d("DF", "packedPosition--$packedPosition")
+        Log.d("DF", "groupPosition--$groupPosition")
+        Log.d("DF", "childPosition--$childPosition")
+        Toast.makeText(this.context, "P $position, G $groupPosition, C $childPosition", Toast.LENGTH_SHORT).show()
+        return true
+    }
+
 
     override fun onChildClick(parent: ExpandableListView?, v: View?, groupPosition: Int, childPosition: Int, id: Long): Boolean {
         val detail=BillDetailFragment()
@@ -30,7 +44,7 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener {
         return true
     }
 
-    lateinit var adapter:ShowBillListAdapter
+    private lateinit var adapter:ShowBillListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -42,7 +56,6 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener {
         f_data_fab_add.setOnClickListener {
             startActivity(Intent(this.context, AddBillActivity::class.java))
         }
-        //setAdapter()
     }
 
     override fun onResume() {
@@ -56,13 +69,13 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener {
         elv_show_bill_data.setAdapter(adapter)
         elv_show_bill_data.setGroupIndicator(null)
 
-        try {
-            elv_show_bill_data.expandGroup(0)
-        } catch (e: IndexOutOfBoundsException){
-            // TODO 当前没有记录的处理办法
+        // 默认展开所有项
+        // TODO @HHR 完成COUNT为0时(没有子项时的显示文案)
+        for (i in 0 until adapter.groupCount){
+            elv_show_bill_data.expandGroup(i)
         }
-
         elv_show_bill_data.setOnChildClickListener(this)
+        elv_show_bill_data.onItemLongClickListener = this
     }
 
 }
