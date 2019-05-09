@@ -34,7 +34,6 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             val dateSet=HashSet<String>()
             for(i in 0 until allBillRecord.size){
                 dateSet.add(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(allBillRecord[i].time))
-                //SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format((getChild(groupPosition,0) as BillRecord).time)
             }
             dateList= ArrayList(dateSet)
             dateList.sort()
@@ -46,6 +45,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
                         tData.add(allBillRecord[j])
                     }
                 }
+                // TODO @CHT 完成对 tDATA 按照时间倒序排序 模板: yyyy-MM-dd 上午、中午，下午，晚上
                 tData.reverse()
                 billList.add(tData)
             }
