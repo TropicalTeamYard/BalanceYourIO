@@ -11,9 +11,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.MainFragmentAdapter
 
-
-
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
+    //TODO @WCF 预算功能设置 可灵活设置日期
+    //TODO @WCF 新建账本 自定义
+
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         return when(p0.itemId){
             R.id.item_nav_record -> {

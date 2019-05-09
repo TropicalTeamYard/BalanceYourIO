@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#03A9F4</color>
-    <color name="colorPrimaryDark">#03A9F4</color>
-    <color name="colorAccent">#FFEB3B</color>
+    <color name="colorPrimary">#DCEDC8</color>
+    <color name="colorPrimaryDark">#DCEDC8</color>
+    <color name="colorAccent">#DCEDC8</color>
     <color name="colorNormal">#999999</color>
-    <color name="colorTypeChosenOutcome">#FFAA00</color>
-    <color name="colorTypeChosenIncome">#AAFF00</color>
+    <color name="colorTypeChosenOutcome">#FFE0B2</color>
+    <color name="colorTypeChosenIncome">#C8E6C9</color>
 </resources>
