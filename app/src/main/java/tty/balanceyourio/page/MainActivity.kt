@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 main_viewPager.currentItem = 1
                 true
             }
+            R.id.item_nav_user -> {
+                main_viewPager.currentItem = 2
+                true
+            }
             else -> false
         }
     }

@@ -6,10 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".page.DataFragment">
 
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:text="@string/records" />-->
     <ExpandableListView android:id="@+id/elv_show_bill_data" android:layout_width="match_parent" android:layout_height="match_parent" />
 
     <android.support.design.widget.FloatingActionButton

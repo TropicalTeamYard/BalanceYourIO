@@ -5,12 +5,17 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
+import android.widget.LinearLayout
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_choose_date.*
 import tty.balanceyourio.R
+import tty.balanceyourio.adapter.HorizontalSelectView
 import java.util.*
 
 class ChooseDateFragment : DialogFragment(), View.OnClickListener {
@@ -19,6 +24,8 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
     private var year:Int=calendar.get(Calendar.YEAR)
     private var month:Int=calendar.get(Calendar.MONTH)
     private var day:Int=calendar.get(Calendar.DATE)
+    private lateinit var recSelectTime: RecyclerView
+    private lateinit var selectTimeAdapter: HorizontalSelectView
 
     override fun onClick(v: View?) {
         when(v?.id){
@@ -28,8 +35,6 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
                 choose_date_afternoon.setTextColor(Color.GRAY)
                 choose_date_evening.setTextColor(Color.GRAY)
                 chooseTime=0
-                //timeChose=true
-                //checkDismiss(timeChose, dateChose)
             }
             R.id.choose_date_noon->{
                 choose_date_morning.setTextColor(Color.GRAY)
@@ -37,8 +42,6 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
                 choose_date_afternoon.setTextColor(Color.GRAY)
                 choose_date_evening.setTextColor(Color.GRAY)
                 chooseTime=1
-                //timeChose=true
-                //checkDismiss(timeChose, dateChose)
             }
             R.id.choose_date_afternoon->{
                 choose_date_morning.setTextColor(Color.GRAY)
@@ -46,8 +49,6 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
                 choose_date_afternoon.setTextColor(Color.YELLOW)
                 choose_date_evening.setTextColor(Color.GRAY)
                 chooseTime=2
-                //timeChose=true
-                //checkDismiss(timeChose, dateChose)
             }
             R.id.choose_date_evening->{
                 choose_date_morning.setTextColor(Color.GRAY)
@@ -55,8 +56,6 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
                 choose_date_afternoon.setTextColor(Color.GRAY)
                 choose_date_evening.setTextColor(Color.YELLOW)
                 chooseTime=3
-                //timeChose=true
-                //checkDismiss(timeChose, dateChose)
             }
             else->{
                 Log.d(TAG, "button not used")
@@ -93,13 +92,21 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         choose_date_calendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
             Toast.makeText(this.context, "$year-${month+1}-$dayOfMonth", Toast.LENGTH_SHORT).show()
-            //dateChose=true
-//            result="$year-${month+1}-$dayOfMonth"
             this.year=year
             this.month=month
             this.day=dayOfMonth
-            //checkDismiss(timeChose, dateChose)
         }
+        recSelectTime = choose_date_rec_time_select
+        selectTimeAdapter = HorizontalSelectView()
+        recSelectTime.adapter  = selectTimeAdapter
+
+        val layoutManager = LinearLayoutManager(this.context)
+        layoutManager.orientation = LinearLayout.HORIZONTAL
+        recSelectTime.layoutManager = layoutManager
+
+//        var listener: RecyclerView.OnScrollListener()
+//        recSelectTime.addOnScrollListener()
+
         choose_date_morning.setOnClickListener(this)
         choose_date_noon.setOnClickListener(this)
         choose_date_afternoon.setOnClickListener(this)
@@ -129,7 +136,6 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
             },
             0)
         sendDate.getDate(calendar.time)
-        //choose_date_submit.hide()
     }
 
     companion object{

@@ -17,10 +17,10 @@ import tty.balanceyourio.converter.RConverter
 
 /**
  * 选择输入输出类型图标的适配器
- * @param source 数据源
+ * @param source 数据源，
  * @param rConverter index:int->resource:int 用于转换icon储存索引到资源的id
  */
-class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConverter: RConverter):RecyclerView.Adapter<AddBillIconAdapter.ViewHolder>(){
+class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConverter: RConverter): RecyclerView.Adapter<AddBillIconAdapter.ViewHolder>(){
 
     private lateinit var context:Context
     private var mClickListener:OnItemClickListener?=null

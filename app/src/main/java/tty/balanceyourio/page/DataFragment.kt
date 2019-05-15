@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, AdapterView.OnItemLongClickListener {
+
     override fun onItemLongClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long): Boolean {
         val packedPosition = elv_show_bill_data.getExpandableListPosition(position)
         val groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition)
@@ -30,7 +31,6 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, Adapte
         Toast.makeText(this.context, "P $position, G $groupPosition, C $childPosition", Toast.LENGTH_SHORT).show()
         return true
     }
-
 
     override fun onChildClick(parent: ExpandableListView?, v: View?, groupPosition: Int, childPosition: Int, id: Long): Boolean {
         val detail=BillDetailFragment()
@@ -46,8 +46,7 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, Adapte
 
     private lateinit var adapter:ShowBillListAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_data, container, false)
     }
 

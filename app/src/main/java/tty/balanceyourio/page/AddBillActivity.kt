@@ -27,8 +27,13 @@ import tty.balanceyourio.util.DateConverter
 import java.text.DecimalFormat
 import java.util.*
 
-class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
-    TextWatcher, View.OnClickListener,AddBillIconAdapter.OnItemClickListener, ChooseDateFragment.SendDate {
+class AddBillActivity : AppCompatActivity(),
+    RadioGroup.OnCheckedChangeListener,
+    SeekBar.OnSeekBarChangeListener,
+    TextWatcher, View.OnClickListener,
+    AddBillIconAdapter.OnItemClickListener,
+    ChooseDateFragment.SendDate {
+
     override fun getDate(date: Date) {
         isDateChoose=true
         this.date=date
@@ -179,7 +184,6 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        //Log.d("ABA", "changed: "+seekBar?.progress)
         shouldInputMoneyChange=false
         if(shouldMoneyChange){
             if(nowProgress<seekBar?.progress!!* delta){
@@ -232,13 +236,15 @@ class AddBillActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener,
         add_bill_radio_group.setOnCheckedChangeListener(this)
         //TODO("与数据库交互，获取BYIOCategory")
         data = IOTypeProvider(this).outComeTypeList
+
         recyclerView = add_bill_rec_view
-        adapter = AddBillIconAdapter(data,PxlIconConverter())
+        adapter = AddBillIconAdapter(data, PxlIconConverter())
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
         val layoutManager=GridLayoutManager(this, 6)
         layoutManager.orientation=GridLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
+
         add_sb_money.setOnSeekBarChangeListener(this)
         add_show_now_money.text="￥ $nowMoney"
         add_input_money.addTextChangedListener(this)

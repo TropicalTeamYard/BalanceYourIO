@@ -35,4 +35,5 @@
     <string name="afternoon">下午</string>
     <string name="evening">晚上</string>
     <string name="today">今天</string>
+    <string name="info">我的</string>
 </resources>

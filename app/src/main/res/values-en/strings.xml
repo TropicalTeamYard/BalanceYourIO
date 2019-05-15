@@ -36,4 +36,5 @@
     <string name="afternoon">Evening</string>
     <string name="evening">Evening</string>
     <string name="today">Today</string>
+    <string name="info">Me</string>
 </resources>

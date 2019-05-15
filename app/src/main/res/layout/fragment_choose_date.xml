@@ -57,9 +57,20 @@
                 android:textColor="#aaaaaa"
                 android:gravity="center"/>
     </LinearLayout>
+
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="60dp">
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/choose_date_rec_time_select"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="400dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="60dp"/>
+    </RelativeLayout>
+
+
     <android.support.design.widget.FloatingActionButton
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_margin="@dimen/fab_margin"
             app:fabSize="normal"
             android:layout_gravity="center"
             android:src="@drawable/ic_arrow_forward"
