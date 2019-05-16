@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
@@ -98,14 +97,24 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
         }
         recSelectTime = choose_date_rec_time_select
         selectTimeAdapter = HorizontalSelectView()
-        recSelectTime.adapter  = selectTimeAdapter
+        recSelectTime.adapter = selectTimeAdapter
 
         val layoutManager = LinearLayoutManager(this.context)
         layoutManager.orientation = LinearLayout.HORIZONTAL
         recSelectTime.layoutManager = layoutManager
 
-//        var listener: RecyclerView.OnScrollListener()
-//        recSelectTime.addOnScrollListener()
+        recSelectTime.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                Log.d("CDF", "newState: $newState")
+                recyclerView.scrollToPosition(layoutManager.findFirstCompletelyVisibleItemPosition()+2)
+                layoutManager.scrollToPositionWithOffset(layoutManager.findFirstCompletelyVisibleItemPosition()+2, 0)
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                Log.d("CDF", "dx: $dx, dy: $dy, first pos: ${layoutManager.findFirstCompletelyVisibleItemPosition()}")
+
+            }
+        })
 
         choose_date_morning.setOnClickListener(this)
         choose_date_noon.setOnClickListener(this)
