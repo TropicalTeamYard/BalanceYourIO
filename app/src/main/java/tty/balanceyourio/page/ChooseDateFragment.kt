@@ -106,8 +106,7 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
         recSelectTime.addOnScrollListener(object: RecyclerView.OnScrollListener(){
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 Log.d("CDF", "newState: $newState")
-                recyclerView.scrollToPosition(layoutManager.findFirstCompletelyVisibleItemPosition()+2)
-                layoutManager.scrollToPositionWithOffset(layoutManager.findFirstCompletelyVisibleItemPosition()+2, 0)
+
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
