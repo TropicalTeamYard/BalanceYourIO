@@ -2,7 +2,6 @@ package tty.balanceyourio.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -69,9 +68,9 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConv
 //                p0.linearLayout.setBackgroundColor(0x99fafafa.toInt())
 //            }
             if((source[p1]["chosen"] as Boolean?)!!){
-                p0.imageView.setColorFilter(Color.BLUE)
+                p0.imageView.setColorFilter(0xaaffff00.toInt())
             } else {
-                p0.imageView.setColorFilter(Color.TRANSPARENT)
+                p0.imageView.setColorFilter(0x00ffffff.toInt())
             }
         } catch (e: NullPointerException){
 

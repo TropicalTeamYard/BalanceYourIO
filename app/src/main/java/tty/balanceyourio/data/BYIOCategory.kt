@@ -41,9 +41,9 @@ class BYIOCategory(var outcome: BYIOType, var income: BYIOType)
                 BYIONode("key." + CategoryConverter.Others, 19)
             ),
             BYIOType(
-                BYIONode("key." + CategoryConverter.Wages, 0),
-                BYIONode("key." + CategoryConverter.PartTime, 0),
-                BYIONode("key." + CategoryConverter.Interest, 0)
+                BYIONode("key." + CategoryConverter.Wages, 19),
+                BYIONode("key." + CategoryConverter.PartTime, 19),
+                BYIONode("key." + CategoryConverter.Interest, 19)
             )
         )
 

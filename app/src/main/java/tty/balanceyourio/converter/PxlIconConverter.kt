@@ -28,7 +28,7 @@ class PxlIconConverter:RConverter{
             FOOD -> R.drawable.type_food
             SHOPPING -> R.drawable.type_shopping
             FRUIT -> R.drawable.type_fruit
-            INVESTMENT -> R.drawable.type_invest
+            INVESTMENT -> R.drawable.type_investment
             OTHERS -> R.drawable.type_others
 
             else -> -1
