@@ -1,10 +1,13 @@
 package tty.balanceyourio.page
 
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.util.DisplayMetrics
 import android.view.*
+import kotlinx.android.synthetic.main.fragment_bill_detail.*
+import tty.balanceyourio.adapter.AddBillIconAdapter
 
 
 class BillDetailFragment : DialogFragment() {
@@ -25,7 +28,27 @@ class BillDetailFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //detail_type.text=""
+        var type = arguments!!.getString("type", "")
+        val id = arguments!!.getInt("id", -1)
+        val date = arguments!!.getString("date", "")
+        val money = arguments!!.getString("money", "")
+        val comment = arguments!!.getString("comment",  "")
+        val iotype = arguments!!.getInt("iotype", 0)
+        if(type.isNotEmpty()){
+            type=AddBillIconAdapter.getFriendString(this.context!!, type)
+        } else {
+            dismiss()
+        }
+        detail_type.text=type
+        detail_time.text=date
+        detail_money.text=money
+        detail_comment.text=comment
+        detail_money.setTextColor(when(iotype){
+            1->Color.GREEN
+            2->Color.RED
+            else->Color.GRAY
+        })
+
     }
 
 }

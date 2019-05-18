@@ -31,12 +31,18 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
             contentValues.put("tag",record.tag!!)
         if (record.time!= null)
             contentValues.put("time",SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(record.time!!))
-        if (record.ioType!= IOType.Unset)
-            contentValues.put("iotype",when (record.ioType){
-                IOType.Income-> 1
-                IOType.OutCome -> 2
-                else -> 0
-            })
+        if (record.ioType!= IOType.Unset) {
+            contentValues.put(
+                "iotype", when (record.ioType) {
+                    IOType.Income -> 1
+                    IOType.OutCome -> 2
+                    else -> 0
+                }
+            )
+        } else {
+            //TODO WCF 做出更改 @2019/5/19-01:44
+            contentValues.put("iotype", 0)
+        }
         if (record.goodsType!= null)
             contentValues.put("goodstype",record.goodsType!!)
         if (record.amount!=null){

@@ -74,7 +74,8 @@ class AddBillActivity : AppCompatActivity(),
                                     when(add_bill_radio_group.checkedRadioButtonId){
                                         R.id.add_bill_radio_income -> "income"
                                         R.id.add_bill_radio_outcome -> "outcome"
-                                        else -> "other"
+                                        R.id.add_bill_radio_others -> "others"
+                                        else -> "#UNSET"
                                     }}, " +
                                     "type: $type, amount: $nowMoney")
                         //region 与数据库的交互
@@ -106,7 +107,8 @@ class AddBillActivity : AppCompatActivity(),
                                     when(add_bill_radio_group.checkedRadioButtonId){
                                         R.id.add_bill_radio_income -> "income"
                                         R.id.add_bill_radio_outcome -> "outcome"
-                                        else -> "other"
+                                        R.id.add_bill_radio_others -> "others"
+                                        else -> "#UNSET"
                                     }}, " +
                                     "type: $type, amount: $nowMoney", Toast.LENGTH_SHORT).show()
                         finish()
@@ -122,13 +124,9 @@ class AddBillActivity : AppCompatActivity(),
         }
     }
 
-    override fun afterTextChanged(s: Editable?) {
+    override fun afterTextChanged(s: Editable?) {}
 
-    }
-
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-    }
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         if(shouldInputMoneyChange){
@@ -148,7 +146,6 @@ class AddBillActivity : AppCompatActivity(),
                     add_input_money.setSelection(add_input_money.text.length)
                 }
             } catch (e : NumberFormatException) {
-                //e.printStackTrace()
                 if(nowMoney>0){
                     add_show_now_money.text= "￥ $nowMoney"
                 } else {
@@ -170,18 +167,15 @@ class AddBillActivity : AppCompatActivity(),
     private val decimalFormat = DecimalFormat("0.00")
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        //Log.d("ABA", "stop: "+seekBar?.progress)
         shouldMoneyChange=false
         shouldInputMoneyChange=false
-        seekBar?.progress= max_val.toInt()
-        nowProgress= max_val
+        seekBar?.progress = max_val.toInt() * 2
+        nowProgress = max_val
         add_input_money.setText("")
 
     }
 
-    override fun onStartTrackingTouch(seekBar: SeekBar?) {
-        //Log.d("ABA", "start: "+seekBar?.progress)
-    }
+    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
         shouldInputMoneyChange=false
@@ -220,6 +214,12 @@ class AddBillActivity : AppCompatActivity(),
             }
             R.id.add_bill_radio_outcome -> {
                 Toast.makeText(this, "Outcome chosen", Toast.LENGTH_SHORT).show()
+                data = IOTypeProvider(this).outComeTypeList
+                adapter.source = data
+                adapter.notifyDataSetChanged()
+            }
+            R.id.add_bill_radio_others -> {
+                Toast.makeText(this, "Others chosen", Toast.LENGTH_SHORT).show()
                 data = IOTypeProvider(this).outComeTypeList
                 adapter.source = data
                 adapter.notifyDataSetChanged()
@@ -274,7 +274,7 @@ class AddBillActivity : AppCompatActivity(),
 
     companion object {
         const val TAG = "ABA"
-        const val delta = 0.1
-        const val max_val:Double = 500.0
+        const val delta = 0.5
+        const val max_val:Double = 4.0
     }
 }

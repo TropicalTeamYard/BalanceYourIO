@@ -16,7 +16,7 @@ class BYIOCategory(var outcome: BYIOType, var income: BYIOType)
 
     fun getIconIndex(name:String):Int
     {
-        for (i in tty.balanceyourio.data.BYIOCategory.getInstance().outcome  ){
+        for (i in tty.balanceyourio.data.BYIOCategory.getInstance().outcome){
             if (i.name == name)
                 return i.icon
         }

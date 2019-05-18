@@ -15,10 +15,14 @@ import kotlinx.android.synthetic.main.fragment_data.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.ShowBillListAdapter
 import tty.balanceyourio.model.BillRecord
-import java.text.SimpleDateFormat
-import java.util.*
+import tty.balanceyourio.model.IOType
+import tty.balanceyourio.util.DateConverter
 
-class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, AdapterView.OnItemLongClickListener {
+class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, AdapterView.OnItemLongClickListener,
+    ExpandableListView.OnGroupClickListener {
+    override fun onGroupClick(parent: ExpandableListView?, v: View?, groupPosition: Int, id: Long): Boolean {
+        return true
+    }
 
     override fun onItemLongClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long): Boolean {
         val packedPosition = elv_show_bill_data.getExpandableListPosition(position)
@@ -38,7 +42,16 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, Adapte
         val bundle=Bundle()
         bundle.putInt("id",bill.id)
         bundle.putString("type",bill.goodsType)
-        bundle.putString("date", SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(bill.time))
+        bundle.putString("date", DateConverter.getSimpleString(bill.time!!))
+        bundle.putString("money", bill.amount.toString())
+        bundle.putString("comment", bill.remark)
+        bundle.putInt("iotype",
+            when (bill.ioType){
+                IOType.Income-> 1
+                IOType.OutCome -> 2
+                else -> 0
+            }
+        )
         detail.arguments=bundle
         detail.show(this.fragmentManager, "BDF")
         return true
@@ -73,6 +86,7 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, Adapte
         for (i in 0 until adapter.groupCount){
             elv_show_bill_data.expandGroup(i)
         }
+        elv_show_bill_data.setOnGroupClickListener(this)
         elv_show_bill_data.setOnChildClickListener(this)
         elv_show_bill_data.onItemLongClickListener = this
     }

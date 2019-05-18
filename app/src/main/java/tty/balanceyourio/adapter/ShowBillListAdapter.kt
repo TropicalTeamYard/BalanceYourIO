@@ -134,6 +134,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
                 viewHolder.money.setTextColor(Color.RED)
             }
             else -> {
+                viewHolder.money.text=""
                 viewHolder.money.setTextColor(Color.GRAY)
             }
         }

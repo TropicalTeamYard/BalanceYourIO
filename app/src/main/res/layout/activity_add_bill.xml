@@ -11,20 +11,46 @@
             android:layout_width="match_parent"
             android:gravity="center_horizontal"
             android:checkedButton="@id/add_bill_radio_outcome"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/border"
             android:layout_marginBottom="16dp">
         <RadioButton
                 android:id="@+id/add_bill_radio_outcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/outcome"
-                android:layout_marginEnd="160dp"/>
+                android:textSize="20sp"
+                android:padding="6dp"
+                android:button="@null"
+                android:gravity="center"
+                android:textColor="@drawable/radio_select_text"
+                android:layout_weight="1"/>
         <RadioButton
                 android:id="@+id/add_bill_radio_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/income"/>
+                android:button="@null"
+                android:gravity="center"
+                android:background="@drawable/border"
+                android:textSize="20sp"
+                android:padding="6dp"
+                android:textColor="@drawable/radio_select_text"
+                android:text="@string/income"
+                android:layout_weight="1"/>
+        <RadioButton
+                android:id="@+id/add_bill_radio_others"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:textSize="20sp"
+                android:padding="6dp"
+                android:gravity="center"
+                android:textColor="@drawable/radio_select_text"
+                android:text="@string/others"
+                android:layout_weight="1"/>
     </RadioGroup>
 
     <android.support.v7.widget.RecyclerView
@@ -50,9 +76,9 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_height="40dp"
-                android:max="1000"
+                android:max="16"
                 android:background="#00000000"
-                android:progress="500"
+                android:progress="8"
                 android:id="@+id/add_sb_money"/>
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"

@@ -90,7 +90,7 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConv
          * 转换特殊字符串的工具函数
          * 仅适用于{@see AddBillIconAdapter}
          */
-        private fun getFriendString(context: Context,input:String):String{
+        fun getFriendString(context: Context,input:String):String{
             val value: String
             value = if (input.startsWith("key.")){
                 val key:Int? =  input.substring(4).toIntOrNull()
