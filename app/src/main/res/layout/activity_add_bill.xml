@@ -50,8 +50,9 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_height="40dp"
-                android:max="16"
-                android:progress="8"
+                android:max="1000"
+                android:background="#00000000"
+                android:progress="500"
                 android:id="@+id/add_sb_money"/>
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"

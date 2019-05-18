@@ -173,7 +173,7 @@ class AddBillActivity : AppCompatActivity(),
         //Log.d("ABA", "stop: "+seekBar?.progress)
         shouldMoneyChange=false
         shouldInputMoneyChange=false
-        seekBar?.progress=8
+        seekBar?.progress= max_val.toInt()
         nowProgress= max_val
         add_input_money.setText("")
 
@@ -274,7 +274,7 @@ class AddBillActivity : AppCompatActivity(),
 
     companion object {
         const val TAG = "ABA"
-        const val delta = 0.5
-        const val max_val:Double = 4.0
+        const val delta = 0.1
+        const val max_val:Double = 500.0
     }
 }
