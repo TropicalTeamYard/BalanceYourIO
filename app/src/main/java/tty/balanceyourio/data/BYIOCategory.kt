@@ -1,7 +1,6 @@
 package tty.balanceyourio.data
 
-import tty.balanceyourio.R
-import tty.balanceyourio.converter.CatagoryConverter
+import tty.balanceyourio.converter.CategoryConverter
 
 class BYIOCategory(var outcome: BYIOType, var income: BYIOType)
 {
@@ -32,19 +31,19 @@ class BYIOCategory(var outcome: BYIOType, var income: BYIOType)
         private val default: BYIOCategory = BYIOCategory(
             //outcome branch
             BYIOType(
-                BYIONode("key." + CatagoryConverter.Food, 0),
-                BYIONode("key." + CatagoryConverter.Fruit, 1),
-                BYIONode("key." + CatagoryConverter.Transportation, 0),
-                BYIONode("key." + CatagoryConverter.Shopping, 0),
-                BYIONode("key." + CatagoryConverter.Investment, 0),
-                BYIONode("key." + CatagoryConverter.Entertainment, 0),
-                BYIONode("key." + CatagoryConverter.Education, 0),
-                BYIONode("key." + CatagoryConverter.Others, 0)
+                BYIONode("key." + CategoryConverter.Food, 15),
+                BYIONode("key." + CategoryConverter.Fruit, 17),
+                BYIONode("key." + CategoryConverter.Transportation, 2),
+                BYIONode("key." + CategoryConverter.Shopping, 16),
+                BYIONode("key." + CategoryConverter.Investment, 18),
+                BYIONode("key." + CategoryConverter.Entertainment, 9),
+                BYIONode("key." + CategoryConverter.Education, 14),
+                BYIONode("key." + CategoryConverter.Others, 19)
             ),
             BYIOType(
-                BYIONode("key." + CatagoryConverter.Wages, 0),
-                BYIONode("key." + CatagoryConverter.PartTime, 0),
-                BYIONode("key." + CatagoryConverter.Interest, 0)
+                BYIONode("key." + CategoryConverter.Wages, 0),
+                BYIONode("key." + CategoryConverter.PartTime, 0),
+                BYIONode("key." + CategoryConverter.Interest, 0)
             )
         )
 

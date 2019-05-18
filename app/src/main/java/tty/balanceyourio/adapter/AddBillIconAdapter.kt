@@ -2,8 +2,8 @@ package tty.balanceyourio.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.item_type_in_out_come.view.*
 import tty.balanceyourio.R
-import tty.balanceyourio.converter.CatagoryConverter
+import tty.balanceyourio.converter.CategoryConverter
 import tty.balanceyourio.converter.RConverter
 
 /**
@@ -40,7 +40,7 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConv
         //查找并未发现该图标资源
         if (iconRes == -1){
             //TODO("检查图标资源索引。")
-            p0.imageView.setImageResource(R.drawable.fork)
+            p0.imageView.setImageResource(R.drawable.type_others)
         } else{
             p0.imageView.setImageResource(iconRes)
         }
@@ -62,11 +62,16 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConv
 //                    p0.imageView.drawable.setTint(R.color.colorTypeChosenIncome)
 //                }
 //            }
-
+//
+//            if((source[p1]["chosen"] as Boolean?)!!){
+//                p0.linearLayout.setBackgroundColor(0x99ffff00.toInt())
+//            } else {
+//                p0.linearLayout.setBackgroundColor(0x99fafafa.toInt())
+//            }
             if((source[p1]["chosen"] as Boolean?)!!){
-                p0.linearLayout.setBackgroundColor(0x99ffff00.toInt())
+                p0.imageView.setColorFilter(Color.BLUE)
             } else {
-                p0.linearLayout.setBackgroundColor(0x99fafafa.toInt())
+                p0.imageView.setColorFilter(Color.TRANSPARENT)
             }
         } catch (e: NullPointerException){
 
@@ -92,7 +97,7 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConv
                 val key:Int? =  input.substring(4).toIntOrNull()
                 if (key != null){
                     //Log.d("Adapter",key.toString())
-                    context.getString(CatagoryConverter().getResID(key))
+                    context.getString(CategoryConverter().getResID(key))
                     //"Hello world!"
                 }
                 else

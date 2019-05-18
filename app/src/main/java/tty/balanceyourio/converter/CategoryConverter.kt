@@ -3,7 +3,7 @@ package tty.balanceyourio.converter
 import tty.balanceyourio.R
 
 
-class CatagoryConverter: RConverter{
+class CategoryConverter: RConverter{
     override fun getResID(index: Int): Int {
         return when(index){
             Education -> R.string.education

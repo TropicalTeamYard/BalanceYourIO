@@ -10,7 +10,7 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import tty.balanceyourio.R
-import tty.balanceyourio.converter.CatagoryConverter
+import tty.balanceyourio.converter.CategoryConverter
 import tty.balanceyourio.converter.PxlIconConverter
 import tty.balanceyourio.data.BYIOCategory
 import tty.balanceyourio.data.BYIOHelper
@@ -160,7 +160,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             value = if (input.startsWith("key.")){
                 val key:Int? =  input.substring(4).toIntOrNull()
                 if (key != null)
-                    context.getString(CatagoryConverter().getResID(key))
+                    context.getString(CategoryConverter().getResID(key))
                 else
                     "KeyNotFound"
             } else {

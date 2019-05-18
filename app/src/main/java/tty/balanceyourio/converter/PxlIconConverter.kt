@@ -12,24 +12,31 @@ class PxlIconConverter:RConverter{
         return when(index){
             CALENDAR -> R.drawable.ic_pxl_calendar
             CAMERA -> R.drawable.ic_pxl_camera
-            CAR -> R.drawable.ic_pxl_car
+            CAR -> R.drawable.type_transportation
             CARD -> R.drawable.ic_pxl_card
             CATEGORY -> R.drawable.ic_pxl_category
             CLASSIFY -> R.drawable.ic_pxl_classify
             COSMETOLOGY -> R.drawable.ic_pxl_cosmetology
             EXCHANGE -> R.drawable.ic_pxl_exchange
             FOSTER -> R.drawable.ic_pxl_foster
-            GAME -> R.drawable.ic_pxl_game
+            GAME -> R.drawable.type_game
             INVITATION -> R.drawable.ic_pxl_invitation
             LOCATION -> R.drawable.ic_pxl_location
             TAG -> R.drawable.ic_pxl_tag
             WASH -> R.drawable.ic_pxl_wash
+            EDUCATION -> R.drawable.type_education
+            FOOD -> R.drawable.type_food
+            SHOPPING -> R.drawable.type_shopping
+            FRUIT -> R.drawable.type_fruit
+            INVESTMENT -> R.drawable.type_invest
+            OTHERS -> R.drawable.type_others
+
             else -> -1
         }
     }
 
     override val count: Int
-        get() = 14
+        get() = 20
 
 
     companion object {
@@ -47,5 +54,11 @@ class PxlIconConverter:RConverter{
         const val LOCATION = 11
         const val TAG = 12
         const val WASH = 13
+        const val EDUCATION = 14
+        const val FOOD = 15
+        const val SHOPPING = 16
+        const val FRUIT = 17
+        const val INVESTMENT = 18
+        const val OTHERS = 19
     }
 }
