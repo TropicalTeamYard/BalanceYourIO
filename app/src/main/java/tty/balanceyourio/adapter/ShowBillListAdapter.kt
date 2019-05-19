@@ -118,22 +118,22 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             viewHolder.icon.setImageResource(PxlIconConverter().getResID(iconIndex));
         } catch (e:Exception){
             //DONE CHT 将索引转换为具体内容
-            viewHolder.icon.setImageResource(R.drawable.ic_color_tag)
+            viewHolder.icon.setImageResource(R.drawable.type_others)
         }
 
 
         when((getChild(groupPosition, childPosition) as BillRecord).ioType){
             IOType.Income->{
                 viewHolder.money.text="+"
-                viewHolder.money.setTextColor(Color.GREEN)
+                viewHolder.money.setTextColor(context.getColor(R.color.typeIncome))
             }
             IOType.OutCome-> {
                 viewHolder.money.text="-"
-                viewHolder.money.setTextColor(Color.RED)
+                viewHolder.money.setTextColor(context.getColor(R.color.typeOutcome))
             }
             else -> {
                 viewHolder.money.text=""
-                viewHolder.money.setTextColor(Color.GRAY)
+                viewHolder.money.setTextColor(context.getColor(R.color.typeOthers))
             }
         }
         viewHolder.comment.text = "备注："
