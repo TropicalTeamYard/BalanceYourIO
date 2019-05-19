@@ -45,7 +45,9 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
                         tData.add(allBillRecord[j])
                     }
                 }
-                // TODO @CHT 完成对 tDATA 按照时间倒序排序 模板: yyyy-MM-dd 上午,中午,下午,晚上
+
+                tData.sortByDescending { it.time }
+
                 tData.reverse()
                 billList.add(tData)
             }
