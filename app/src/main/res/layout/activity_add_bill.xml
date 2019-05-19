@@ -67,7 +67,7 @@
                   android:id="@+id/linear_input_box"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:background="@color/colorPrimary"
+                  android:background="@color/colorPrimaryLight"
                   android:layout_alignParentBottom="true"
                   android:paddingBottom="16dp"
                   android:paddingStart="16dp"

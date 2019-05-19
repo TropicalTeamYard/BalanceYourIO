@@ -46,8 +46,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
                 }
 
                 tData.sortByDescending { it.time }
-
-                tData.reverse()
+//                tData.reverse()
                 billList.add(tData)
             }
         }
