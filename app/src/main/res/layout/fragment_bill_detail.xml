@@ -10,8 +10,7 @@
               android:gravity="center"
               android:text="@string/default_date" android:layout_marginTop="8dp"/>
     <ImageView android:layout_width="60dp" android:layout_height="60dp"
-               android:layout_gravity="center"
-               android:src="@drawable/type_education"
+               android:layout_gravity="center_horizontal"
                android:id="@+id/detail_image"
                android:paddingTop="20dp"/>
     <TextView android:id="@+id/detail_type" android:layout_width="match_parent"

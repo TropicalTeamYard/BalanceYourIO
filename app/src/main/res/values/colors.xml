@@ -6,6 +6,9 @@
     <color name="colorAccent">#00BCD4</color>
     <color name="colorNormal">#999999</color>
     <color name="colorTypeChosenOutcome">#FFE0B2</color>
+    <color name="typeIncome">#81C784</color>
+    <color name="typeOutcome">#FF8A65</color>
+    <color name="typeOthers">#969696</color>
     <color name="colorTypeChosenIncome">#C8E6C9</color>
     <color name="light_blue">#660066ff</color>
     <color name="white">#FFFFFFFF</color>
