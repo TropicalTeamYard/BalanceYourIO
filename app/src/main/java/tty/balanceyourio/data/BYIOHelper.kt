@@ -35,7 +35,7 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
             contentValues.put(
                 "iotype", when (record.ioType) {
                     IOType.Income -> 1
-                    IOType.OutCome -> 2
+                    IOType.Outcome -> 2
                     else -> 0
                 }
             )
@@ -82,7 +82,7 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
                 billRecord.time=simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex("time")))
                 billRecord.ioType=when(cursor.getInt(cursor.getColumnIndex("iotype"))){
                     1 -> IOType.Income
-                    2 -> IOType.OutCome
+                    2 -> IOType.Outcome
                     else -> IOType.Unset
                 }
                 billRecord.channel=cursor.getString(cursor.getColumnIndex("channel"))

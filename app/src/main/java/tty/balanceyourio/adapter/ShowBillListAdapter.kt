@@ -1,7 +1,6 @@
 package tty.balanceyourio.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,11 +18,13 @@ import tty.balanceyourio.model.IOType
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
 
     private var billList: ArrayList<ArrayList<BillRecord>> = ArrayList()
     private var dateList: ArrayList<String> = ArrayList()
+    private var daySumList: ArrayList<HashMap<IOType, Double>> = ArrayList()
 
     init{
         val allBillRecord = BYIOHelper(context).getBill()
@@ -33,6 +34,10 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             val dateSet=HashSet<String>()
             for(i in 0 until allBillRecord.size){
                 dateSet.add(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(allBillRecord[i].time))
+                daySumList.add(HashMap())
+                daySumList[i][IOType.Income]=0.0
+                daySumList[i][IOType.Outcome]=0.0
+                daySumList[i][IOType.Unset]=0.0
             }
             dateList= ArrayList(dateSet)
             dateList.sort()
@@ -42,6 +47,12 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
                 for(j in 0 until allBillRecord.size){
                     if(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(allBillRecord[j].time) == dateList[i]){
                         tData.add(allBillRecord[j])
+                        when(allBillRecord[j].ioType){
+                            IOType.Income -> daySumList[i][IOType.Income] = daySumList[i][IOType.Income]!!+allBillRecord[j].amount!!
+                            IOType.Outcome -> daySumList[i][IOType.Outcome] = daySumList[i][IOType.Outcome]!!+allBillRecord[j].amount!!
+                            else -> daySumList[i][IOType.Unset] = daySumList[i][IOType.Unset]!!+allBillRecord[j].amount!!
+                        }
+
                     }
                 }
 
@@ -71,14 +82,17 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             view = LayoutInflater.from(this.context).inflate(R.layout.item_show_bill_parent, parent, false)
             viewHolder= ParentViewHolder()
             viewHolder.date=view.findViewById(R.id.show_bill_date)
+            viewHolder.income=view.findViewById(R.id.show_bill_today_income)
+            viewHolder.outcome=view.findViewById(R.id.show_bill_today_outcome)
             view.tag=viewHolder
         } else {
             view = convertView
             viewHolder = view.tag as ParentViewHolder
         }
 
-        viewHolder.date.text= SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format((getChild(groupPosition,0) as BillRecord).time)
-
+        viewHolder.date.text = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format((getChild(groupPosition,0) as BillRecord).time)
+        viewHolder.income.text = context.resources.getString(R.string.income) + " " + daySumList[groupPosition][IOType.Income]
+        viewHolder.outcome.text = context.resources.getString(R.string.outcome) + " " + daySumList[groupPosition][IOType.Outcome]
         return view
     }
 
@@ -127,7 +141,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
                 viewHolder.money.text="+"
                 viewHolder.money.setTextColor(context.getColor(R.color.typeIncome))
             }
-            IOType.OutCome-> {
+            IOType.Outcome-> {
                 viewHolder.money.text="-"
                 viewHolder.money.setTextColor(context.getColor(R.color.typeOutcome))
             }
@@ -154,6 +168,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
     }
 
     companion object{
+        const val TAG = "SBLA"
         private fun getFriendString(context: Context, input:String):String{
             val value: String
             value = if (input.startsWith("key.")){
@@ -169,7 +184,9 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
         }
 
         class ParentViewHolder{
-            lateinit var date:TextView
+            lateinit var date: TextView
+            lateinit var income: TextView
+            lateinit var outcome: TextView
         }
 
         class ChildViewHolder{

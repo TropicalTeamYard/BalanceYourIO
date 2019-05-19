@@ -4,7 +4,6 @@ import tty.balanceyourio.R
 
 /**
  * 在数据库中存储的类型名称用类型对应的数字代替，使用时根据@fun getResId(index: Int)获得res
- *
  */
 
 class PxlIconConverter:RConverter{

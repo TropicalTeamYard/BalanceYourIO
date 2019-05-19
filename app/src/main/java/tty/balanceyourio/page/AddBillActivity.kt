@@ -37,7 +37,7 @@ class AddBillActivity : AppCompatActivity(),
         isDateChoose=true
         this.date=date
         add_bill_show_date.text=DateConverter.getSimpleString(date)
-        Log.d("ABA", DateConverter.getString(this.date))
+        Log.d(TAG, DateConverter.getString(this.date))
     }
 
     override fun onItemClick(v: View?, position: Int) {
@@ -87,7 +87,7 @@ class AddBillActivity : AppCompatActivity(),
                         record.goodsType = type
                         record.ioType = when(add_bill_radio_group.checkedRadioButtonId){
                             R.id.add_bill_radio_income ->IOType.Income
-                            R.id.add_bill_radio_outcome ->IOType.OutCome
+                            R.id.add_bill_radio_outcome ->IOType.Outcome
                             else -> IOType.Unset
                         }
                         record.channel = "#UNSET"
@@ -159,7 +159,7 @@ class AddBillActivity : AppCompatActivity(),
 
     }
 
-    private var nowMoney= max_val
+    private var nowMoney = 0.0
 //    private var nowProgress= max_val
 //    private var shouldMoneyChange=true
     private var shouldInputMoneyChange=true
@@ -206,20 +206,20 @@ class AddBillActivity : AppCompatActivity(),
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
         when(checkedId){
             R.id.add_bill_radio_income -> {
-                Toast.makeText(this, "Income chosen", Toast.LENGTH_SHORT).show()
-                data = IOTypeProvider(this).inComeTypeList
+//                Toast.makeText(this, "Income chosen", Toast.LENGTH_SHORT).show()
+                data = IOTypeProvider(this).incomeTypeList
                 adapter.source = data
                 adapter.notifyDataSetChanged()
             }
             R.id.add_bill_radio_outcome -> {
-                Toast.makeText(this, "Outcome chosen", Toast.LENGTH_SHORT).show()
-                data = IOTypeProvider(this).outComeTypeList
+//                Toast.makeText(this, "Outcome chosen", Toast.LENGTH_SHORT).show()
+                data = IOTypeProvider(this).outcomeTypeList
                 adapter.source = data
                 adapter.notifyDataSetChanged()
             }
             R.id.add_bill_radio_others -> {
-                Toast.makeText(this, "Others chosen", Toast.LENGTH_SHORT).show()
-                data = IOTypeProvider(this).outComeTypeList
+//                Toast.makeText(this, "Others chosen", Toast.LENGTH_SHORT).show()
+                data = IOTypeProvider(this).othersTypeList
                 adapter.source = data
                 adapter.notifyDataSetChanged()
             }
@@ -233,8 +233,8 @@ class AddBillActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_bill)
         add_bill_radio_group.setOnCheckedChangeListener(this)
-        //TODO("与数据库交互，获取BYIOCategory")
-        data = IOTypeProvider(this).outComeTypeList
+        //DONE("与数据库交互，获取BYIOCategory")
+        data = IOTypeProvider(this).outcomeTypeList
 
         recyclerView = add_bill_rec_view
         adapter = AddBillIconAdapter(data, PxlIconConverter())
@@ -275,6 +275,6 @@ class AddBillActivity : AppCompatActivity(),
     companion object {
         const val TAG = "ABA"
 //        const val delta = 0.5
-        const val max_val:Double = 4.0
+//        const val max_val:Double = 4.0
     }
 }

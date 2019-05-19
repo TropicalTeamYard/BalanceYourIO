@@ -13,4 +13,5 @@
     <color name="light_blue">#660066ff</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="colorTheme">#FFFFFFFF</color>
 </resources>

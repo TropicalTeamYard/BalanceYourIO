@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              android:orientation="horizontal"
+              android:background="@color/colorTheme"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <TextView android:id="@+id/show_bill_date"
+              android:gravity="center_vertical"
               android:textSize="16sp"
+              android:height="36dp"
               android:padding="6dp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="@string/default_date"/>
-
+    <View android:layout_width="0dp" android:layout_height="36dp" android:layout_weight="1"/>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="36dp" android:orientation="horizontal">
+        <TextView android:id="@+id/show_bill_today_outcome"
+                  android:layout_gravity="center_vertical"
+                  android:layout_width="wrap_content"
+                  android:textColor="@color/typeOutcome"
+                  android:text="收入: 0"
+                  android:layout_marginEnd="16dp"
+                  android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/show_bill_today_income"
+                  android:layout_gravity="center_vertical"
+                  android:layout_width="wrap_content"
+                  android:textColor="@color/typeIncome"
+                  android:text="支出: 0"
+                  android:layout_marginEnd="8dp"
+                  android:layout_height="wrap_content"/>
+    </LinearLayout>
 </LinearLayout>

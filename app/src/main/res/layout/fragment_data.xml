@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".page.DataFragment">
 
-    <ExpandableListView android:id="@+id/elv_show_bill_data" android:layout_width="match_parent" android:layout_height="match_parent" />
+    <ExpandableListView android:background="@color/white" android:id="@+id/elv_show_bill_data" android:layout_width="match_parent" android:layout_height="match_parent" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

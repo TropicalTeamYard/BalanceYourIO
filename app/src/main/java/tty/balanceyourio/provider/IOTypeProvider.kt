@@ -5,7 +5,7 @@ import tty.balanceyourio.data.BYIOCategory
 
 class IOTypeProvider(var context: Context){
 
-    val outComeTypeList:ArrayList<HashMap<String,Any>>
+    val outcomeTypeList:ArrayList<HashMap<String,Any>>
     get() {
         val list = ArrayList<HashMap<String,Any>>()
         for (node in BYIOCategory.getInstance().outcome){
@@ -19,7 +19,7 @@ class IOTypeProvider(var context: Context){
         return list
     }
 
-    val inComeTypeList:ArrayList<HashMap<String,Any>>
+    val incomeTypeList:ArrayList<HashMap<String,Any>>
     get() {
         val list = ArrayList<HashMap<String,Any>>()
         for (node in BYIOCategory.getInstance().income){
@@ -32,4 +32,18 @@ class IOTypeProvider(var context: Context){
         }
         return list
     }
+
+    val othersTypeList:ArrayList<HashMap<String,Any>>
+        get() {
+            val list = ArrayList<HashMap<String,Any>>()
+            for (node in BYIOCategory.getInstance().others){
+                val map = HashMap<String,Any>()
+                map["type"] = 0
+                map["class"] = node.name
+                map["icon"] = node.icon
+                map["chosen"] = false
+                list.add(map)
+            }
+            return list
+        }
 }

@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
+import android.widget.AbsListView.OnScrollListener.*
 import android.widget.AdapterView
 import android.widget.ExpandableListView
 import android.widget.Toast
@@ -17,6 +19,7 @@ import tty.balanceyourio.adapter.ShowBillListAdapter
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.util.DateConverter
+
 
 class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, AdapterView.OnItemLongClickListener,
     ExpandableListView.OnGroupClickListener {
@@ -48,7 +51,7 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, Adapte
         bundle.putInt("iotype",
             when (bill.ioType){
                 IOType.Income-> 1
-                IOType.OutCome -> 2
+                IOType.Outcome -> 2
                 else -> 0
             }
         )
@@ -82,13 +85,59 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, Adapte
         elv_show_bill_data.setGroupIndicator(null)
 
         // 默认展开所有项
-        // TODO @HHR 完成COUNT为0时(没有子项时的显示文案)
+        //TODO @HHR 完成COUNT为0时(没有子项时的显示文案)
         for (i in 0 until adapter.groupCount){
             elv_show_bill_data.expandGroup(i)
         }
         elv_show_bill_data.setOnGroupClickListener(this)
         elv_show_bill_data.setOnChildClickListener(this)
         elv_show_bill_data.onItemLongClickListener = this
+
+        var scrollFlag = false;// 标记是否滑动
+        var lastVisibleItemPosition = 0;// 标记上次滑动位置
+
+        elv_show_bill_data.setOnScrollListener(object : AbsListView.OnScrollListener {
+            override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
+                if (scrollFlag) {
+                    when {
+                        firstVisibleItem > lastVisibleItemPosition -> {
+//                            Log.i(TAG, "onScroll: -------->up")
+                            f_data_fab_add.hide()
+                        }
+                        firstVisibleItem < lastVisibleItemPosition -> {
+//                            Log.i(TAG, "onScroll: -------->down")
+                            f_data_fab_add.show()
+                        }
+                        else -> return
+                    }
+                    lastVisibleItemPosition = firstVisibleItem;
+                }
+            }
+
+            override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
+                when (scrollState) {
+                    //when stop moving
+                    SCROLL_STATE_IDLE-> {
+                        scrollFlag = false
+
+                        if (elv_show_bill_data.lastVisiblePosition == elv_show_bill_data.count - 1) {
+//                            Log.d(TAG, "elv move to bottom")
+                        }
+
+                        if (elv_show_bill_data.firstVisiblePosition == 0) {
+//                            Log.d(TAG, "elv move to top")
+                        }
+                    }
+                    //when moving
+                    SCROLL_STATE_TOUCH_SCROLL -> scrollFlag = true
+                    //when moving inertial
+                    SCROLL_STATE_FLING -> scrollFlag = false
+                }
+            }
+        })
     }
 
+    companion object{
+        const val TAG = "DF"
+    }
 }

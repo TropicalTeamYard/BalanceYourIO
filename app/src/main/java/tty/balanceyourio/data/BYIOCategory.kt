@@ -2,7 +2,7 @@ package tty.balanceyourio.data
 
 import tty.balanceyourio.converter.CategoryConverter
 
-class BYIOCategory(var outcome: BYIOType, var income: BYIOType)
+class BYIOCategory(var outcome: BYIOType, var income: BYIOType, var others: BYIOType)
 {
     override fun toString(): String {
         var str = ""
@@ -10,7 +10,8 @@ class BYIOCategory(var outcome: BYIOType, var income: BYIOType)
         str+=outcome.toString()
         str+="-----收入-----"
         str+=income.toString()
-
+        str+="-----其他-----"
+        str+=others.toString()
         return str
     }
 
@@ -21,6 +22,10 @@ class BYIOCategory(var outcome: BYIOType, var income: BYIOType)
                 return i.icon
         }
         for (i in tty.balanceyourio.data.BYIOCategory.getInstance().income){
+            if (i.name == name)
+                return i.icon
+        }
+        for (i in tty.balanceyourio.data.BYIOCategory.getInstance().others){
             if (i.name == name)
                 return i.icon
         }
@@ -40,10 +45,18 @@ class BYIOCategory(var outcome: BYIOType, var income: BYIOType)
                 BYIONode("key." + CategoryConverter.Education, 14),
                 BYIONode("key." + CategoryConverter.Others, 19)
             ),
+            //income branch
             BYIOType(
                 BYIONode("key." + CategoryConverter.Wages, 19),
                 BYIONode("key." + CategoryConverter.PartTime, 19),
-                BYIONode("key." + CategoryConverter.Interest, 19)
+                BYIONode("key." + CategoryConverter.Interest, 19),
+                BYIONode("key." + CategoryConverter.Others, 19)
+            ),
+            //others branch
+            BYIOType(
+                BYIONode("key." + CategoryConverter.CreditCard, 3),
+                BYIONode("key." + CategoryConverter.RiceCard, 0),
+                BYIONode("key." + CategoryConverter.Others, 19)
             )
         )
 

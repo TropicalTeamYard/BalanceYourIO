@@ -18,6 +18,8 @@ class CategoryConverter: RConverter{
             Shopping -> R.string.shopping
             Wages -> R.string.wages
             Transportation -> R.string.transportation
+            CreditCard -> R.string.credit_card
+            RiceCard -> R.string.rice_card
             else -> -1
         }
     }
@@ -36,8 +38,10 @@ class CategoryConverter: RConverter{
         const val LivingExpenses = 6
         const val Others = 7
         const val PartTime = 8
-        const val  Shopping = 9
+        const val Shopping = 9
         const val Wages = 10
         const val Transportation = 11
+        const val CreditCard = 12
+        const val RiceCard = 13
     }
 }
