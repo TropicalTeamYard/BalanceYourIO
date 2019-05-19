@@ -12,24 +12,24 @@ class PxlIconConverter:RConverter{
         return when(index){
             CALENDAR -> R.drawable.ic_pxl_calendar
             CAMERA -> R.drawable.ic_pxl_camera
-            CAR -> R.drawable.type_transportation
+            CAR -> R.drawable.type_transportation_blod
             CARD -> R.drawable.ic_pxl_card
             CATEGORY -> R.drawable.ic_pxl_category
             CLASSIFY -> R.drawable.ic_pxl_classify
             COSMETOLOGY -> R.drawable.ic_pxl_cosmetology
             EXCHANGE -> R.drawable.ic_pxl_exchange
             FOSTER -> R.drawable.ic_pxl_foster
-            GAME -> R.drawable.type_game
+            GAME -> R.drawable.type_game_blod
             INVITATION -> R.drawable.ic_pxl_invitation
             LOCATION -> R.drawable.ic_pxl_location
             TAG -> R.drawable.ic_pxl_tag
             WASH -> R.drawable.ic_pxl_wash
-            EDUCATION -> R.drawable.type_education
-            FOOD -> R.drawable.type_food
-            SHOPPING -> R.drawable.type_shopping
-            FRUIT -> R.drawable.type_fruit
-            INVESTMENT -> R.drawable.type_investment
-            OTHERS -> R.drawable.type_others
+            EDUCATION -> R.drawable.type_education_blod
+            FOOD -> R.drawable.type_food_blod
+            SHOPPING -> R.drawable.type_shopping_blod
+            FRUIT -> R.drawable.type_fruit_blod
+            INVESTMENT -> R.drawable.type_investment_blod
+            OTHERS -> R.drawable.type_others_blod
 
             else -> -1
         }
