@@ -4,13 +4,21 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               tools:context=".page.BillDetailFragment" android:orientation="vertical">
-    <TextView android:id="@+id/detail_type" android:layout_width="match_parent"
-              android:gravity="center" android:textSize="24sp" android:textStyle="bold"
-              android:layout_height="40dp" android:text="@string/type"/>
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:id="@+id/detail_time" android:textSize="12sp"
+              android:id="@+id/detail_time" android:textSize="16sp"
               android:paddingStart="8dp" android:paddingEnd="8dp"
+              android:gravity="center"
               android:text="@string/default_date" android:layout_marginTop="8dp"/>
+    <ImageView android:layout_width="60dp" android:layout_height="60dp"
+               android:layout_gravity="center"
+               android:src="@drawable/type_education"
+               android:id="@+id/detail_image"
+               android:paddingTop="20dp"/>
+    <TextView android:id="@+id/detail_type" android:layout_width="match_parent"
+              android:gravity="center" android:textSize="16sp" android:textStyle="bold"
+              android:layout_height="wrap_content" android:text="@string/type"/>
+
+
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
               android:text="@string/default_money" android:textSize="36sp"
               android:gravity="center" android:layout_marginTop="16dp" android:layout_marginBottom="16dp"
@@ -18,6 +26,7 @@
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
               android:id="@+id/detail_comment" android:textSize="16sp" android:text="@string/comment"
               android:padding="8dp"
+              android:gravity="center"
               android:maxLines="4"/>
 
 </LinearLayout>

@@ -39,10 +39,16 @@ class BillDetailFragment : DialogFragment() {
         } else {
             dismiss()
         }
+        //detail_image.setImageResource()  To be filled by wcf
         detail_type.text=type
         detail_time.text=date
         detail_money.text=money
-        detail_comment.text=comment
+        if (comment == "（无）") {
+            detail_comment.visibility = View.INVISIBLE
+            detail_comment.height=0
+        }
+        else
+            detail_comment.text=comment
         detail_money.setTextColor(when(iotype){
             1->Color.GREEN
             2->Color.RED
