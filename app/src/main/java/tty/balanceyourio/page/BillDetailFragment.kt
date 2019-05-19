@@ -62,7 +62,7 @@ class BillDetailFragment : DialogFragment() {
             detail_comment.visibility = View.GONE
         }
         else
-            detail_comment.text=comment
+            detail_comment.text = "备注：$comment"
         detail_money.setTextColor(when(iotype){
             1->context!!.getColor(R.color.typeIncome)
             2->context!!.getColor(R.color.typeOutcome)

@@ -26,6 +26,7 @@
               android:id="@+id/detail_comment" android:textSize="16sp" android:text="@string/comment"
               android:padding="8dp"
               android:gravity="center"
+              android:layout_marginBottom="8dp"
               android:maxLines="4"/>
 
 </LinearLayout>
