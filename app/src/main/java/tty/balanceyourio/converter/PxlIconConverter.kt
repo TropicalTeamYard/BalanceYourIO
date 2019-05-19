@@ -29,7 +29,7 @@ class PxlIconConverter:RConverter{
             FRUIT -> R.drawable.type_fruit
             INVESTMENT -> R.drawable.type_investment
             OTHERS -> R.drawable.type_others
-
+            CREDIT_CARD -> R.drawable.ic_credit_card
             else -> -1
         }
     }
@@ -59,5 +59,6 @@ class PxlIconConverter:RConverter{
         const val FRUIT = 17
         const val INVESTMENT = 18
         const val OTHERS = 19
+        const val CREDIT_CARD = 20
     }
 }

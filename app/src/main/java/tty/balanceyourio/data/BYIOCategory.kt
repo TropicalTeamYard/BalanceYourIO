@@ -54,7 +54,7 @@ class BYIOCategory(var outcome: BYIOType, var income: BYIOType, var others: BYIO
             ),
             //others branch
             BYIOType(
-                BYIONode("key." + CategoryConverter.CreditCard, 3),
+                BYIONode("key." + CategoryConverter.CreditCard, 20),
                 BYIONode("key." + CategoryConverter.RiceCard, 0),
                 BYIONode("key." + CategoryConverter.Others, 19)
             )

@@ -1,6 +1,5 @@
 package tty.balanceyourio.page
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -21,8 +20,7 @@ import tty.balanceyourio.model.IOType
 import tty.balanceyourio.util.DateConverter
 
 
-class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, AdapterView.OnItemLongClickListener,
-    ExpandableListView.OnGroupClickListener {
+class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, AdapterView.OnItemLongClickListener, ExpandableListView.OnGroupClickListener {
     override fun onGroupClick(parent: ExpandableListView?, v: View?, groupPosition: Int, id: Long): Boolean {
         return true
     }
@@ -31,11 +29,11 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, Adapte
         val packedPosition = elv_show_bill_data.getExpandableListPosition(position)
         val groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition)
         val childPosition = ExpandableListView.getPackedPositionChild(packedPosition)
-        Log.d("DF", "position--$position")
-        Log.d("DF", "packedPosition--$packedPosition")
-        Log.d("DF", "groupPosition--$groupPosition")
-        Log.d("DF", "childPosition--$childPosition")
-        Toast.makeText(this.context, "P $position, G $groupPosition, C $childPosition", Toast.LENGTH_SHORT).show()
+//        Log.d("DF", "position--$position")
+//        Log.d("DF", "packedPosition--$packedPosition")
+//        Log.d("DF", "groupPosition--$groupPosition")
+//        Log.d("DF", "childPosition--$childPosition")
+        Toast.makeText(this.context, "POS $position, GROUP $groupPosition, CHILD $childPosition", Toast.LENGTH_SHORT).show()
         return true
     }
 
