@@ -13,7 +13,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.RadioGroup
-import android.widget.SeekBar
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_bill.*
 import tty.balanceyourio.R
@@ -29,7 +28,7 @@ import java.util.*
 
 class AddBillActivity : AppCompatActivity(),
     RadioGroup.OnCheckedChangeListener,
-    SeekBar.OnSeekBarChangeListener,
+//    SeekBar.OnSeekBarChangeListener,
     TextWatcher, View.OnClickListener,
     AddBillIconAdapter.OnItemClickListener,
     ChooseDateFragment.SendDate {
@@ -50,8 +49,8 @@ class AddBillActivity : AppCompatActivity(),
         adapter.notifyDataSetChanged()
     }
 
-    var isDateChoose=false
-    var date:Date= Date()
+    private var isDateChoose=false
+    private var date:Date= Date()
 
     override fun onClick(v: View?) {
         when(v?.id){
@@ -161,44 +160,45 @@ class AddBillActivity : AppCompatActivity(),
     }
 
     private var nowMoney= max_val
-    private var nowProgress= max_val
-    private var shouldMoneyChange=true
+//    private var nowProgress= max_val
+//    private var shouldMoneyChange=true
     private var shouldInputMoneyChange=true
     private val decimalFormat = DecimalFormat("0.00")
 
-    override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        shouldMoneyChange=false
-        shouldInputMoneyChange=false
-        seekBar?.progress = max_val.toInt() * 2
-        nowProgress = max_val
-        add_input_money.setText("")
+//    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+//        shouldMoneyChange=false
+//        shouldInputMoneyChange=false
+//        seekBar?.progress = max_val.toInt() * 2
+//        nowProgress = max_val
+//        add_input_money.setText("")
+//
+//    }
+//
+//    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+//
+//    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+//        shouldInputMoneyChange=false
+//        if(shouldMoneyChange){
+//            if(nowProgress<seekBar?.progress!!* delta){
+//                nowMoney+= delta
+//            } else if(nowProgress> seekBar.progress* delta) {
+//                nowMoney-= delta
+//            }
+//            nowProgress= seekBar.progress.toDouble()* delta
+//            nowMoney=decimalFormat.format(nowMoney).toDouble()
+//            if(nowMoney<=0){
+//                nowMoney= 0.0
+//            } else if(nowMoney>999999){
+//                nowMoney=999999.0
+//            }
+//            //Log.d("ABA", "now: $nowMoney")
+//            add_show_now_money.text= "￥ $nowMoney"
+//        } else {
+//            shouldMoneyChange=true
+//        }
+//
+//    }
 
-    }
-
-    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        shouldInputMoneyChange=false
-        if(shouldMoneyChange){
-            if(nowProgress<seekBar?.progress!!* delta){
-                nowMoney+= delta
-            } else if(nowProgress> seekBar.progress* delta) {
-                nowMoney-= delta
-            }
-            nowProgress= seekBar.progress.toDouble()* delta
-            nowMoney=decimalFormat.format(nowMoney).toDouble()
-            if(nowMoney<=0){
-                nowMoney= 0.0
-            } else if(nowMoney>999999){
-                nowMoney=999999.0
-            }
-            //Log.d("ABA", "now: $nowMoney")
-            add_show_now_money.text= "￥ $nowMoney"
-        } else {
-            shouldMoneyChange=true
-        }
-
-    }
     private lateinit var recyclerView: RecyclerView
     private lateinit var data: ArrayList<HashMap<String, Any>>
     private lateinit var adapter:AddBillIconAdapter
@@ -210,7 +210,6 @@ class AddBillActivity : AppCompatActivity(),
                 data = IOTypeProvider(this).inComeTypeList
                 adapter.source = data
                 adapter.notifyDataSetChanged()
-
             }
             R.id.add_bill_radio_outcome -> {
                 Toast.makeText(this, "Outcome chosen", Toast.LENGTH_SHORT).show()
@@ -245,7 +244,7 @@ class AddBillActivity : AppCompatActivity(),
         layoutManager.orientation=GridLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
 
-        add_sb_money.setOnSeekBarChangeListener(this)
+//        add_sb_money.setOnSeekBarChangeListener(this)
         add_show_now_money.text="￥ $nowMoney"
         add_input_money.addTextChangedListener(this)
         add_bill_bt_save.setOnClickListener(this)
@@ -254,6 +253,7 @@ class AddBillActivity : AppCompatActivity(),
             val dialog=ChooseDateFragment()
             dialog.show(this.supportFragmentManager,"CDF")
         }
+
     }
 
 
@@ -274,7 +274,7 @@ class AddBillActivity : AppCompatActivity(),
 
     companion object {
         const val TAG = "ABA"
-        const val delta = 0.5
+//        const val delta = 0.5
         const val max_val:Double = 4.0
     }
 }

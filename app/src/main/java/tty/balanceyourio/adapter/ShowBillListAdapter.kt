@@ -28,8 +28,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
     init{
         val allBillRecord = BYIOHelper(context).getBill()
         if(allBillRecord.size==0){
-//            val tData=ArrayList<BillRecord>()
-//            billList.add(tData)
+            //TODO 记录数为0时
         } else {
             val dateSet=HashSet<String>()
             for(i in 0 until allBillRecord.size){
@@ -121,7 +120,6 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             //DONE CHT 将索引转换为具体内容
             viewHolder.icon.setImageResource(R.drawable.ic_color_tag)
         }
-
 
 
         when((getChild(groupPosition, childPosition) as BillRecord).ioType){

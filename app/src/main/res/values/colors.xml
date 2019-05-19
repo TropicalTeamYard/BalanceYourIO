@@ -7,4 +7,5 @@
     <color name="colorTypeChosenOutcome">#FFE0B2</color>
     <color name="colorTypeChosenIncome">#C8E6C9</color>
     <color name="light_blue">#660066ff</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>
