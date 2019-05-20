@@ -13,7 +13,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * 数据库操作类。现在用于账目数据存储。
+ */
 class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_VERSION) {
+
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
 
     }
@@ -23,8 +27,21 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
         db?.execSQL(CREATE_TABLE_SETTINGS)
     }
 
+    fun removeBill(id:Int){
+        try {
+            //TODO("用删除标记去替代，从而实现和云端的同步")
+            writableDatabase.delete(NAME_BILL,"_id = ?", arrayOf("$id"))
+            writableDatabase.close()
+        } catch (e:SQLException){
+            e.printStackTrace()
+        }
+    }
 
-    //region 账单读写操作
+
+    /**
+     * 添加或者更新一条账目记录
+     * @param record 添加的账目记录，注意:若{@see record.id}为-1，则表示添加一条记录。
+     */
     fun setBill(record: BillRecord) {
         val contentValues = ContentValues()
         if (record.tag!=null)
@@ -56,7 +73,7 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
         if (record.id== -1){
             writableDatabase.insert(NAME_BILL,null,contentValues)
         } else  {
-            writableDatabase.update(NAME_BILL,contentValues,"id = ?", arrayOf(record.id.toString()))
+            writableDatabase.update(NAME_BILL,contentValues,"_id = ?", arrayOf(record.id.toString()))
         }
 
         try {
@@ -81,6 +98,7 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
                 billRecord.ioType=when(cursor.getInt(cursor.getColumnIndex("iotype"))){
                     1 -> IOType.Income
                     2 -> IOType.Outcome
+                    0 -> IOType.Other
                     else -> IOType.Unset
                 }
                 billRecord.channel=cursor.getString(cursor.getColumnIndex("channel"))
@@ -101,10 +119,15 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
         return data
     }
 
-    fun getBill(id: Int): BillRecord? {
-        var billRecord: BillRecord? = null
+    /**
+     * 查找数据
+     * @return 返回的数据，若无该记录，则id为-1。
+     */
+    fun getBill(id: Int): BillRecord {
+        var billRecord: BillRecord = BillRecord()
+        billRecord.id = -1
         if(id<0){
-            return null
+            return billRecord
         }
         val cursor = readableDatabase.rawQuery("select * from $NAME_BILL where _id = ?", arrayOf("$id"))
         if(cursor.moveToFirst() && cursor.count>0){
@@ -114,6 +137,7 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
             billRecord.ioType=when(cursor.getInt(cursor.getColumnIndex("iotype"))){
                 1 -> IOType.Income
                 2 -> IOType.Outcome
+                0 -> IOType.Other
                 else -> IOType.Unset
             }
             billRecord.channel=cursor.getString(cursor.getColumnIndex("channel"))
