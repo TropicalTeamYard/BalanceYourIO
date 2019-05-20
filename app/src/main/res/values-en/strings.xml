@@ -39,4 +39,5 @@
     <string name="info">Me</string>
     <string name="credit_card">Credit Card</string>
     <string name="rice_card">Rice Card</string>
+    <string name="word_currency">Dollars</string>
 </resources>

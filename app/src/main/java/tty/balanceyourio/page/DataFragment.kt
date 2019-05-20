@@ -42,9 +42,9 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, Adapte
         val bill: BillRecord=adapter.getChild(groupPosition, childPosition) as BillRecord
         val bundle=Bundle()
         bundle.putInt("id",bill.id)
-        bundle.putString("type",bill.goodsType)
+        bundle.putString("goodstype",bill.goodsType)
         bundle.putString("date", DateConverter.getSimpleString(bill.time!!))
-        bundle.putString("money", bill.amount.toString())
+        bundle.putDouble("money", bill.amount)
         bundle.putString("comment", bill.remark)
         bundle.putInt("iotype",
             when (bill.ioType){

@@ -1,6 +1,7 @@
 package tty.balanceyourio.page
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.util.DisplayMetrics
@@ -31,10 +32,10 @@ class BillDetailFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val type = arguments!!.getString("type", "")
+        val type = arguments!!.getString("goodstype", "")
         val id = arguments!!.getInt("id", -1)
         val date = arguments!!.getString("date", "")
-        val money = arguments!!.getString("money", "")
+        val money = arguments!!.getDouble("money", 0.0)
         val comment = arguments!!.getString("comment",  "")
         val iotype = arguments!!.getInt("iotype", 0)
         val typeString: String
@@ -54,11 +55,11 @@ class BillDetailFragment : DialogFragment() {
         }
         detail_type.text=typeString
         detail_time.text=date
-        detail_money.text=money
+        detail_money.text=money.toString()
         if (comment == "（无）") {
             detail_comment.visibility = View.GONE
         } else {
-            detail_comment.text = "备注：$comment"
+            detail_comment.text = "${resources.getString(R.string.comment)}$comment"
         }
         detail_money.setTextColor(when(iotype){
             1->context!!.getColor(R.color.typeIncome)
@@ -67,8 +68,19 @@ class BillDetailFragment : DialogFragment() {
         })
 
         detail_edit.setOnClickListener {
-//            var intent = Intent(this.context, AddBillActivity::class.java)
+            val intent = Intent(this.context, AddBillActivity::class.java)
+            val bundle = Bundle()
+            bundle.putInt("update", 1)
+            bundle.putInt("id", id)
+//            bundle.putDouble("money", money)
+//            bundle.putString("goodstype", type)
+//            bundle.putInt("iotype", iotype)
+//            bundle.putString("date", date)
+//            bundle.putString("comment", comment)
+            intent.putExtras(bundle)
+            startActivity(intent)
             Toast.makeText(this.context, "EDIT", Toast.LENGTH_SHORT).show()
+            dismiss()
         }
 
         detail_delete.setOnClickListener {

@@ -150,9 +150,9 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
                 viewHolder.money.setTextColor(context.getColor(R.color.typeOthers))
             }
         }
-        viewHolder.comment.text = "备注："
+        viewHolder.comment.text = context.resources.getString(R.string.comment)
         viewHolder.comment.append((getChild(groupPosition, childPosition) as BillRecord).remark)
-        viewHolder.money.append((getChild(groupPosition, childPosition) as BillRecord).amount.toString()+" 元")
+        viewHolder.money.append((getChild(groupPosition, childPosition) as BillRecord).amount.toString())
         viewHolder.type.text = getFriendString(context, (getChild(groupPosition, childPosition) as BillRecord).goodsType!!)
 
 

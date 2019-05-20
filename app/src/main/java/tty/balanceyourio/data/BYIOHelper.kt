@@ -45,9 +45,7 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
         }
         if (record.goodsType!= null)
             contentValues.put("goodstype",record.goodsType!!)
-        if (record.amount!=null){
-            contentValues.put("amount",record.amount!!)
-        }
+        contentValues.put("amount", record.amount)
         if (record.channel!=null){
             contentValues.put("channel",record.channel!!)
         }
@@ -101,6 +99,31 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
         }
 
         return data
+    }
+
+    fun getBill(id: Int): BillRecord? {
+        var billRecord: BillRecord? = null
+        if(id<0){
+            return null
+        }
+        val cursor = readableDatabase.rawQuery("select * from $NAME_BILL where _id = ?", arrayOf("$id"))
+        if(cursor.moveToFirst() && cursor.count>0){
+            billRecord = BillRecord()
+            billRecord.id=cursor.getInt(cursor.getColumnIndex("_id"))
+            billRecord.time=simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex("time")))
+            billRecord.ioType=when(cursor.getInt(cursor.getColumnIndex("iotype"))){
+                1 -> IOType.Income
+                2 -> IOType.Outcome
+                else -> IOType.Unset
+            }
+            billRecord.channel=cursor.getString(cursor.getColumnIndex("channel"))
+            billRecord.goodsType=cursor.getString(cursor.getColumnIndex("goodstype"))
+            billRecord.amount=cursor.getString(cursor.getColumnIndex("amount")).toDouble()
+            billRecord.tag=cursor.getString(cursor.getColumnIndex("tag"))
+            billRecord.remark=cursor.getString(cursor.getColumnIndex("remark"))
+        }
+        cursor.close()
+        return billRecord
     }
 
     fun printBill(){

@@ -133,20 +133,20 @@ class AddBillActivity : AppCompatActivity(),
                 if(s?.length!! >0&&s.toString().toDouble()>=0){
                     nowMoney=s.toString().toDouble()
                     nowMoney=decimalFormat.format(nowMoney).toDouble()
-                    add_show_now_money.text= "￥ $nowMoney"
+                    add_show_now_money.text= "${resources.getString(R.string.currency)} $nowMoney"
                 } else if(s.isEmpty()) {
                     nowMoney=0.0
-                    add_show_now_money.text= "￥ $nowMoney"
+                    add_show_now_money.text= "${resources.getString(R.string.currency)} $nowMoney"
                 }
                 if(nowMoney>999999){
                     nowMoney=999999.0
-                    add_show_now_money.text= "￥ $nowMoney"
+                    add_show_now_money.text= "${resources.getString(R.string.currency)} $nowMoney"
                     add_input_money.setText("999999")
                     add_input_money.setSelection(add_input_money.text.length)
                 }
             } catch (e : NumberFormatException) {
                 if(nowMoney>0){
-                    add_show_now_money.text= "￥ $nowMoney"
+                    add_show_now_money.text= "${resources.getString(R.string.currency)} $nowMoney"
                 } else {
                     add_input_money.setText("")
                 }
@@ -192,7 +192,7 @@ class AddBillActivity : AppCompatActivity(),
 //                nowMoney=999999.0
 //            }
 //            //Log.d("ABA", "now: $nowMoney")
-//            add_show_now_money.text= "￥ $nowMoney"
+//            add_show_now_money.text= "${resources.getString(R.string.currency)} $nowMoney"
 //        } else {
 //            shouldMoneyChange=true
 //        }
@@ -202,23 +202,23 @@ class AddBillActivity : AppCompatActivity(),
     private lateinit var recyclerView: RecyclerView
     private lateinit var data: ArrayList<HashMap<String, Any>>
     private lateinit var adapter:AddBillIconAdapter
+    private var modeUpdate=false
+    private var billRecordId:Int=0
+    private var billRecord: BillRecord?=null
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
         when(checkedId){
             R.id.add_bill_radio_income -> {
-//                Toast.makeText(this, "Income chosen", Toast.LENGTH_SHORT).show()
                 data = IOTypeProvider(this).incomeTypeList
                 adapter.source = data
                 adapter.notifyDataSetChanged()
             }
             R.id.add_bill_radio_outcome -> {
-//                Toast.makeText(this, "Outcome chosen", Toast.LENGTH_SHORT).show()
                 data = IOTypeProvider(this).outcomeTypeList
                 adapter.source = data
                 adapter.notifyDataSetChanged()
             }
             R.id.add_bill_radio_others -> {
-//                Toast.makeText(this, "Others chosen", Toast.LENGTH_SHORT).show()
                 data = IOTypeProvider(this).othersTypeList
                 adapter.source = data
                 adapter.notifyDataSetChanged()
@@ -233,6 +233,8 @@ class AddBillActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_bill)
         add_bill_radio_group.setOnCheckedChangeListener(this)
+
+
         //DONE("与数据库交互，获取BYIOCategory")
         data = IOTypeProvider(this).outcomeTypeList
 
@@ -245,7 +247,7 @@ class AddBillActivity : AppCompatActivity(),
         recyclerView.layoutManager = layoutManager
 
 //        add_sb_money.setOnSeekBarChangeListener(this)
-        add_show_now_money.text="￥ $nowMoney"
+        add_show_now_money.text="${resources.getString(R.string.currency)} $nowMoney"
         add_input_money.addTextChangedListener(this)
         add_bill_bt_save.setOnClickListener(this)
         adapter.setOnItemClickListener(this)
@@ -253,6 +255,40 @@ class AddBillActivity : AppCompatActivity(),
             val dialog=ChooseDateFragment()
             dialog.show(this.supportFragmentManager,"CDF")
         }
+
+        //如果是从更新入口进入则执行恢复数据
+        if(intent.extras!=null&&intent.hasExtra("update")){
+            modeUpdate=true
+            billRecordId = intent.getIntExtra("id", -1)
+            billRecord=BYIOHelper(this).getBill(billRecordId)
+            if(billRecord!=null){
+                add_bill_ed_remark.setText(billRecord!!.remark)
+                date= billRecord!!.time!!
+                add_bill_show_date.text=DateConverter.getSimpleString(date)
+                add_bill_radio_group.check(when(billRecord!!.ioType){
+                    IOType.Outcome -> R.id.add_bill_radio_outcome
+                    IOType.Income -> R.id.add_bill_radio_income
+                    IOType.Unset -> R.id.add_bill_radio_others
+                })
+
+                //TODO @CHT 完成通过可以转化到选中POSITION
+
+//                try {
+//                    val goodsTypeString=intent.getStringExtra("goodstype")
+//                    val goodTypeKey=goodsTypeString.split(".")[1].toInt()
+//                    Log.d(TAG, "TYPE: $goodsTypeString $goodTypeKey")
+//                    Log.d(TAG, "pos: $goodTypeKey")
+//                    for(p in data){
+//                        p["chosen"]=false
+//                    }
+//                    data[goodTypeKey]["chosen"]=true
+//                    adapter.notifyDataSetChanged()
+//                } catch (e: Exception){ Toast.makeText(this, "Something Wrong", Toast.LENGTH_SHORT).show() }
+                add_input_money.setText("${billRecord!!.amount}")
+            }
+
+        }
+        Log.d(TAG, "isUpdate $modeUpdate id: $billRecordId")
 
     }
 

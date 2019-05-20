@@ -132,7 +132,7 @@
                 android:textSize="20sp"/>
     </LinearLayout>
     <ImageView
-            android:layout_width="36dp" android:layout_above="@+id/linear_input_box" android:layout_alignParentEnd="true"
+            android:layout_width="36dp" android:layout_above="@+id/linear_input_box" android:layout_alignParentStart="true"
             android:layout_margin="8dp" android:id="@+id/add_bill_choose_date"
             android:layout_height="36dp" app:srcCompat="@drawable/ic_pxl_calendar" android:contentDescription="@string/choose_date"/>
     <TextView android:id="@+id/add_bill_show_date"
@@ -140,9 +140,9 @@
               android:layout_height="36dp"
               android:gravity="center_vertical"
               android:text="@string/today"
-              android:textColor="#aaaaaa"
+              android:textColor="@color/colorNormal"
               android:textSize="24sp"
               android:layout_above="@id/linear_input_box"
-              android:layout_toStartOf="@id/add_bill_choose_date"
+              android:layout_toEndOf="@id/add_bill_choose_date"
               android:layout_margin="8dp"/>
 </RelativeLayout>
