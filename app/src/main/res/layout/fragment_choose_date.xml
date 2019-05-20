@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              tools:context=".page.ChooseDateFragment">
+    <CalendarView android:id="@+id/choose_date_calendar"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"/>
+    <LinearLayout android:layout_width="match_parent"
+                  style="?android:attr/buttonBarStyle"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <Button android:background="@drawable/radius"
+                android:layout_margin="6dp"
+                style="?android:attr/buttonBarButtonStyle"
+                android:id="@+id/choose_date_morning"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:text="@string/morning"
+                android:textSize="24sp"
+                android:textColor="#ffff00"
+                android:gravity="center"/>
+        <Button android:background="@drawable/radius"
+                android:layout_margin="6dp"
+                style="?android:attr/buttonBarButtonStyle"
+                android:id="@+id/choose_date_noon"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:text="@string/noon"
+                android:textSize="24sp"
+                android:textColor="#aaaaaa"
+                android:gravity="center"/>
+        <Button android:background="@drawable/radius"
+                android:layout_margin="6dp"
+                style="?android:attr/buttonBarButtonStyle"
+                android:id="@+id/choose_date_afternoon"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:text="@string/afternoon"
+                android:textSize="24sp"
+                android:textColor="#aaaaaa"
+                android:gravity="center"/>
+        <Button android:background="@drawable/radius"
+                android:layout_margin="6dp"
+                style="?android:attr/buttonBarButtonStyle"
+                android:id="@+id/choose_date_evening"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:text="@string/evening"
+                android:textSize="24sp"
+                android:textColor="#aaaaaa"
+                android:gravity="center"/>
+    </LinearLayout>
+
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="60dp">
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/choose_date_rec_time_select"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="400dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="60dp"/>
+    </RelativeLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+            android:layout_margin="@dimen/fab_margin"
+            app:fabSize="normal"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_arrow_forward"
+            android:scaleType="center"
+            android:elevation="2dp"
+            android:id="@+id/choose_date_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+</LinearLayout>

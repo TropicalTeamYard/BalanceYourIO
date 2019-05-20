@@ -24,5 +24,19 @@
     <string name="input_remark">备注：</string>
     <string name="type">种类</string>
     <string name="icon">图标</string>
-    <string name="default_amount">￥ 4</string>
+    <string name="default_amount">RMB 0</string>
+    <string name="default_date">2019&#8211;4&#8211;28 星期日</string>
+    <string name="default_money">0 元</string>
+    <string name="currency">￥</string>
+    <string name="comment">备注:</string>
+    <string name="choose_date">选择日期</string>
+    <string name="morning">上午</string>
+    <string name="noon">中午</string>
+    <string name="afternoon">下午</string>
+    <string name="evening">晚上</string>
+    <string name="today">今天</string>
+    <string name="info">我的</string>
+    <string name="credit_card">信用卡</string>
+    <string name="rice_card">饭卡</string>
+    <string name="word_currency">元</string>
 </resources>

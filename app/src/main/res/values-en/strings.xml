@@ -25,5 +25,19 @@
     <string name="input_remark">Input remark here</string>
     <string name="icon">icon</string>
     <string name="type">type</string>
-    <string name="default_amount">￥ 4</string>
+    <string name="default_amount">$ 4</string>
+    <string name="default_date">2019&#8211;4&#8211;28 Sun</string>
+    <string name="default_money">$ 24</string>
+    <string name="currency">$</string>
+    <string name="comment">Comment:</string>
+    <string name="choose_date">Choose Date</string>
+    <string name="morning">Afternoon</string>
+    <string name="noon">Noon</string>
+    <string name="afternoon">Evening</string>
+    <string name="evening">Evening</string>
+    <string name="today">Today</string>
+    <string name="info">Me</string>
+    <string name="credit_card">Credit Card</string>
+    <string name="rice_card">Rice Card</string>
+    <string name="word_currency">Dollars</string>
 </resources>

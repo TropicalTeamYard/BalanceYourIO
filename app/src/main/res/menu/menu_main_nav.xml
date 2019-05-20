@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+>
     <item
         android:id="@+id/item_nav_record"
         android:icon="@drawable/swap"
@@ -9,8 +9,14 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/item_nav_analysis"
-        android:icon="@drawable/ic_show_chart_black_24dp"
+        android:icon="@drawable/ic_show_chart"
         android:orderInCategory="101"
         android:title="@string/analysis"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item_nav_user"
+        android:icon="@drawable/ic_sentiment_satisfied"
+        android:orderInCategory="102"
+        android:title="@string/info"
         app:showAsAction="ifRoom" />
 </menu>
