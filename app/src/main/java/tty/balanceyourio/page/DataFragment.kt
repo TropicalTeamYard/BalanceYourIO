@@ -1,6 +1,5 @@
 package tty.balanceyourio.page
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -19,23 +18,48 @@ import tty.balanceyourio.adapter.ShowBillListAdapter
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.util.DateConverter
-import java.lang.Exception
-import java.util.*
 
 
-class DataFragment : Fragment(),
-    ExpandableListView.OnChildClickListener,
-    AdapterView.OnItemLongClickListener,
-    ExpandableListView.OnGroupClickListener,
-    DialogInterface.OnDismissListener {
+class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, AdapterView.OnItemLongClickListener, ExpandableListView.OnGroupClickListener {
+    override fun onGroupClick(parent: ExpandableListView?, v: View?, groupPosition: Int, id: Long): Boolean {
+        return true
+    }
 
+    override fun onItemLongClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long): Boolean {
+        val packedPosition = elv_show_bill_data.getExpandableListPosition(position)
+        val groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition)
+        val childPosition = ExpandableListView.getPackedPositionChild(packedPosition)
+//        Log.d("DF", "position--$position")
+//        Log.d("DF", "packedPosition--$packedPosition")
+//        Log.d("DF", "groupPosition--$groupPosition")
+//        Log.d("DF", "childPosition--$childPosition")
+        Toast.makeText(this.context, "POS $position, GROUP $groupPosition, CHILD $childPosition", Toast.LENGTH_SHORT).show()
+        return true
+    }
+
+    override fun onChildClick(parent: ExpandableListView?, v: View?, groupPosition: Int, childPosition: Int, id: Long): Boolean {
+        val detail=BillDetailFragment()
+        val bill: BillRecord=adapter.getChild(groupPosition, childPosition) as BillRecord
+        val bundle=Bundle()
+        bundle.putInt("id",bill.id)
+        bundle.putString("goodstype",bill.goodsType)
+        bundle.putString("date", DateConverter.getSimpleString(bill.time!!))
+        bundle.putDouble("money", bill.amount)
+        bundle.putString("comment", bill.remark)
+        bundle.putInt("iotype",
+            when (bill.ioType){
+                IOType.Income-> 1
+                IOType.Outcome -> 2
+                else -> 0
+            }
+        )
+        detail.arguments=bundle
+        detail.show(this.fragmentManager, "BDF")
+        return true
+    }
 
     private lateinit var adapter:ShowBillListAdapter
-    private var currentId = 0
-    private var cGroupP = 0
-    private var cChildrenP = 0
 
-    //region 对父类的重写方法
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_data, container, false)
     }
@@ -51,74 +75,6 @@ class DataFragment : Fragment(),
         super.onResume()
         Log.d("DF", "DF resume")
         setAdapter()
-    }
-    //endregion
-
-    //region 与视图的交互
-    override fun onGroupClick(parent: ExpandableListView?, v: View?, groupPosition: Int, id: Long): Boolean {
-        return true
-    }
-
-    override fun onItemLongClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long): Boolean {
-        val packedPosition = elv_show_bill_data.getExpandableListPosition(position)
-        val groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition)
-        val childPosition = ExpandableListView.getPackedPositionChild(packedPosition)
-//        Log.d("DF", "position--$position")
-//        Log.d("DF", "packedPosition--$packedPosition")
-//        Log.d("DF", "groupPosition--$groupPosition")
-//        Log.d("DF", "childPosition--$childPosition")
-        //Toast.makeText(this.context, "POS $position, GROUP $groupPosition, CHILD $childPosition", Toast.LENGTH_SHORT).show()
-        return true
-    }
-
-    override fun onChildClick(parent: ExpandableListView?, v: View?, groupPosition: Int, childPosition: Int, id: Long): Boolean {
-        val detail=BillDetailFragment()
-        val bill: BillRecord=adapter.getChild(groupPosition, childPosition) as BillRecord
-        val bundle=Bundle()
-        bundle.putInt("id",bill.id)
-        currentId = bill.id
-        cGroupP = groupPosition
-        cChildrenP = childPosition
-        bundle.putString("goodstype",bill.goodsType)
-        bundle.putString("date", DateConverter.getSimpleString(bill.time!!))
-        bundle.putDouble("money", bill.amount)
-        bundle.putString("comment", bill.remark)
-        bundle.putInt("iotype",
-            when (bill.ioType){
-                IOType.Income-> 1
-                IOType.Outcome -> 2
-                else -> 0
-            }
-        )
-        detail.arguments=bundle
-        detail.setOnDismissListener(this)
-        detail.show(this.fragmentManager, "BDF")
-        return true
-    }
-
-    override fun onDismiss(dialog: DialogInterface?) {
-
-        try{
-            /**
-             * DONE("修复删除只剩一项之后的闪退问题")
-             */
-            Log.d(TAG,"count::${adapter.dateList.count()}")
-            if (adapter.getChildrenCount(cGroupP) <= 1){
-                adapter.dateList.removeAt(cGroupP)
-                adapter.billList.removeAt(cGroupP)
-            } else {
-                adapter.billList[cGroupP].removeAt(cChildrenP)
-            }
-
-
-            Log.d(TAG,"newcount::${adapter.dateList.count()}")
-
-            adapter.notifyDataSetChanged()
-
-        } catch (e:Exception){
-            e.printStackTrace()
-        }
-
     }
 
     private fun setAdapter(){
@@ -179,10 +135,6 @@ class DataFragment : Fragment(),
             }
         })
     }
-
-    //endregion
-
-
 
     companion object{
         const val TAG = "DF"

@@ -1,7 +1,6 @@
 package tty.balanceyourio.page
 
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
@@ -13,12 +12,9 @@ import tty.balanceyourio.R
 import tty.balanceyourio.adapter.AddBillIconAdapter
 import tty.balanceyourio.converter.PxlIconConverter
 import tty.balanceyourio.data.BYIOCategory
-import tty.balanceyourio.data.BYIOHelper
 
 
 class BillDetailFragment : DialogFragment() {
-
-    private var mListener:DialogInterface.OnDismissListener?=null
 
     override fun onStart() {
         super.onStart()
@@ -74,7 +70,7 @@ class BillDetailFragment : DialogFragment() {
         detail_edit.setOnClickListener {
             val intent = Intent(this.context, AddBillActivity::class.java)
             val bundle = Bundle()
-//            bundle.putInt("update", 1)
+            bundle.putInt("update", 1)
             bundle.putInt("id", id)
 //            bundle.putDouble("money", money)
 //            bundle.putString("goodstype", type)
@@ -83,20 +79,13 @@ class BillDetailFragment : DialogFragment() {
 //            bundle.putString("comment", comment)
             intent.putExtras(bundle)
             startActivity(intent)
-            //Toast.makeText(this.context, "EDIT", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "EDIT", Toast.LENGTH_SHORT).show()
             dismiss()
         }
 
         detail_delete.setOnClickListener {
-            BYIOHelper(context!!).removeBill(id)
-            mListener?.onDismiss(dialog)
             Toast.makeText(this.context, "DELETE", Toast.LENGTH_SHORT).show()
-            dismiss()
         }
-    }
-
-    fun setOnDismissListener(listener:DialogInterface.OnDismissListener){
-        mListener = listener
     }
 
 }

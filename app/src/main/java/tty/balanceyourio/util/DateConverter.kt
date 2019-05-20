@@ -23,7 +23,7 @@ object DateConverter {
             in 11..12->"中午"
             in 13..18->"下午"
             in 19..23->"晚上"
-            in 0..5->"凌晨"
+            in 0..5->"晚上"
             else->"UNDEFINED"
         }
     }
