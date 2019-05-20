@@ -29,7 +29,7 @@
     <string name="default_date">2019&#8211;4&#8211;28 Sun</string>
     <string name="default_money">$ 24</string>
     <string name="currency">$</string>
-    <string name="comment">Comment:</string>
+    <string name="comment">"Comment: "</string>
     <string name="choose_date">Choose Date</string>
     <string name="morning">Afternoon</string>
     <string name="noon">Noon</string>
@@ -40,4 +40,5 @@
     <string name="credit_card">Credit Card</string>
     <string name="rice_card">Rice Card</string>
     <string name="word_currency">Dollars</string>
+    <string name="blank">Nothing</string>
 </resources>
