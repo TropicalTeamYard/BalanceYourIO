@@ -5,11 +5,11 @@ import java.util.*
 class BillRecord
 {
     var id:Int = 0
-    var tag:String? = null
+    var tag:String? = "#UNSET"
     var time:Date? = null
     var ioType:IOType = IOType.Unset
     var goodsType:String? = null
     var amount:Double = 0.0
-    var channel:String? = null
+    var channel:String? = "#UNSET"
     var remark:String? = null
 }

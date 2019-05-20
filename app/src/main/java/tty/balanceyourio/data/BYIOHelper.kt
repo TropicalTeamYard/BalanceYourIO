@@ -56,7 +56,7 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
         if (record.id== -1){
             writableDatabase.insert(NAME_BILL,null,contentValues)
         } else  {
-            writableDatabase.update(NAME_BILL,contentValues,"id = ?", arrayOf(record.id.toString()))
+            writableDatabase.update(NAME_BILL,contentValues,"_id = ?", arrayOf(record.id.toString()))
         }
 
         try {
