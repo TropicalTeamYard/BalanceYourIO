@@ -22,8 +22,8 @@ import kotlin.collections.HashMap
 
 class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
 
-    private var billList: ArrayList<ArrayList<BillRecord>> = ArrayList()
-    private var dateList: ArrayList<String> = ArrayList()
+    var billList: ArrayList<ArrayList<BillRecord>> = ArrayList()
+    var dateList: ArrayList<String> = ArrayList()
     private var daySumList: ArrayList<HashMap<IOType, Double>> = ArrayList()
 
     init{
@@ -40,6 +40,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
                 daySumList[i][IOType.Unset]=0.0
             }
             dateList= ArrayList(dateSet)
+
             dateList.sort()
             dateList.reverse()
             for(i in 0 until dateList.size){
@@ -56,7 +57,15 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
                     }
                 }
 
-                tData.sortByDescending { it.time }
+
+
+                tData.sortByDescending ()
+                {
+                    val calendar = Calendar.getInstance()
+                    calendar.time = it.time
+                    calendar.get(Calendar.HOUR_OF_DAY)
+                }
+
                 billList.add(tData)
             }
         }
