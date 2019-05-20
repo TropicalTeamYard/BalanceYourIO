@@ -19,7 +19,6 @@ import tty.balanceyourio.R
 import tty.balanceyourio.adapter.AddBillIconAdapter
 import tty.balanceyourio.converter.PxlIconConverter
 import tty.balanceyourio.data.BYIOHelper
-import tty.balanceyourio.data.BYIOType
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.provider.IOTypeProvider
@@ -167,6 +166,8 @@ class AddBillActivity : AppCompatActivity(),
                             }}, " +
                                     "type: $type, amount: ${billRecord.amount}")
 
+
+                        billRecord.remark = add_bill_ed_remark.text.toString()
                         val helper = BYIOHelper(this)
                         helper.setBill(billRecord)
 
