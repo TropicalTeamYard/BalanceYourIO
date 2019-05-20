@@ -1,6 +1,7 @@
 package tty.balanceyourio.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -126,7 +127,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
         try {
             //viewHolder.icon.setImageResource(BYIOCategory.getInstance().getIconIndex((getChild(groupPosition, childPosition) as BillRecord).goodsType!!));
             val goodsType = (getChild(groupPosition,childPosition) as BillRecord).goodsType!!
-//            Log.d("Adapter",goodsType)
+            Log.d("Adapter",goodsType);
             val iconIndex = BYIOCategory.getInstance().getIconIndex(goodsType);
             viewHolder.icon.setImageResource(PxlIconConverter().getResID(iconIndex));
         } catch (e:Exception){

@@ -56,7 +56,7 @@ class BillDetailFragment : DialogFragment() {
         detail_type.text=typeString
         detail_time.text=date
         detail_money.text=money.toString()
-        if (comment == resources.getString(R.string.blank)) {
+        if (comment == "（无）") {
             detail_comment.visibility = View.GONE
         } else {
             detail_comment.text = "${resources.getString(R.string.comment)}$comment"

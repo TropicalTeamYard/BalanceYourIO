@@ -62,7 +62,7 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
         }
     }
 
-    private lateinit var sendDate: SendDate
+    lateinit var sendDate: SendDate
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

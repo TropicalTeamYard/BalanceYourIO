@@ -82,9 +82,8 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, Adapte
         elv_show_bill_data.setAdapter(adapter)
         elv_show_bill_data.setGroupIndicator(null)
 
-
+        // 默认展开所有项
         //TODO @HHR 完成COUNT为0时(没有子项时的显示文案)
-        //默认展开所有项
         for (i in 0 until adapter.groupCount){
             elv_show_bill_data.expandGroup(i)
         }
@@ -92,8 +91,8 @@ class DataFragment : Fragment(), ExpandableListView.OnChildClickListener, Adapte
         elv_show_bill_data.setOnChildClickListener(this)
         elv_show_bill_data.onItemLongClickListener = this
 
-        var scrollFlag = false;//标记是否滑动
-        var lastVisibleItemPosition = 0;//标记上次滑动位置
+        var scrollFlag = false;// 标记是否滑动
+        var lastVisibleItemPosition = 0;// 标记上次滑动位置
 
         elv_show_bill_data.setOnScrollListener(object : AbsListView.OnScrollListener {
             override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {

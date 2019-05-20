@@ -55,69 +55,8 @@ class AddBillActivity : AppCompatActivity(),
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.add_bill_bt_save -> {
-                if(!modeUpdate){
-                    Log.d(TAG, "SAVE")
-                    try {
-                        var flag=false
-                        var type=""
-                        for(p in data){
-                            if(p["chosen"] as Boolean){
-                                flag=true
-                                type= p["class"] as String
-                                break
-                            }
-                        }
-                        if(flag){
-                            add_bill_bt_save.isClickable=false
-                            Log.i(TAG,
-                                "mode: ${
-                                when(add_bill_radio_group.checkedRadioButtonId){
-                                    R.id.add_bill_radio_income -> "income"
-                                    R.id.add_bill_radio_outcome -> "outcome"
-                                    R.id.add_bill_radio_others -> "others"
-                                    else -> "#UNSET"
-                                }}, " +
-                                        "type: $type, amount: $nowMoney")
-                            //region 与数据库的交互
-                            billRecord = BillRecord()
-                            billRecord.id = -1
-                            billRecord.tag = "#UNSET"
-                            billRecord.time = date
-                            Log.d(TAG,"time: ${billRecord.time}")
-                            billRecord.amount = nowMoney
-                            billRecord.goodsType = type
-                            billRecord.ioType = when(add_bill_radio_group.checkedRadioButtonId){
-                                R.id.add_bill_radio_income ->IOType.Income
-                                R.id.add_bill_radio_outcome ->IOType.Outcome
-                                else -> IOType.Unset
-                            }
-                            billRecord.channel = "#UNSET"
-                            billRecord.remark = if(add_bill_ed_remark.text.toString().isNotEmpty()){add_bill_ed_remark.text.toString()} else { resources.getString(R.string.blank) }
-
-                            val helper = BYIOHelper(this)
-                            helper.setBill(billRecord)
-
-                            //Log.d(TAG,"添加了一条记录")
-
-                            //endregion
-                            //helper.printBill()
-
-                            Toast.makeText(this,
-                                "mode: ${
-                                when(add_bill_radio_group.checkedRadioButtonId){
-                                    R.id.add_bill_radio_income -> "income"
-                                    R.id.add_bill_radio_outcome -> "outcome"
-                                    R.id.add_bill_radio_others -> "others"
-                                    else -> "#UNSET"
-                                }}, " +
-                                        "type: $type, amount: $nowMoney", Toast.LENGTH_SHORT).show()
-                            finish()
-                            startActivity(Intent(this, MainActivity::class.java))
-                        } else {
-                            Toast.makeText(this, "类型不能为空！", Toast.LENGTH_SHORT).show()
-                        }
-                    } catch (e: TypeCastException){ }
-                } else {
+                Log.d(TAG, "SAVE")
+                try {
                     var flag=false
                     var type=""
                     for(p in data){
@@ -176,7 +115,10 @@ class AddBillActivity : AppCompatActivity(),
                     } else {
                         Toast.makeText(this, "类型不能为空！", Toast.LENGTH_SHORT).show()
                     }
+                } catch (e: TypeCastException){
+
                 }
+
             }
         }
     }
