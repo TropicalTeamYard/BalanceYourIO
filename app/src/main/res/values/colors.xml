@@ -14,4 +14,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="colorTheme">#FFFFFFFF</color>
+    <color name="littleBlack">#666666</color>
 </resources>
