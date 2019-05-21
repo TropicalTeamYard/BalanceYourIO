@@ -29,7 +29,6 @@ class DataFragment : Fragment(),
     ExpandableListView.OnGroupClickListener,
     DialogInterface.OnDismissListener {
 
-
     private lateinit var adapter:ShowBillListAdapter
     private var currentId = 0
     private var cGroupP = 0
