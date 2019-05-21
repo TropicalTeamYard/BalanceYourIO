@@ -129,6 +129,8 @@ class DataFragment : Fragment(),
 
             adapter.notifyDataSetChanged()
 
+            f_data_fab_add.show()
+
         } catch (e:Exception){
             e.printStackTrace()
         }

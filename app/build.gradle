@@ -5,10 +5,18 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\wcf\\OneDrive\\Documents\\TTY Design\\TTY_TEST_KEY.jks')
+            storePassword '123456'
+            keyAlias = 'test0'
+            keyPassword '123456'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "tty.balanceyourio"
-        minSdkVersion 26
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
