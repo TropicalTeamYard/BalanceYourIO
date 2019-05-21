@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimaryLight">#4FC3F7</color>
     <color name="colorPrimary">#03A9F4</color>
-    <color name="colorPrimaryLight">#81D4FA</color>
     <color name="colorPrimaryDark">#03A9F4</color>
-    <color name="colorAccent">#00BCD4</color>
+    <color name="colorAccent">#FFD740</color>
+    <color name="colorNormalLight">#BBBBBB</color>
     <color name="colorNormal">#999999</color>
+    <color name="colorNormalDark">#333333</color>
     <color name="colorTypeChosenOutcome">#FFE0B2</color>
     <color name="typeIncome">#81C784</color>
     <color name="typeOutcome">#FF8A65</color>
     <color name="typeOthers">#969696</color>
     <color name="colorTypeChosenIncome">#C8E6C9</color>
-    <color name="light_blue">#660066ff</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="colorTheme">#FFFFFFFF</color>

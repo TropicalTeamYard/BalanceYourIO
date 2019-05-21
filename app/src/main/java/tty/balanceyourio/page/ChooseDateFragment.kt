@@ -90,7 +90,7 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         choose_date_calendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            Toast.makeText(this.context, "$year-${month+1}-$dayOfMonth", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this.context, "$year-${month+1}-$dayOfMonth", Toast.LENGTH_SHORT).show()
             this.year=year
             this.month=month
             this.day=dayOfMonth
