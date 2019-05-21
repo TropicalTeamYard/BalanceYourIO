@@ -14,6 +14,7 @@ import tty.balanceyourio.adapter.AddBillIconAdapter
 import tty.balanceyourio.converter.PxlIconConverter
 import tty.balanceyourio.data.BYIOCategory
 import tty.balanceyourio.data.BYIOHelper
+import tty.balanceyourio.model.BillRecord
 
 
 class BillDetailFragment : DialogFragment() {
@@ -60,10 +61,10 @@ class BillDetailFragment : DialogFragment() {
         detail_type.text=typeString
         detail_time.text=date
         detail_money.text=money.toString()
-        if (comment == "（无）") {
+        if (comment == null || comment == "") {
             detail_comment.visibility = View.GONE
         } else {
-            detail_comment.text = "${resources.getString(R.string.comment)}$comment"
+            detail_comment.text = "${resources.getString(R.string.comment)}${BillRecord.toDisplayRemark(comment)}"
         }
         detail_money.setTextColor(when(iotype){
             1->context!!.getColor(R.color.typeIncome)
@@ -90,7 +91,7 @@ class BillDetailFragment : DialogFragment() {
         detail_delete.setOnClickListener {
             BYIOHelper(context!!).removeBill(id)
             mListener?.onDismiss(dialog)
-            Toast.makeText(this.context, "DELETE", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this.context, "DELETE", Toast.LENGTH_SHORT).show()
             dismiss()
         }
     }

@@ -43,7 +43,7 @@ class AddBillActivity : AppCompatActivity(),
 
     /**
      * 用于与类型的视图交互的数据，其项有：
-     * type::Int 用于表示类型，其中0表示支出，1表示为收入。现在是多余的字段。
+     * type::Int 用于表示类型，其中0表示支出，1表示为收入，2表示其他。现在是多余的字段。
      * class::String 名称，有一定的转换规则，当符合"key.?(int)"的模式时，将会转化为资源字典内置的字符串。该字段将匹配
      * @see BillRecord.goodsType
      * icon:Int 图标的索引，需要使用
@@ -133,6 +133,19 @@ class AddBillActivity : AppCompatActivity(),
         data[position]["chosen"]=true
         billRecord.goodsType = data[position]["class"] as String
 
+        when(billRecord.ioType){
+            IOType.Outcome->{
+                billRecord.outcomeP = position
+            }
+            IOType.Income ->{
+                billRecord.incomeP = position
+            }
+            IOType.Other ->{
+                billRecord.otherP = position
+            }
+            else -> billRecord.outcomeP = position
+        }
+
         adapter.notifyDataSetChanged()
     }
 
@@ -188,7 +201,7 @@ class AddBillActivity : AppCompatActivity(),
                         finish()
                         startActivity(Intent(this, MainActivity::class.java))
                     } else {
-                        Toast.makeText(this, "类型不能为空！", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "请选择类型", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: TypeCastException){
 
@@ -242,16 +255,26 @@ class AddBillActivity : AppCompatActivity(),
         when(checkedId){
             R.id.add_bill_radio_income -> {
                 setData(IOType.Income)
+                if (billRecord.incomeP in 0 until data.size){
+                    data[billRecord.incomeP]["chosen"] = true
+                }
                 adapter.source = data
                 adapter.notifyDataSetChanged()
+
             }
             R.id.add_bill_radio_outcome -> {
                 setData(IOType.Outcome)
+                if (billRecord.outcomeP in 0 until data.size){
+                    data[billRecord.outcomeP]["chosen"] = true
+                }
                 adapter.source = data
                 adapter.notifyDataSetChanged()
             }
             R.id.add_bill_radio_others -> {
                 setData(IOType.Other)
+                if (billRecord.otherP in 0 until data.size){
+                    data[billRecord.otherP]["chosen"] = true
+                }
                 adapter.source = data
                 adapter.notifyDataSetChanged()
             }
@@ -297,10 +320,32 @@ class AddBillActivity : AppCompatActivity(),
             IOType.Unset -> R.id.add_bill_radio_outcome
         })
 
-        //选中图标
-        for (p in data){
-            p["chosen"] = p["class"] == record.goodsType
+        //添加：保存选中的记录
+        for (i in 0 until data.size){
+            val p = data[i]
+            if (p["class"] == record.goodsType){
+                when(p["type"]){
+                    0->{
+                        billRecord.outcomeP = i
+                    }
+                    1->{
+                        billRecord.incomeP = i
+                    }
+                    2->{
+                        billRecord.otherP = i
+                    }
+                }
+                p["chosen"] = true
+            } else{
+                p["chosen"] = false
+            }
         }
+
+        //选中图标
+//        for (p in data){
+//
+//            //p["chosen"] = p["class"] == record.goodsType
+//        }
 
         //add_input_money.setText("${record.amount}")
 
