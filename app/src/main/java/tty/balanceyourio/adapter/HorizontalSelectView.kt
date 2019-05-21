@@ -28,7 +28,7 @@ class HorizontalSelectView: RecyclerView.Adapter<HorizontalSelectView.ViewHolder
         timeList.add("-")
     }
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): HorizontalSelectView.ViewHolder {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         context=p0.context
         return ViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.item_type_time_select, p0, false))
 

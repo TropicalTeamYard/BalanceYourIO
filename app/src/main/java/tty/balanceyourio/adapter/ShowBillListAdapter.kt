@@ -33,7 +33,6 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             //TODO 记录数为0时
         } else {
             val dateSet=HashSet<Date>()
-            //dateSet.
             for(i in 0 until allBillRecord.size){
                 dateSet.add(DateConverter.cutToDate(allBillRecord[i].time!!))
                 daySumList.add(HashMap())
@@ -59,9 +58,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
                     }
                 }
 
-
-
-                tData.sortByDescending () { it.time }
+                tData.sortByDescending { it.time }
 
                 billList.add(tData)
             }
@@ -135,7 +132,6 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
         val billRecord = (getChild(groupPosition,childPosition) as BillRecord)
 
         try {
-            //viewHolder.icon.setImageResource(BYIOCategory.getInstance().getIconIndex((getChild(groupPosition, childPosition) as BillRecord).goodsType!!));
             val goodsType = billRecord.goodsType!!
             Log.d("Adapter",goodsType);
             val iconIndex = BYIOCategory.getInstance().getIconIndex(goodsType);

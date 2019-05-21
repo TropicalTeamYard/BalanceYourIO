@@ -189,15 +189,6 @@ class AddBillActivity : AppCompatActivity(),
                         //endregion
                         //helper.printBill()
 
-//                        Toast.makeText(this,
-//                            "mode: ${
-//                            when(add_bill_radio_group.checkedRadioButtonId){
-//                                R.id.add_bill_radio_income -> "income"
-//                                R.id.add_bill_radio_outcome -> "outcome"
-//                                R.id.add_bill_radio_others -> "others"
-//                                else -> "#UNSET"
-//                            }}, " +
-//                                    "type: $type, amount: ${billRecord.amount}", Toast.LENGTH_SHORT).show()
                         finish()
                         startActivity(Intent(this, MainActivity::class.java))
                     } else {
@@ -308,7 +299,6 @@ class AddBillActivity : AppCompatActivity(),
             if (record.time == null){
                 Date()
             } else {
-                //Log.d(TAG,"time::${DateConverter.getSimpleString(record.time!!)}")
                 record.time!!
             }
         )
@@ -340,14 +330,6 @@ class AddBillActivity : AppCompatActivity(),
                 p["chosen"] = false
             }
         }
-
-        //选中图标
-//        for (p in data){
-//
-//            //p["chosen"] = p["class"] == record.goodsType
-//        }
-
-        //add_input_money.setText("${record.amount}")
 
         add_show_now_money.text="${resources.getString(R.string.currency)} ${record.amount}"
 

@@ -47,26 +47,6 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConv
         p0.textView.text = getFriendString(context ,source[p1]["class"] as String)
 
         try {
-            //重新设计选中的变色逻辑
-//            val chosen = source[p1]["chosen"] as Boolean
-//            p0.imageView.drawable.clearColorFilter()
-//            p0.imageView.drawable.setTintMode(PorterDuff.Mode.SRC_IN)
-//            if (!chosen){
-//                p0.imageView.drawable.setTint(R.color.colorAccent)
-//            } else{
-//                //outCome
-//                if (source[p1]["type"] as Int == 1){
-//                    p0.imageView.drawable.setTint(R.color.colorTypeChosenOutcome)
-//                } else{
-//                    p0.imageView.drawable.setTint(R.color.colorTypeChosenIncome)
-//                }
-//            }
-//
-//            if((source[p1]["chosen"] as Boolean?)!!){
-//                p0.linearLayout.setBackgroundColor(0x99ffff00.toInt())
-//            } else {
-//                p0.linearLayout.setBackgroundColor(0x99fafafa.toInt())
-//            }
             if((source[p1]["chosen"] as Boolean?)!!){
                 p0.imageView.setColorFilter(0xaaffff00.toInt())
             } else {
@@ -95,9 +75,7 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConv
             value = if (input.startsWith("key.")){
                 val key:Int? =  input.substring(4).toIntOrNull()
                 if (key != null){
-                    //Log.d("Adapter",key.toString())
                     context.getString(CategoryConverter().getResID(key))
-                    //"Hello world!"
                 }
                 else
                     "KeyNotFound"
