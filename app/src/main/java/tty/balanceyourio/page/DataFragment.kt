@@ -102,16 +102,30 @@ class DataFragment : Fragment(),
             /**
              * DONE("修复删除只剩一项之后的闪退问题")
              */
+            //TODO("将删除项封装到Adapter里")
             Log.d(TAG,"count::${adapter.dateList.count()}")
             if (adapter.getChildrenCount(cGroupP) <= 1){
                 adapter.dateList.removeAt(cGroupP)
                 adapter.billList.removeAt(cGroupP)
+                adapter.daySumList.removeAt(cGroupP)
             } else {
+                val a = adapter.billList[cGroupP][cChildrenP]
+                when(a.ioType){
+                    IOType.Outcome->{
+                        adapter.daySumList[cGroupP][IOType.Outcome] = adapter.daySumList[cGroupP][IOType.Outcome]!! - a.amount
+                    }
+                    IOType.Income ->{
+                        adapter.daySumList[cGroupP][IOType.Income] = adapter.daySumList[cGroupP][IOType.Income]!! - a.amount
+                    }
+                    else ->{}
+                }
+
                 adapter.billList[cGroupP].removeAt(cChildrenP)
+
             }
 
 
-            Log.d(TAG,"newcount::${adapter.dateList.count()}")
+            Log.d(TAG,"newCount::${adapter.dateList.count()}")
 
             adapter.notifyDataSetChanged()
 

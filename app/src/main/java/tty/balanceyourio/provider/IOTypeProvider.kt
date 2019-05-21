@@ -10,7 +10,7 @@ class IOTypeProvider(var context: Context){
         val list = ArrayList<HashMap<String,Any>>()
         for (node in BYIOCategory.getInstance().outcome){
             val map = HashMap<String,Any>()
-            map["type"] = 1
+            map["type"] = 0
             map["class"] = node.name
             map["icon"] = node.icon
             map["chosen"] = false
@@ -24,7 +24,7 @@ class IOTypeProvider(var context: Context){
         val list = ArrayList<HashMap<String,Any>>()
         for (node in BYIOCategory.getInstance().income){
             val map = HashMap<String,Any>()
-            map["type"] = 0
+            map["type"] = 1
             map["class"] = node.name
             map["icon"] = node.icon
             map["chosen"] = false
@@ -38,7 +38,7 @@ class IOTypeProvider(var context: Context){
             val list = ArrayList<HashMap<String,Any>>()
             for (node in BYIOCategory.getInstance().others){
                 val map = HashMap<String,Any>()
-                map["type"] = 0
+                map["type"] = 2
                 map["class"] = node.name
                 map["icon"] = node.icon
                 map["chosen"] = false

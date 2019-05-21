@@ -42,6 +42,20 @@ class BillRecord
      */
     var remark:String? = null
 
+    /**
+     * 当前位置，主要用于和临时状态进行交互
+     */
+    var outcomeP:Int = -1
+    var incomeP:Int = -1
+    var otherP:Int = -1
+    //var selectedIOType:IOType = IOType.Outcome
+
+    val displayRemark:String
+    get() {
+        return toDisplayRemark(remark)
+    }
+
+
     fun init(){
         id = -1
         tag = "#UNSET"
@@ -50,6 +64,16 @@ class BillRecord
         goodsType = null
         amount = 4.0
         channel = "#UNSET"
-        remark = ""
+        remark = null
+    }
+
+    companion object{
+        fun toDisplayRemark(remark:String?):String{
+            return if (remark == null || remark == ""){
+                "（无）"
+            } else {
+                remark
+            }
+        }
     }
 }

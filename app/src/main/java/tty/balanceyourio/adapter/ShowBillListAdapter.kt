@@ -24,7 +24,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
 
     var billList: ArrayList<ArrayList<BillRecord>> = ArrayList()
     var dateList: ArrayList<String> = ArrayList()
-    private var daySumList: ArrayList<HashMap<IOType, Double>> = ArrayList()
+    var daySumList: ArrayList<HashMap<IOType, Double>> = ArrayList()
 
     init{
         val allBillRecord = BYIOHelper(context).getBill()
@@ -160,7 +160,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             }
         }
         viewHolder.comment.text = context.resources.getString(R.string.comment)
-        viewHolder.comment.append((getChild(groupPosition, childPosition) as BillRecord).remark)
+        viewHolder.comment.append((getChild(groupPosition, childPosition) as BillRecord).displayRemark)
         viewHolder.money.append((getChild(groupPosition, childPosition) as BillRecord).amount.toString())
         viewHolder.type.text = getFriendString(context, (getChild(groupPosition, childPosition) as BillRecord).goodsType!!)
 
