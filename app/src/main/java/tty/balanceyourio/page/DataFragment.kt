@@ -29,7 +29,6 @@ class DataFragment : Fragment(),
     ExpandableListView.OnGroupClickListener,
     DialogInterface.OnDismissListener {
 
-
     private lateinit var adapter:ShowBillListAdapter
     private var currentId = 0
     private var cGroupP = 0
@@ -128,6 +127,8 @@ class DataFragment : Fragment(),
             Log.d(TAG,"newCount::${adapter.dateList.count()}")
 
             adapter.notifyDataSetChanged()
+
+            f_data_fab_add.show()
 
         } catch (e:Exception){
             e.printStackTrace()
