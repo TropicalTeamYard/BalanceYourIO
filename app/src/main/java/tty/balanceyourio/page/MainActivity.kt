@@ -19,17 +19,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return when(p0.itemId){
             R.id.item_nav_record -> {
                 main_viewPager.currentItem = 0
-                main_toolbar.subtitle = "数据"
+                main_toolbar.title = "数据"
                 true
             }
             R.id.item_nav_analysis -> {
                 main_viewPager.currentItem = 1
-                main_toolbar.subtitle = "分析"
+                main_toolbar.title = "分析"
                 true
             }
             R.id.item_nav_user -> {
                 main_viewPager.currentItem = 2
-                main_toolbar.subtitle = "我的"
+                main_toolbar.title = "我的"
                 true
             }
             else -> false
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(main_toolbar)
-        main_toolbar.subtitle = "数据"
+        main_toolbar.title = "数据"
         supportActionBar?.elevation=0F
 
         adapter = MainFragmentAdapter(supportFragmentManager)

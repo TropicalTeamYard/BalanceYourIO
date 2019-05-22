@@ -14,10 +14,11 @@
 
     <style name="AppTheme.ActionBar">
         <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
+        <item name="overlapAnchor">false</item>
     </style>
 
     <style name="OverflowButtonStyle" parent="@android:style/Widget.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_more_vertical_white</item>
+        <item name="android:src">@drawable/ic_expand_more_vertical_white</item>
     </style>
 
 

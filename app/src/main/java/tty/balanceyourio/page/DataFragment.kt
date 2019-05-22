@@ -121,6 +121,7 @@ class DataFragment : Fragment(),
             adapter.notifyDataSetChanged()
 
             fab_add_bill_record.show()
+            linearLayout_data_month_overview.visibility=View.VISIBLE
 
         } catch (e:Exception){
             e.printStackTrace()
@@ -152,10 +153,12 @@ class DataFragment : Fragment(),
                         firstVisibleItem > lastVisibleItemPosition -> {
 //                            Log.i(TAG, "onScroll: -------->up")
                             fab_add_bill_record.hide()
+                            linearLayout_data_month_overview.visibility=View.GONE
                         }
                         firstVisibleItem < lastVisibleItemPosition -> {
 //                            Log.i(TAG, "onScroll: -------->down")
                             fab_add_bill_record.show()
+                            linearLayout_data_month_overview.visibility=View.VISIBLE
                         }
                         else -> return
                     }
