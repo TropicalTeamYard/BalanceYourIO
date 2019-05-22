@@ -36,7 +36,7 @@
     <string name="evening">晚上</string>
     <string name="today">今天</string>
     <string name="info">我的</string>
-    <string name="credit_card">信用卡</string>
-    <string name="rice_card">饭卡</string>
+    <string name="repayment">还款</string>
+    <string name="recharge">充值</string>
     <string name="word_currency">元</string>
 </resources>

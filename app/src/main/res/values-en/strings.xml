@@ -37,7 +37,7 @@
     <string name="evening">Evening</string>
     <string name="today">Today</string>
     <string name="info">Me</string>
-    <string name="credit_card">Credit Card</string>
-    <string name="rice_card">Rice Card</string>
+    <string name="repayment">Credit Card</string>
+    <string name="recharge">Rice Card</string>
     <string name="word_currency">Dollars</string>
 </resources>

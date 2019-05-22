@@ -47,15 +47,15 @@ class BYIOCategory(var outcome: BYIOType, var income: BYIOType, var others: BYIO
             ),
             //income branch
             BYIOType(
-                BYIONode("key." + CategoryConverter.Wages, 19),
-                BYIONode("key." + CategoryConverter.PartTime, 19),
-                BYIONode("key." + CategoryConverter.Interest, 19),
+                BYIONode("key." + CategoryConverter.Wages, 21),
+                BYIONode("key." + CategoryConverter.PartTime, 22),
+                BYIONode("key." + CategoryConverter.Interest, 18),
                 BYIONode("key." + CategoryConverter.Others, 19)
             ),
             //others branch
             BYIOType(
-                BYIONode("key." + CategoryConverter.CreditCard, 20),
-                BYIONode("key." + CategoryConverter.RiceCard, 0),
+                BYIONode("key." + CategoryConverter.Repayment, 23),
+                BYIONode("key." + CategoryConverter.Recharge, 24),
                 BYIONode("key." + CategoryConverter.Others, 19)
             )
         )
