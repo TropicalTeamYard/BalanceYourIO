@@ -16,7 +16,7 @@ import tty.balanceyourio.data.BYIOHelper
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.util.DateConverter
-import java.text.SimpleDateFormat
+import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -26,6 +26,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
     var billList: ArrayList<ArrayList<BillRecord>> = ArrayList()
     var dateList: ArrayList<Date> = ArrayList()
     var daySumList: ArrayList<HashMap<IOType, Double>> = ArrayList()
+    val decimalFormat=DecimalFormat("#.##")
 
     init{
         val allBillRecord = BYIOHelper(context).getBill()
@@ -50,16 +51,14 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
                     if( DateConverter.equalDate( allBillRecord[j].time!!, dateList[i])){
                         tData.add(allBillRecord[j])
                         when(allBillRecord[j].ioType){
-                            IOType.Income -> daySumList[i][IOType.Income] = daySumList[i][IOType.Income]!!+allBillRecord[j].amount!!
-                            IOType.Outcome -> daySumList[i][IOType.Outcome] = daySumList[i][IOType.Outcome]!!+allBillRecord[j].amount!!
-                            else -> daySumList[i][IOType.Unset] = daySumList[i][IOType.Unset]!!+allBillRecord[j].amount!!
+                            IOType.Income -> daySumList[i][IOType.Income] = daySumList[i][IOType.Income]!!+ allBillRecord[j].amount
+                            IOType.Outcome -> daySumList[i][IOType.Outcome] = daySumList[i][IOType.Outcome]!!+ allBillRecord[j].amount
+                            else -> daySumList[i][IOType.Unset] = daySumList[i][IOType.Unset]!!+ allBillRecord[j].amount
                         }
-
                     }
                 }
 
                 tData.sortByDescending { it.time }
-
                 billList.add(tData)
             }
         }
@@ -96,8 +95,8 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
         viewHolder.date.text = DateConverter.getFriendDateString(
         (getChild(groupPosition,0) as BillRecord).time!!)
 
-        viewHolder.income.text = "${context.resources.getString(R.string.income)} ${daySumList[groupPosition][IOType.Income]}"
-        viewHolder.outcome.text = "${context.resources.getString(R.string.outcome)} ${daySumList[groupPosition][IOType.Outcome]}"
+        viewHolder.income.text = "${context.resources.getString(R.string.income)} ${decimalFormat.format(daySumList[groupPosition][IOType.Income])}"
+        viewHolder.outcome.text = "${context.resources.getString(R.string.outcome)} ${decimalFormat.format(daySumList[groupPosition][IOType.Outcome])}"
         return view
     }
 

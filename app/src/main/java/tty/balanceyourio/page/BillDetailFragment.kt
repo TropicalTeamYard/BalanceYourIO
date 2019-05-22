@@ -75,23 +75,15 @@ class BillDetailFragment : DialogFragment() {
         detail_edit.setOnClickListener {
             val intent = Intent(this.context, AddBillActivity::class.java)
             val bundle = Bundle()
-//            bundle.putInt("update", 1)
             bundle.putInt("id", id)
-//            bundle.putDouble("money", money)
-//            bundle.putString("goodstype", type)
-//            bundle.putInt("iotype", iotype)
-//            bundle.putString("date", date)
-//            bundle.putString("comment", comment)
             intent.putExtras(bundle)
             startActivity(intent)
-            //Toast.makeText(this.context, "EDIT", Toast.LENGTH_SHORT).show()
             dismiss()
         }
 
         detail_delete.setOnClickListener {
             BYIOHelper(context!!).removeBill(id)
             mListener?.onDismiss(dialog)
-            //Toast.makeText(this.context, "DELETE", Toast.LENGTH_SHORT).show()
             dismiss()
         }
     }
