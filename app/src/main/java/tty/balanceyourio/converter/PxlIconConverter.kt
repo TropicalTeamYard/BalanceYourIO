@@ -30,6 +30,10 @@ class PxlIconConverter:RConverter{
             INVESTMENT -> R.drawable.type_investment
             OTHERS -> R.drawable.type_others
             CREDIT_CARD -> R.drawable.ic_credit_card
+            WAGE -> R.drawable.type_wage
+            PART_TIME -> R.drawable.type_part_time
+            RECHARGE -> R.drawable.type_recharge
+            REPAYMENT -> R.drawable.type_repayment
             else -> -1
         }
     }
@@ -60,5 +64,9 @@ class PxlIconConverter:RConverter{
         const val INVESTMENT = 18
         const val OTHERS = 19
         const val CREDIT_CARD = 20
+        const val WAGE = 21
+        const val PART_TIME = 22
+        const val RECHARGE = 23
+        const val REPAYMENT = 24
     }
 }
