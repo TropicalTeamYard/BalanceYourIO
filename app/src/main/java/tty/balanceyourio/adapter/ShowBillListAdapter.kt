@@ -132,7 +132,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
 
         try {
             val goodsType = billRecord.goodsType!!
-            Log.d("Adapter",goodsType);
+            //Log.d("Adapter", goodsType);
             val iconIndex = BYIOCategory.getInstance().getIconIndex(goodsType);
             viewHolder.icon.setImageResource(PxlIconConverter().getResID(iconIndex));
         } catch (e:Exception){

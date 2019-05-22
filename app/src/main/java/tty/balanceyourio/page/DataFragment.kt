@@ -38,14 +38,14 @@ class DataFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        f_data_fab_add.setOnClickListener {
+        fab_add_bill_record.setOnClickListener {
             startActivity(Intent(this.context, AddBillActivity::class.java))
         }
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("DF", "DF resume")
+        Log.d("DF", "DF Resume")
         setAdapter()
     }
     //endregion
@@ -120,7 +120,7 @@ class DataFragment : Fragment(),
 
             adapter.notifyDataSetChanged()
 
-            f_data_fab_add.show()
+            fab_add_bill_record.show()
 
         } catch (e:Exception){
             e.printStackTrace()
@@ -151,11 +151,11 @@ class DataFragment : Fragment(),
                     when {
                         firstVisibleItem > lastVisibleItemPosition -> {
 //                            Log.i(TAG, "onScroll: -------->up")
-                            f_data_fab_add.hide()
+                            fab_add_bill_record.hide()
                         }
                         firstVisibleItem < lastVisibleItemPosition -> {
 //                            Log.i(TAG, "onScroll: -------->down")
-                            f_data_fab_add.show()
+                            fab_add_bill_record.show()
                         }
                         else -> return
                     }

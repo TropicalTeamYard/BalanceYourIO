@@ -1,10 +1,10 @@
 package tty.balanceyourio.page
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.view.ViewPager
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,14 +19,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return when(p0.itemId){
             R.id.item_nav_record -> {
                 main_viewPager.currentItem = 0
+                main_toolbar.subtitle = "数据"
                 true
             }
             R.id.item_nav_analysis -> {
                 main_viewPager.currentItem = 1
+                main_toolbar.subtitle = "分析"
                 true
             }
             R.id.item_nav_user -> {
                 main_viewPager.currentItem = 2
+                main_toolbar.subtitle = "我的"
                 true
             }
             else -> false
@@ -50,19 +53,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //region test
-        //val iotype:BYIOType = BYIOType.default
-        //Log.d("globaltest",iotype.toString())
-        //endregion
-        //val db=BYIOHelper(this).writableDatabase
-        //
-        //db.close()
-        adapter= MainFragmentAdapter(supportFragmentManager)
+        setSupportActionBar(main_toolbar)
+        main_toolbar.subtitle = "数据"
+        supportActionBar?.elevation=0F
+
+        adapter = MainFragmentAdapter(supportFragmentManager)
         main_viewPager.adapter=adapter
 
         main_viewPager.addOnPageChangeListener(this)
         main_bottom_nav.setOnNavigationItemSelectedListener(this)
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

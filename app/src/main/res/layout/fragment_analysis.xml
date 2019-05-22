@@ -7,20 +7,16 @@
         android:layout_height="match_parent"
         tools:context=".page.AnalysisFragment">
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/analysis"/>
     <tty.balanceyourio.widget.ShowBillChart
             android:id="@+id/analysis_chart"
-            android:background="#ccddff"
             android:layout_width="match_parent"
             android:layout_height="240dp"
             android:paddingTop="16dp"
-            android:paddingStart="16dp"
+            android:paddingStart="8dp"
             android:paddingEnd="16dp"
+            app:timeMode="day"
             android:paddingBottom="16dp"
-            app:title="近7日收入/支出统计"
-            app:chartMode="broken_line"/>
+            app:titleColor="@color/white"
+            app:chartMode="list"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -5,15 +5,28 @@
                 android:layout_height="match_parent"
                 android:padding="0dp"
                 tools:context=".page.AddBillActivity">
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/add_bill_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:titleTextColor="@color/white"
+            app:subtitleTextColor="@color/white"
+            app:title="添加账目"
+            android:padding="0dp"
+            app:contentInsetStart="8dp"
+            app:contentInsetStartWithNavigation="8dp"/>
+
     <RadioGroup
             android:id="@+id/add_bill_radio_group"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:gravity="center_horizontal"
             android:checkedButton="@id/add_bill_radio_outcome"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_below="@id/add_bill_toolbar"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp">
         <RadioButton

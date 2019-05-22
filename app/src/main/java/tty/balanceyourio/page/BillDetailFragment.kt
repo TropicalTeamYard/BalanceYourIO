@@ -1,13 +1,13 @@
 package tty.balanceyourio.page
 
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.util.DisplayMetrics
 import android.view.*
-import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_bill_detail.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.AddBillIconAdapter
@@ -35,6 +35,7 @@ class BillDetailFragment : DialogFragment() {
         return inflater.inflate(R.layout.fragment_bill_detail, container, false)
     }
 
+    @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val type = arguments!!.getString("goodstype", "")

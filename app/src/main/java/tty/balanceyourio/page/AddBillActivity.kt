@@ -67,6 +67,7 @@ class AddBillActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_bill)
+        setSupportActionBar(add_bill_toolbar)
 
         add_bill_radio_group.setOnCheckedChangeListener(this)
         add_bill_bt_save.setOnClickListener(this)
