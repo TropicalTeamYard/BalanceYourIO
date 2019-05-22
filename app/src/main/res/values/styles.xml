@@ -12,9 +12,14 @@
     </style>
 
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.ActionBar">
+        <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
+    </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="OverflowButtonStyle" parent="@android:style/Widget.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_more_vertical_white</item>
+    </style>
+
 
     <style name="SeekBar_white">
         <item name="android:indeterminateOnly">false</item>

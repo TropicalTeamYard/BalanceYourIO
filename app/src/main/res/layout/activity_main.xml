@@ -17,6 +17,7 @@
             app:title="Balance账本"
             android:padding="0dp"
             app:contentInsetStart="8dp"
+            app:theme="@style/AppTheme.ActionBar"
             app:contentInsetStartWithNavigation="8dp">
 
     </android.support.v7.widget.Toolbar>

@@ -11,6 +11,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             app:titleTextColor="@color/white"
+            app:theme="@style/AppTheme.ActionBar"
             app:subtitleTextColor="@color/white"
             app:title="添加账目"
             android:padding="0dp"
