@@ -1,6 +1,5 @@
 package tty.balanceyourio.util
 
-import java.sql.Array
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,7 +25,7 @@ object DateConverter {
         calendar.time = d
         val dayOfWeek:Int = calendar.get(Calendar.DAY_OF_WEEK)
 
-            str = "${calendar.get(Calendar.MONTH) + 1}月${calendar.get(Calendar.DAY_OF_MONTH)}日 星期${dArray[calendar.get(Calendar.DAY_OF_WEEK)]}"
+            str = "${calendar.get(Calendar.MONTH) + 1}月${calendar.get(Calendar.DAY_OF_MONTH)}日 星期${dArray[calendar.get(Calendar.DAY_OF_WEEK)-1]}"
 
         if (cYear == calendar.get(Calendar.YEAR)){
             return str

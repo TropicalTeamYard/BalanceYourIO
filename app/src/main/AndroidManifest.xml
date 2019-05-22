@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".page.AddBillActivity" android:launchMode="singleTask"/>
+        <activity android:name=".page.AddBillActivity" android:label="添加账目" android:launchMode="singleTask"/>
         <activity
             android:name=".page.SettingsActivity"
             android:label="@string/title_activity_settings"

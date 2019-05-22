@@ -12,15 +12,12 @@ import android.widget.AbsListView
 import android.widget.AbsListView.OnScrollListener.*
 import android.widget.AdapterView
 import android.widget.ExpandableListView
-import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_data.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.ShowBillListAdapter
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.util.DateConverter
-import java.lang.Exception
-import java.util.*
 
 
 class DataFragment : Fragment(),
@@ -62,11 +59,6 @@ class DataFragment : Fragment(),
         val packedPosition = elv_show_bill_data.getExpandableListPosition(position)
         val groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition)
         val childPosition = ExpandableListView.getPackedPositionChild(packedPosition)
-//        Log.d("DF", "position--$position")
-//        Log.d("DF", "packedPosition--$packedPosition")
-//        Log.d("DF", "groupPosition--$groupPosition")
-//        Log.d("DF", "childPosition--$childPosition")
-        //Toast.makeText(this.context, "POS $position, GROUP $groupPosition, CHILD $childPosition", Toast.LENGTH_SHORT).show()
         return true
     }
 
