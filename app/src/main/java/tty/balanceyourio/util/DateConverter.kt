@@ -1,5 +1,7 @@
 package tty.balanceyourio.util
 
+import android.annotation.TargetApi
+import android.os.Build
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -73,7 +75,7 @@ object DateConverter {
         }
     }
 
-    fun equalDate(d1:Date,d2:Date):Boolean{
+    fun equalDate(d1:Date, d2:Date): Boolean{
         val calendar = Calendar.getInstance()
         calendar.time = d1
         val year:Int
@@ -88,12 +90,71 @@ object DateConverter {
                 day == calendar.get(Calendar.DAY_OF_MONTH))
     }
 
-    fun cutToDate(d:Date):Date{
+    fun cutToDate(d:Date): Date{
         val calendar = Calendar.getInstance()
         calendar.time = d
 
-        calendar.set(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH),0,0,0)
-        calendar.set(Calendar.MILLISECOND,0)
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),  0, 0, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
         return calendar.time
     }
+
+    fun cutToMonth(d:Date): Date{
+        val calendar = Calendar.getInstance()
+        calendar.time = d
+
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1,  0, 0, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        return calendar.time
+    }
+
+    fun equalMonth(d1:Date, d2:Date): Boolean{
+        val calendar = Calendar.getInstance()
+        calendar.time = d1
+        val year:Int
+        val month:Int
+        year = calendar.get(Calendar.YEAR)
+        month = calendar.get(Calendar.MONTH)
+        calendar.time = d2
+        return (year == calendar.get(Calendar.YEAR) &&
+                month == calendar.get(Calendar.MONTH))
+    }
+
+    fun cutToYear(d:Date): Date{
+        val calendar = Calendar.getInstance()
+        calendar.time = d
+        calendar.set(calendar.get(Calendar.YEAR), 0, 1,  0, 0, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        return calendar.time
+    }
+
+    fun equalYear(d1:Date, d2:Date): Boolean{
+        val calendar = Calendar.getInstance()
+        calendar.time = d1
+        val year = calendar.get(Calendar.YEAR)
+        calendar.time = d2
+        return year == calendar.get(Calendar.YEAR)
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    fun cutToWeek(d:Date): Date{
+        val calendar = Calendar.getInstance()
+        calendar.time = d
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),  0, 0, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        calendar.setWeekDate(calendar.weekYear, calendar.get(Calendar.WEEK_OF_YEAR), 1)
+        return calendar.time
+    }
+
+    fun equalWeek(d1: Date, d2: Date): Boolean{
+        val calendar1=Calendar.getInstance()
+        val calendar2=Calendar.getInstance()
+        calendar1.time=d1
+        calendar2.time=d2
+        return calendar1.get(Calendar.WEEK_OF_YEAR) ==calendar2.get(Calendar.WEEK_OF_YEAR)
+    }
+
+
+
+    const val TAG = "DC"
 }

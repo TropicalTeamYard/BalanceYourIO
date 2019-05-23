@@ -12,7 +12,13 @@ import android.view.View
 import tty.balanceyourio.R
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.ChartMode
+import tty.balanceyourio.model.IOType
 import tty.balanceyourio.model.TimeMode
+import tty.balanceyourio.util.DateConverter
+import java.text.DecimalFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class ShowBillChart : View {
 
@@ -20,6 +26,12 @@ class ShowBillChart : View {
     private var _chartMode: ChartMode? = null
     private var _timeMode: TimeMode? = null
     private var _titleColor: Int = 0xFFFFFFFF.toInt()
+
+    private var timeModeBill=ArrayList<ArrayList<BillRecord>>()
+    private var timeModeSum=ArrayList<HashMap<IOType, Double>>()
+    private var timeModeList = ArrayList<Date>()
+
+    private val decimalFormat= DecimalFormat("#.##")
 
     private var textPaint: TextPaint? = null
     private var textWidth: Float = 0F
@@ -199,6 +211,8 @@ class ShowBillChart : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
+        Log.d(TAG, "onDraw")
+
         val paddingLeft = paddingLeft
         val paddingTop = paddingTop
         val paddingRight = paddingRight
@@ -263,7 +277,151 @@ class ShowBillChart : View {
      * 列表表格
      */
     private fun drawListChart(){
+        getTimeModeArray()
+        timeModeBill
+        timeModeList
+        timeModeSum
+    }
 
+    private fun clearTimeModeData(){
+        timeModeBill.clear()
+        timeModeList.clear()
+        timeModeSum.clear()
+    }
+
+    private fun getTimeModeArray(){
+        if(_data==null || data!!.size==0){
+            return
+        }
+        Log.d(TAG, "data size: ${data!!.size}")
+
+        clearTimeModeData()
+
+        when(timeMode){
+            TimeMode.Day -> {
+                val dateSet= HashSet<Date>()
+                for(i in 0 until _data!!.size){
+                    dateSet.add(DateConverter.cutToDate(_data!![i].time!!))
+                    timeModeSum.add(HashMap())
+                    timeModeSum[i][IOType.Income]=0.0
+                    timeModeSum[i][IOType.Outcome]=0.0
+                    timeModeSum[i][IOType.Unset]=0.0
+                }
+                timeModeList = ArrayList(dateSet)
+                Log.d(TAG, "date size: ${timeModeList.size}")
+                timeModeList.sort()
+                timeModeList.reverse()
+                for(i in 0 until timeModeList.size){
+                    val tData=ArrayList<BillRecord>()
+                    for(j in 0 until _data!!.size){
+                        if(DateConverter.equalDate(_data!![j].time!!, timeModeList[i])){
+                            tData.add(_data!![j])
+                            when(_data!![j].ioType){
+                                IOType.Income -> timeModeSum[i][IOType.Income] = timeModeSum[i][IOType.Income]!! + _data!![j].amount
+                                IOType.Outcome -> timeModeSum[i][IOType.Outcome] = timeModeSum[i][IOType.Outcome]!! + _data!![j].amount
+                                else -> timeModeSum[i][IOType.Unset] = timeModeSum[i][IOType.Unset]!! + _data!![j].amount
+                            }
+                        }
+                    }
+
+                    tData.sortByDescending { it.time }
+                    timeModeBill.add(tData)
+                }
+            }
+
+            TimeMode.Week -> {
+                val weekSet= HashSet<Date>()
+                for(i in 0 until _data!!.size){
+                    weekSet.add(DateConverter.cutToWeek(_data!![i].time!!))
+                }
+                timeModeList = ArrayList(weekSet)
+                Log.d(TAG, "week size: ${timeModeList.size}")
+                timeModeList.sort()
+                timeModeList.reverse()
+                for(i in 0 until timeModeList.size){
+                    timeModeSum.add(HashMap())
+                    timeModeSum[i][IOType.Income]=0.0
+                    timeModeSum[i][IOType.Outcome]=0.0
+                    timeModeSum[i][IOType.Unset]=0.0
+                    val tData=ArrayList<BillRecord>()
+                    for(j in 0 until _data!!.size){
+                        if(DateConverter.equalWeek(_data!![j].time!!, timeModeList[i])){
+                            tData.add(_data!![j])
+                            when(_data!![j].ioType){
+                                IOType.Income -> timeModeSum[i][IOType.Income] = timeModeSum[i][IOType.Income]!! + _data!![j].amount
+                                IOType.Outcome -> timeModeSum[i][IOType.Outcome] = timeModeSum[i][IOType.Outcome]!! + _data!![j].amount
+                                else -> timeModeSum[i][IOType.Unset] = timeModeSum[i][IOType.Unset]!! + _data!![j].amount
+                            }
+                        }
+                    }
+
+                    tData.sortByDescending { it.time }
+                    timeModeBill.add(tData)
+                }
+            }
+
+            TimeMode.Month -> {
+                val monthSet= HashSet<Date>()
+                for(i in 0 until _data!!.size){
+                    monthSet.add(DateConverter.cutToMonth(_data!![i].time!!))
+                }
+                timeModeList = ArrayList(monthSet)
+                Log.d(TAG, "month size: ${timeModeList.size}")
+                timeModeList.sort()
+                timeModeList.reverse()
+                for(i in 0 until timeModeList.size){
+                    timeModeSum.add(HashMap())
+                    timeModeSum[i][IOType.Income]=0.0
+                    timeModeSum[i][IOType.Outcome]=0.0
+                    timeModeSum[i][IOType.Unset]=0.0
+                    val tData=ArrayList<BillRecord>()
+                    for(j in 0 until _data!!.size){
+                        if(DateConverter.equalMonth(_data!![j].time!!, timeModeList[i])){
+                            tData.add(_data!![j])
+                            when(_data!![j].ioType){
+                                IOType.Income -> timeModeSum[i][IOType.Income] = timeModeSum[i][IOType.Income]!! + _data!![j].amount
+                                IOType.Outcome -> timeModeSum[i][IOType.Outcome] = timeModeSum[i][IOType.Outcome]!! + _data!![j].amount
+                                else -> timeModeSum[i][IOType.Unset] = timeModeSum[i][IOType.Unset]!! + _data!![j].amount
+                            }
+                        }
+                    }
+
+                    tData.sortByDescending { it.time }
+                    timeModeBill.add(tData)
+                }
+            }
+
+            TimeMode.Year -> {
+                val yearSet= HashSet<Date>()
+                for(i in 0 until _data!!.size){
+                    yearSet.add(DateConverter.cutToYear(_data!![i].time!!))
+                }
+                timeModeList = ArrayList(yearSet)
+                Log.d(TAG, "month size: ${timeModeList.size}")
+                timeModeList.sort()
+                timeModeList.reverse()
+                for(i in 0 until timeModeList.size){
+                    timeModeSum.add(HashMap())
+                    timeModeSum[i][IOType.Income]=0.0
+                    timeModeSum[i][IOType.Outcome]=0.0
+                    timeModeSum[i][IOType.Unset]=0.0
+                    val tData=ArrayList<BillRecord>()
+                    for(j in 0 until _data!!.size){
+                        if(DateConverter.equalYear(_data!![j].time!!, timeModeList[i])){
+                            tData.add(_data!![j])
+                            when(_data!![j].ioType){
+                                IOType.Income -> timeModeSum[i][IOType.Income] = timeModeSum[i][IOType.Income]!! + _data!![j].amount
+                                IOType.Outcome -> timeModeSum[i][IOType.Outcome] = timeModeSum[i][IOType.Outcome]!! + _data!![j].amount
+                                else -> timeModeSum[i][IOType.Unset] = timeModeSum[i][IOType.Unset]!! + _data!![j].amount
+                            }
+                        }
+                    }
+
+                    tData.sortByDescending { it.time }
+                    timeModeBill.add(tData)
+                }
+            }
+        }
 
     }
 

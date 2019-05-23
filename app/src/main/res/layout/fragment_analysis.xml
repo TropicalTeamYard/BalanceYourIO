@@ -14,7 +14,7 @@
             android:paddingTop="16dp"
             android:paddingStart="8dp"
             android:paddingEnd="16dp"
-            app:timeMode="day"
+            app:timeMode="year"
             android:paddingBottom="16dp"
             app:titleColor="@color/white"
             app:chartMode="list"/>

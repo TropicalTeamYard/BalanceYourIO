@@ -26,7 +26,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
     var billList: ArrayList<ArrayList<BillRecord>> = ArrayList()
     var dateList: ArrayList<Date> = ArrayList()
     var daySumList: ArrayList<HashMap<IOType, Double>> = ArrayList()
-    val decimalFormat=DecimalFormat("#.##")
+    private val decimalFormat=DecimalFormat("#.##")
 
     init{
         val allBillRecord = BYIOHelper(context).getBill()
@@ -48,12 +48,12 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             for(i in 0 until dateList.size){
                 val tData=ArrayList<BillRecord>()
                 for(j in 0 until allBillRecord.size){
-                    if( DateConverter.equalDate( allBillRecord[j].time!!, dateList[i])){
+                    if(DateConverter.equalDate( allBillRecord[j].time!!, dateList[i])){
                         tData.add(allBillRecord[j])
                         when(allBillRecord[j].ioType){
-                            IOType.Income -> daySumList[i][IOType.Income] = daySumList[i][IOType.Income]!!+ allBillRecord[j].amount
-                            IOType.Outcome -> daySumList[i][IOType.Outcome] = daySumList[i][IOType.Outcome]!!+ allBillRecord[j].amount
-                            else -> daySumList[i][IOType.Unset] = daySumList[i][IOType.Unset]!!+ allBillRecord[j].amount
+                            IOType.Income -> daySumList[i][IOType.Income] = daySumList[i][IOType.Income]!! + allBillRecord[j].amount
+                            IOType.Outcome -> daySumList[i][IOType.Outcome] = daySumList[i][IOType.Outcome]!! + allBillRecord[j].amount
+                            else -> daySumList[i][IOType.Unset] = daySumList[i][IOType.Unset]!! + allBillRecord[j].amount
                         }
                     }
                 }
