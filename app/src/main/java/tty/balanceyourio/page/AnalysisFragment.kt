@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -45,7 +44,7 @@ class AnalysisFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         chart=time_line_chart
-        tfLight = Typeface.createFromAsset(context!!.assets, "OpenSans-Light.ttf")
+        tfLight = Typeface.createFromAsset(context!!.assets, "OpenSans-Bold.ttf")
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -54,13 +53,13 @@ class AnalysisFragment : Fragment() {
         data = helper!!.getBill()
 
         statisticsList=BillRecordsProvider.getBillRecordsForSumByTimeMode(data, timeMode)
-        val desc=Description()
-        desc.text="按日统计"
-        chart.description = desc
-        chart.setBackgroundColor(resources.getColor(R.color.colorAccent, null))
+//        val desc=Description()
+//        desc.text="按日统计"
+//        chart.description = desc
+        chart.description.isEnabled=false
+        chart.setBackgroundColor(resources.getColor(R.color.colorPrimary, null))
         chart.setNoDataText("暂无数据")
         chart.setTouchEnabled(true)
-//        chart.setMaxVisibleValueCount(7)
         chart.isDoubleTapToZoomEnabled=false
         chart.isDragEnabled = true
         chart.isScaleXEnabled = false
@@ -83,13 +82,6 @@ class AnalysisFragment : Fragment() {
 
         setData(chart, statisticsList, timeMode)
 
-        val sets = chart.data.dataSets
-        for (iSet in sets) {
-            val set = iSet as LineDataSet
-            set.setDrawValues(true)
-            set.setDrawCircles(true)
-        }
-
         chart.invalidate()
 
     }
@@ -101,6 +93,7 @@ class AnalysisFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun setData(chart: LineChart, statistics: ArrayList<HashMap<IOType, Double>>, timeMode: TimeMode) {
 
         val values = java.util.ArrayList<Entry>()
@@ -118,30 +111,27 @@ class AnalysisFragment : Fragment() {
             chart.data.notifyDataChanged()
             chart.notifyDataSetChanged()
         } else {
-            // create a dataset and give it a type
             set1 = LineDataSet(values, "支出")
-
-            set1.mode = LineDataSet.Mode.LINEAR
+            set1.mode = LineDataSet.Mode.CUBIC_BEZIER
             set1.cubicIntensity = 0.2f
-            set1.setDrawFilled(true)
-            set1.setDrawCircles(false)
             set1.lineWidth = 1.8f
-            set1.circleRadius = 4f
+            set1.circleRadius = 2.4f
             set1.setCircleColor(Color.WHITE)
             set1.highLightColor = Color.rgb(244, 117, 117)
             set1.color = Color.WHITE
-            set1.fillColor = Color.WHITE
+            set1.fillColor = resources.getColor(R.color.colorAccent, null)
             set1.fillAlpha = 100
             set1.setDrawHorizontalHighlightIndicator(true)
             set1.fillFormatter = IFillFormatter { dataSet, dataProvider -> chart.axisLeft.axisMinimum }
+            set1.setDrawFilled(true)
+            set1.setDrawValues(true)
 
             // create a data object with the data sets
             val data = LineData(set1)
             data.setValueTypeface(tfLight)
             data.setValueTextSize(9f)
-            data.setDrawValues(false)
+            data.setValueTextColor(resources.getColor(R.color.typeOutcome, null))
 
-            // set data
             chart.data = data
         }
     }
