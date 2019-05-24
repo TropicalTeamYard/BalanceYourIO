@@ -6,15 +6,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_analysis.view.*
 import tty.balanceyourio.R
 import tty.balanceyourio.data.BYIOHelper
+import tty.balanceyourio.data.BillRecordsProvider
 import tty.balanceyourio.model.BillRecord
+import tty.balanceyourio.model.IOType
+import tty.balanceyourio.model.TimeMode
 
 class AnalysisFragment : Fragment() {
 
     private var helper: BYIOHelper? = null
     private lateinit var data:ArrayList<BillRecord>
+    private lateinit var statisticsList: ArrayList<HashMap<IOType, Double>>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -32,8 +35,10 @@ class AnalysisFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         data = helper!!.getBill()
-        //Log.d(TAG, "一共有 ${data.size} 条记录" )
-        view!!.analysis_chart.data=data
+//        Log.d(TAG, "一共有 ${data.size} 条记录" )
+//        view!!.analysis_chart.data=data
+        statisticsList=BillRecordsProvider.getBillRecordsForSumByTimeMode(data, TimeMode.Day)
+        
     }
 
     override fun onDestroy() {

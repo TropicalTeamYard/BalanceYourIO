@@ -7,16 +7,16 @@
         android:layout_height="match_parent"
         tools:context=".page.AnalysisFragment">
 
-    <tty.balanceyourio.widget.ShowBillChart
-            android:id="@+id/analysis_chart"
-            android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:paddingTop="16dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="16dp"
-            app:timeMode="year"
-            android:paddingBottom="16dp"
-            app:titleColor="@color/white"
-            app:chartMode="list"/>
+<!--    <tty.balanceyourio.widget.ShowBillChart-->
+<!--            android:id="@+id/analysis_chart"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="240dp"-->
+<!--            android:paddingTop="16dp"-->
+<!--            android:paddingStart="8dp"-->
+<!--            android:paddingEnd="16dp"-->
+<!--            app:timeMode="year"-->
+<!--            android:paddingBottom="16dp"-->
+<!--            app:titleColor="@color/white"-->
+<!--            app:chartMode="list"/>-->
 
 </android.support.design.widget.CoordinatorLayout>

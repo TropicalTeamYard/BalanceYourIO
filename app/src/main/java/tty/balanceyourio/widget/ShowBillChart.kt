@@ -278,9 +278,9 @@ class ShowBillChart : View {
      */
     private fun drawListChart(){
         getTimeModeArray()
-        timeModeBill
-        timeModeList
-        timeModeSum
+//        timeModeBill
+//        timeModeList
+//        timeModeSum
     }
 
     private fun clearTimeModeData(){
@@ -397,7 +397,7 @@ class ShowBillChart : View {
                     yearSet.add(DateConverter.cutToYear(_data!![i].time!!))
                 }
                 timeModeList = ArrayList(yearSet)
-                Log.d(TAG, "month size: ${timeModeList.size}")
+                Log.d(TAG, "year size: ${timeModeList.size}")
                 timeModeList.sort()
                 timeModeList.reverse()
                 for(i in 0 until timeModeList.size){
