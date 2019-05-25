@@ -39,4 +39,8 @@
     <string name="repayment">还款</string>
     <string name="recharge">充值</string>
     <string name="word_currency">元</string>
+    <string name="mode_year">年视图</string>
+    <string name="mode_month">月视图</string>
+    <string name="mode_week">周视图</string>
+    <string name="mode_day">日视图</string>
 </resources>

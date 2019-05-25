@@ -40,4 +40,8 @@
     <string name="repayment">Credit Card</string>
     <string name="recharge">Rice Card</string>
     <string name="word_currency">Dollars</string>
+    <string name="mode_year">Mode-Year</string>
+    <string name="mode_month">Mode_Month</string>
+    <string name="mode_week">Mode_Week</string>
+    <string name="mode_day">Mode_Day</string>
 </resources>
