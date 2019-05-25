@@ -2,6 +2,7 @@ package tty.balanceyourio.page
 
 import android.annotation.TargetApi
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -13,10 +14,10 @@ import android.widget.RadioGroup
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IFillFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
@@ -77,7 +78,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
     private var timeMode=TimeMode.Day
     private lateinit var timeModeChart: LineChart
     private lateinit var detailTypeChart: BarChart
-    private lateinit var tfLight: Typeface
+    private lateinit var tfBold: Typeface
     private var ratio = 0F
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -90,7 +91,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         timeModeChart=time_line_chart
         detailTypeChart=detail_bar_chart
 
-        tfLight = Typeface.createFromAsset(context!!.assets, "OpenSans-Bold.ttf")
+        tfBold = Typeface.createFromAsset(context!!.assets, "OpenSans-Bold.ttf")
         timeModeChart.description.isEnabled=false
         timeModeChart.setNoDataText("暂无数据")
         timeModeChart.setTouchEnabled(true)
@@ -100,20 +101,45 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         timeModeChart.isScaleYEnabled = false
         timeModeChart.setPinchZoom(false)
         timeModeChart.setOnChartValueSelectedListener(this)
+        timeModeChart.isDragDecelerationEnabled=true
+        timeModeChart.dragDecelerationFrictionCoef=0.5F
 
         val x = timeModeChart.xAxis
         x.setLabelCount(7, false)
-        x.setAvoidFirstLastClipping(false)
+        x.setAvoidFirstLastClipping(true)
         x.textColor = resources.getColor(R.color.colorNormal, null)
         x.position = XAxis.XAxisPosition.BOTTOM
         x.setDrawGridLines(false)
         x.isGranularityEnabled = true
         x.axisLineColor = resources.getColor(R.color.colorNormal, null)
 
-        timeModeChart.axisLeft.isEnabled=false
-        timeModeChart.axisRight.isEnabled=false
-        timeModeChart.axisLeft.axisMinimum=0F
-        timeModeChart.axisRight.axisMinimum=0F
+
+        timeModeChart.axisLeft.isEnabled=true
+        timeModeChart.axisRight.isEnabled=true
+        timeModeChart.axisLeft.axisMaximum=13.9F
+        timeModeChart.axisLeft.axisMinimum=-13.9F
+        timeModeChart.axisRight.axisMinimum=-13.9F
+        timeModeChart.axisRight.axisMaximum=13.9F
+        timeModeChart.axisRight.setDrawZeroLine(true)
+        timeModeChart.axisLeft.setDrawZeroLine(true)
+        timeModeChart.axisLeft.valueFormatter=object : ValueFormatter(){
+            override fun getFormattedValue(value: Float): String {
+                return ""
+            }
+        }
+
+        timeModeChart.axisRight.valueFormatter=object : ValueFormatter(){
+            override fun getFormattedValue(value: Float): String {
+                return ""
+            }
+        }
+//        timeModeChart.axisRight.zeroLineWidth=5F
+//        timeModeChart.axisLeft.zeroLineWidth=5F
+//        timeModeChart.axisLeft.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
+//        timeModeChart.axisRight.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
+
+//        val limitY0=LimitLine(0F, "0")
+//        timeModeChart.axisLeft.addLimitLine(limitY0)
 
         x.valueFormatter=object : ValueFormatter(){
             override fun getFormattedValue(value: Float): String {
@@ -149,6 +175,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         }
         timeModeChart.zoom(ratio, 1F, 0F, 0F)
         setDataForTimeModeChart(timeModeChart, statisticsList)
+
         timeModeChart.invalidate()
     }
 
@@ -166,7 +193,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         for (i in 0 until statistics.size) {
             val valueOutcome: Float = Math.log(statistics[i][IOType.Outcome]!!+1).toFloat()
             val valueIncome: Float = Math.log(statistics[i][IOType.Income]!!+1).toFloat()
-            valuesOutcome.add(Entry(i.toFloat(), valueOutcome))
+            valuesOutcome.add(Entry(i.toFloat(), -valueOutcome))
             valuesIncome.add(Entry(i.toFloat(), valueIncome))
         }
 
@@ -188,16 +215,20 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
             outcomeSet.setCircleColor(resources.getColor(R.color.typeOutcome, null))
             outcomeSet.highLightColor = resources.getColor(R.color.typeOutcome, null)
             outcomeSet.color = resources.getColor(R.color.typeOutcome, null)
-            outcomeSet.fillColor = resources.getColor(R.color.typeOutcome, null)
-            outcomeSet.fillAlpha = 100
-            outcomeSet.setDrawHorizontalHighlightIndicator(true)
-            outcomeSet.fillFormatter = IFillFormatter { _, _ -> chart.axisLeft.axisMinimum }
+//            outcomeSet.fillColor = resources.getColor(R.color.typeOutcome, null)
+//            outcomeSet.fillAlpha = 20
+//            outcomeSet.setDrawHorizontalHighlightIndicator(true)
+//            outcomeSet.fillFormatter = IFillFormatter { _, _ -> chart.axisLeft.axisMaximum }
+//            outcomeSet.fillFormatter = IFillFormatter { _, _ -> 0F }
             outcomeSet.setDrawFilled(true)
+            outcomeSet.fillDrawable=ColorDrawable(resources.getColor(R.color.typeOutcomeAlpha, null))
+            outcomeSet.fillAlpha = 20
             outcomeSet.setDrawValues(true)
+            outcomeSet.axisDependency=YAxis.AxisDependency.LEFT
             outcomeSet.valueTextColor = resources.getColor(R.color.typeOutcome, null)
             outcomeSet.valueFormatter=object : ValueFormatter(){
                 override fun getFormattedValue(value: Float): String {
-                    return decimalFormat2.format(Math.pow(Math.E, value.toDouble())-1)
+                    return decimalFormat2.format(Math.pow(Math.E, -value.toDouble())-1)
                 }
             }
 
@@ -209,12 +240,15 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
             incomeSet.setCircleColor(resources.getColor(R.color.typeIncome, null))
             incomeSet.highLightColor = resources.getColor(R.color.typeIncome, null)
             incomeSet.color = resources.getColor(R.color.typeIncome, null)
-            incomeSet.fillColor = resources.getColor(R.color.typeIncome, null)
-            incomeSet.fillAlpha = 100
-            incomeSet.setDrawHorizontalHighlightIndicator(true)
-            incomeSet.fillFormatter = IFillFormatter { _, _ -> chart.axisRight.axisMinimum }
+//            incomeSet.fillColor = resources.getColor(R.color.typeIncome, null)
+//            incomeSet.fillAlpha = 100
+//            incomeSet.setDrawHorizontalHighlightIndicator(true)
+//            incomeSet.fillFormatter = IFillFormatter { _, _ -> chart.axisRight.axisMinimum }
+//            incomeSet.fillFormatter = IFillFormatter { _, _ -> 0F }
             incomeSet.setDrawFilled(true)
+            incomeSet.fillDrawable=ColorDrawable(resources.getColor(R.color.typeIncomeAlpha, null))
             incomeSet.setDrawValues(true)
+            incomeSet.axisDependency=YAxis.AxisDependency.RIGHT
             incomeSet.valueTextColor = resources.getColor(R.color.typeIncome, null)
             incomeSet.valueFormatter=object : ValueFormatter(){
                 override fun getFormattedValue(value: Float): String {
@@ -224,7 +258,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
 
 
             val data = LineData(outcomeSet, incomeSet)
-            data.setValueTypeface(tfLight)
+            data.setValueTypeface(tfBold)
             data.setValueTextSize(9f)
 
             chart.data = data

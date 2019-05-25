@@ -13,6 +13,8 @@
     <color name="typeIncomeDark">#009688</color>
     <color name="typeOutcomeLight">#FFCDD2</color>
     <color name="typeOutcome">#FF8A65</color>
+    <color name="typeOutcomeAlpha">#55FF8A65</color>
+    <color name="typeIncomeAlpha">#554DB6AC</color>
     <color name="typeOutcomeDark">#E53935</color>
     <color name="typeOthersLight">#CFD8DC</color>
     <color name="typeOthers">#78909C</color>

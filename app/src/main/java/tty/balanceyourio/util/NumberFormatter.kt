@@ -6,6 +6,6 @@ object NumberFormatter {
     val decimalFormat2 = DecimalFormat("#.##")
     val decimalFormat0 = DecimalFormat("#")
     fun logToDouble(d: Double): Double{
-        return Math.pow(Math.E, d)
+        return Math.pow(Math.E, Math.abs(d))
     }
 }
