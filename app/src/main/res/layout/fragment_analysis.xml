@@ -18,25 +18,25 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="年"/>
+                android:text="年视图"/>
         <RadioButton
                 android:id="@+id/radio_mode_month"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="月"/>
+                android:text="月视图"/>
         <RadioButton
                 android:id="@+id/radio_mode_week"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="周"/>
+                android:text="周视图"/>
         <RadioButton
                 android:id="@+id/radio_mode_day"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="日"/>
+                android:text="日视图"/>
     </RadioGroup>
 
     <com.github.mikephil.charting.charts.LineChart
