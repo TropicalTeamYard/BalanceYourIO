@@ -1,5 +1,6 @@
 package tty.balanceyourio.page
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -11,7 +12,9 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.RadioGroup
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_bill.*
@@ -22,6 +25,7 @@ import tty.balanceyourio.data.BYIOHelper
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.provider.IOTypeProvider
+import tty.balanceyourio.util.AmountConvert
 import tty.balanceyourio.util.DateConverter
 import java.text.DecimalFormat
 import java.util.*
@@ -36,7 +40,8 @@ class AddBillActivity : AppCompatActivity(),
     RadioGroup.OnCheckedChangeListener,
     TextWatcher, View.OnClickListener,
     AddBillIconAdapter.OnItemClickListener,
-    ChooseDateFragment.SendDate {
+    ChooseDateFragment.SendDate{
+
 
     //region 变量与临时存储
     private lateinit var recyclerView: RecyclerView
@@ -58,6 +63,8 @@ class AddBillActivity : AppCompatActivity(),
      */
     private var billRecord: BillRecord = BillRecord()
 
+    private var prevStr:String = ""
+    private var prevStart:Int = -1
     //private var isDateChoose=false
     private var shouldInputMoneyChange=true
     private val decimalFormat = DecimalFormat("#.##")
@@ -76,6 +83,9 @@ class AddBillActivity : AppCompatActivity(),
             dialog.show(this.supportFragmentManager,"CDF")
         }
         add_input_money.addTextChangedListener(this)
+        //add_input_money.setOnClickListener(this)
+        add_input_money.setSelectAllOnFocus(true)
+        add_input_money.hint = BillRecord.defaultAmount.toString()
 
         setData(IOType.Outcome)
 
@@ -200,44 +210,45 @@ class AddBillActivity : AppCompatActivity(),
                 }
 
             }
+
         }
     }
 
     override fun afterTextChanged(s: Editable?) {}
 
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
+    {
+        prevStr = s.toString()
+        prevStart = start
+
+        Log.d(TAG,"字符串改变前:$s")
+    }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        if(shouldInputMoneyChange){
-            try {
-                if(s?.length!! >0&&s.toString().toDouble()>=0){
-                    billRecord.amount=s.toString().toDouble()
-                    billRecord.amount=decimalFormat.format(billRecord.amount).toDouble()
-                    add_show_now_money.text= "${resources.getString(R.string.currency)} ${billRecord.amount}"
-                } else if(s.isEmpty()) {
-                    billRecord.amount=0.0
-                    add_show_now_money.text= "${resources.getString(R.string.currency)} ${billRecord.amount}"
-                }
-                if(billRecord.amount>999999){
-                    billRecord.amount=999999.0
-                    add_show_now_money.text= "${resources.getString(R.string.currency)}${billRecord.amount}"
-                    add_input_money.setText("999999")
-                    add_input_money.setSelection(add_input_money.text.length)
-                }
-            } catch (e : NumberFormatException) {
-                if(billRecord.amount>0){
-                    add_show_now_money.text= "${resources.getString(R.string.currency)} ${billRecord.amount}"
-                } else {
-                    add_input_money.setText("")
+        if (s.toString() != prevStr){
+            if (s.toString() == ""){
+                billRecord.amount = BillRecord.defaultAmount
+            }
+            else if (!AmountConvert.isBill(s.toString())){
+                add_input_money.setText(prevStr)
+                if(prevStr.isNotEmpty()){
+                    add_input_money.setSelection(prevStr.length,prevStr.length )
                 }
 
             }
-        } else {
-            shouldInputMoneyChange=true
+            else
+            {
+                prevStr = s.toString()
+                Log.d(TAG,"amount=${prevStr.toDouble()}")
+                billRecord.amount = prevStr.toDouble()
+            }
+
         }
 
 
+        Log.d(TAG,"字符串改变后:$s")
     }
+
 
     /**
      * 改变账目类型时发生的事件，将会改变
@@ -332,7 +343,11 @@ class AddBillActivity : AppCompatActivity(),
             }
         }
 
-        add_show_now_money.text="${resources.getString(R.string.currency)} ${record.amount}"
+        if (record.amount == BillRecord.defaultAmount){
+            add_input_money.setText("")
+        }else{
+            add_input_money.setText("${record.amount}")
+        }
 
         billRecord = record
     }

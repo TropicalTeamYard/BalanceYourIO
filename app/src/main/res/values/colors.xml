@@ -4,7 +4,7 @@
     <color name="colorPrimary">#03A9F4</color>
     <color name="colorPrimaryDark">#03A9F4</color>
     <color name="colorAccent">#FFD740</color>
-    <color name="colorNormalLight">#BBBBBB</color>
+    <color name="colorNormalLight">#AAAAAA</color>
     <color name="colorNormal">#999999</color>
     <color name="colorNormalDark">#333333</color>
     <color name="colorTypeChosenOutcome">#FFE0B2</color>

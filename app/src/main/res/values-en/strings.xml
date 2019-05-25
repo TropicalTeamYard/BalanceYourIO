@@ -25,7 +25,7 @@
     <string name="input_remark">Input remark here</string>
     <string name="icon">icon</string>
     <string name="type">type</string>
-    <string name="default_amount">$ 4</string>
+    <string name="default_amount">0.00</string>
     <string name="default_date">2019&#8211;4&#8211;28 Sun</string>
     <string name="default_money">$ 24</string>
     <string name="currency">$</string>

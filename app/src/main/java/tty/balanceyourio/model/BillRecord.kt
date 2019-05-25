@@ -75,5 +75,7 @@ class BillRecord
                 remark
             }
         }
+
+         const val defaultAmount:Double = 4.0
     }
 }
