@@ -5,13 +5,22 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.MainFragmentAdapter
+import tty.balanceyourio.interfaces.BillRecordDeleted
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener, BillRecordDeleted {
+    override fun notifyUpdate() {
+        Log.d(TAG, "interface notifyUpdate")
+        val analysisFragment: AnalysisFragment = adapter?.getItem(1) as AnalysisFragment
+        analysisFragment.updateData()
+    }
+
+
     //TODO @WCF 预算功能设置 可灵活设置日期
     //TODO @WCF 新建账本 自定义
 
@@ -50,6 +59,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private var adapter: MainFragmentAdapter?=null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -77,6 +87,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             else -> false
         }
+    }
+
+    companion object{
+        const val TAG = "MA"
     }
 
 }

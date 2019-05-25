@@ -1,5 +1,6 @@
 package tty.balanceyourio.page
 
+import android.annotation.TargetApi
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -29,6 +30,10 @@ import java.util.*
 
 
 class AnalysisFragment : Fragment() {
+    fun updateData() {
+        Log.d(TAG, "update DATA")
+        getDataAndShow()
+    }
 
     private var helper: BYIOHelper? = null
     private lateinit var data:ArrayList<BillRecord>
@@ -76,7 +81,7 @@ class AnalysisFragment : Fragment() {
 
         x.valueFormatter=object : ValueFormatter(){
             override fun getFormattedValue(value: Float): String {
-                Log.d(TAG, decimalFormat0.format(value))
+//                Log.d(TAG, decimalFormat0.format(value))
                 val pos=decimalFormat0.format(value).toInt()
                 if(pos<0 || pos>=timeList.size){
                     return "..."
@@ -87,19 +92,24 @@ class AnalysisFragment : Fragment() {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
+
     override fun onResume() {
         super.onResume()
+        getDataAndShow()
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private fun getDataAndShow() {
         data = helper!!.getBill()
-        statisticsList=BillRecordsProvider.getBillRecordsForSumByTimeMode(data, timeMode)
-        timeList=BillRecordsProvider.getBillRecordsForTimeListByTimeMode(data, timeMode)
-        if(ratio>=0){
+        statisticsList = BillRecordsProvider.getBillRecordsForSumByTimeMode(data, timeMode)
+        timeList = BillRecordsProvider.getBillRecordsForTimeListByTimeMode(data, timeMode)
+        if (ratio >= 0) {
             ratio = statisticsList.size.toFloat() / 7
-            chart.zoom(ratio,1F,0F,0F)
-            ratio=-1F
+            chart.zoom(ratio, 1F, 0F, 0F)
+            ratio = -1F
         }
         setData(chart, statisticsList, timeMode)
-
+        chart.invalidate()
     }
 
     override fun onDestroy() {
@@ -112,8 +122,8 @@ class AnalysisFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setData(chart: LineChart, statistics: ArrayList<HashMap<IOType, Double>>, timeMode: TimeMode) {
 
-        val valuesOutcome = java.util.ArrayList<Entry>()
-        val valuesIncome = java.util.ArrayList<Entry>()
+        val valuesOutcome = ArrayList<Entry>()
+        val valuesIncome = ArrayList<Entry>()
 
         for (i in 0 until statistics.size) {
             val valueOutcome: Float = Math.log(statistics[i][IOType.Outcome]!!+1).toFloat()
@@ -183,8 +193,6 @@ class AnalysisFragment : Fragment() {
             chart.data = data
         }
     }
-
-
 
     companion object{
         const val TAG = "AF"

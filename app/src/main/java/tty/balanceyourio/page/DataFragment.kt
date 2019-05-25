@@ -1,5 +1,6 @@
 package tty.balanceyourio.page
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -15,6 +16,7 @@ import android.widget.ExpandableListView
 import kotlinx.android.synthetic.main.fragment_data.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.ShowBillListAdapter
+import tty.balanceyourio.interfaces.BillRecordDeleted
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.util.DateConverter
@@ -30,6 +32,14 @@ class DataFragment : Fragment(),
     private var currentId = 0
     private var cGroupP = 0
     private var cChildrenP = 0
+    private lateinit var billRecordDeleted: BillRecordDeleted
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if(context is MainActivity){
+            billRecordDeleted = context
+        }
+    }
 
     //region 对父类的重写方法
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -118,7 +128,7 @@ class DataFragment : Fragment(),
 
             adapter.notifyDataSetChanged()
 
-            
+            billRecordDeleted.notifyUpdate()
 
             fab_add_bill_record.show()
             linearLayout_data_month_overview.visibility=View.VISIBLE
@@ -190,7 +200,6 @@ class DataFragment : Fragment(),
     }
 
     //endregion
-
 
 
     companion object{
