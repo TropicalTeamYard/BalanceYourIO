@@ -4,13 +4,13 @@ import android.annotation.TargetApi
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -18,6 +18,8 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IFillFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import kotlinx.android.synthetic.main.fragment_analysis.*
 import tty.balanceyourio.R
 import tty.balanceyourio.data.BYIOHelper
@@ -26,11 +28,22 @@ import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.model.TimeMode
 import tty.balanceyourio.util.DateConverter
-import java.text.DecimalFormat
+import tty.balanceyourio.util.NumberFormatter
+import tty.balanceyourio.util.NumberFormatter.decimalFormat0
+import tty.balanceyourio.util.NumberFormatter.decimalFormat2
 import java.util.*
 
+@TargetApi(Build.VERSION_CODES.M)
+class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChartValueSelectedListener {
+    override fun onNothingSelected() {
+        Log.d(TAG, "Nothing Selected")
+    }
 
-class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
+    override fun onValueSelected(e: Entry?, h: Highlight?) {
+        Log.d(TAG, "Entry Selected X: ${decimalFormat0.format(e?.x)} Y: ${decimalFormat2.format(e?.y?.toDouble()?.let { NumberFormatter.logToDouble(it)-1 })}")
+        //TODO SELECTED UI
+    }
+
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
         when(checkedId) {
             R.id.radio_mode_day -> {
@@ -54,7 +67,6 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     fun updateData() {
-//        Log.d(TAG, "update DATA")
         getDataAndShow()
     }
 
@@ -63,32 +75,33 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     private lateinit var statisticsList: ArrayList<HashMap<IOType, Double>>
     private lateinit var timeList: ArrayList<Date>
     private var timeMode=TimeMode.Day
-    lateinit var chart: LineChart
+    private lateinit var timeModeChart: LineChart
+    private lateinit var detailTypeChart: BarChart
     private lateinit var tfLight: Typeface
-    private val decimalFormat2 = DecimalFormat("#.##")
-    private val decimalFormat0 = DecimalFormat("#")
-    var ratio=0F
+    private var ratio = 0F
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         helper = context?.let { BYIOHelper(it) }
         return inflater.inflate(R.layout.fragment_analysis, container, false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        chart=time_line_chart
-        tfLight = Typeface.createFromAsset(context!!.assets, "OpenSans-Bold.ttf")
-        chart.description.isEnabled=false
-        chart.setNoDataText("暂无数据")
-        chart.setTouchEnabled(true)
-        chart.isDoubleTapToZoomEnabled=false
-        chart.isDragEnabled = true
-        chart.isScaleXEnabled = false
-        chart.isScaleYEnabled = false
-        chart.setPinchZoom(false)
+        timeModeChart=time_line_chart
+        detailTypeChart=detail_bar_chart
 
-        val x = chart.xAxis
+        tfLight = Typeface.createFromAsset(context!!.assets, "OpenSans-Bold.ttf")
+        timeModeChart.description.isEnabled=false
+        timeModeChart.setNoDataText("暂无数据")
+        timeModeChart.setTouchEnabled(true)
+        timeModeChart.isDoubleTapToZoomEnabled=false
+        timeModeChart.isDragEnabled = true
+        timeModeChart.isScaleXEnabled = false
+        timeModeChart.isScaleYEnabled = false
+        timeModeChart.setPinchZoom(false)
+        timeModeChart.setOnChartValueSelectedListener(this)
+
+        val x = timeModeChart.xAxis
         x.setLabelCount(7, false)
         x.setAvoidFirstLastClipping(false)
         x.textColor = resources.getColor(R.color.colorNormal, null)
@@ -97,10 +110,10 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         x.isGranularityEnabled = true
         x.axisLineColor = resources.getColor(R.color.colorNormal, null)
 
-        chart.axisLeft.isEnabled=false
-        chart.axisRight.isEnabled=false
-        chart.axisLeft.axisMinimum=0F
-        chart.axisRight.axisMinimum=0F
+        timeModeChart.axisLeft.isEnabled=false
+        timeModeChart.axisRight.isEnabled=false
+        timeModeChart.axisLeft.axisMinimum=0F
+        timeModeChart.axisRight.axisMinimum=0F
 
         x.valueFormatter=object : ValueFormatter(){
             override fun getFormattedValue(value: Float): String {
@@ -123,22 +136,20 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         getDataAndShow()
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     private fun getDataAndShow() {
         data = helper!!.getBill()
         statisticsList = BillRecordsProvider.getBillRecordsForSumByTimeMode(data, timeMode)
         timeList = BillRecordsProvider.getBillRecordsForTimeListByTimeMode(data, timeMode)
-        chart.zoom(0F, 1F, 0F, 0F)
+        timeModeChart.zoom(0F, 1F, 0F, 0F)
         ratio = statisticsList.size.toFloat() / when(timeMode){
             TimeMode.Day -> 7
             TimeMode.Week -> 8
             TimeMode.Month -> 12
             TimeMode.Year -> 12
         }
-        chart.zoom(ratio, 1F, 0F, 0F)
-        ratio = -1F
-        setData(chart, statisticsList, timeMode)
-        chart.invalidate()
+        timeModeChart.zoom(ratio, 1F, 0F, 0F)
+        setDataForTimeModeChart(timeModeChart, statisticsList)
+        timeModeChart.invalidate()
     }
 
     override fun onDestroy() {
@@ -147,9 +158,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         helper?.close()
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun setData(chart: LineChart, statistics: ArrayList<HashMap<IOType, Double>>, timeMode: TimeMode) {
+    private fun setDataForTimeModeChart(chart: LineChart, statistics: ArrayList<HashMap<IOType, Double>>) {
 
         val valuesOutcome = ArrayList<Entry>()
         val valuesIncome = ArrayList<Entry>()
@@ -203,7 +212,6 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             incomeSet.fillColor = resources.getColor(R.color.typeIncome, null)
             incomeSet.fillAlpha = 100
             incomeSet.setDrawHorizontalHighlightIndicator(true)
-//            incomeSet.axisDependency = YAxis.AxisDependency.RIGHT
             incomeSet.fillFormatter = IFillFormatter { _, _ -> chart.axisRight.axisMinimum }
             incomeSet.setDrawFilled(true)
             incomeSet.setDrawValues(true)
@@ -221,6 +229,10 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
 
             chart.data = data
         }
+    }
+
+    private fun setDataForDetailTypeChart(chart: BarChart, detail: ArrayList<BillRecord>){
+
     }
 
     companion object{
