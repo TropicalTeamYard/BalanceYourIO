@@ -2,6 +2,7 @@ package tty.balanceyourio.util
 
 import android.annotation.TargetApi
 import android.os.Build
+import tty.balanceyourio.model.TimeMode
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,12 +28,12 @@ object DateConverter {
         calendar.time = d
         val dayOfWeek:Int = calendar.get(Calendar.DAY_OF_WEEK)
 
-            str = "${calendar.get(Calendar.MONTH) + 1}月${calendar.get(Calendar.DAY_OF_MONTH)}日 星期${dArray[calendar.get(Calendar.DAY_OF_WEEK)-1]}"
+        str = "${calendar.get(Calendar.MONTH) + 1}月${calendar.get(Calendar.DAY_OF_MONTH)}日 星期${dArray[calendar.get(Calendar.DAY_OF_WEEK)-1]}"
 
-        if (cYear == calendar.get(Calendar.YEAR)){
-            return str
+        return if (cYear == calendar.get(Calendar.YEAR)){
+            str
         } else {
-            return "${calendar.get(Calendar.YEAR)}年$str"
+            "${calendar.get(Calendar.YEAR)}年$str"
         }
 
     }
@@ -154,7 +155,30 @@ object DateConverter {
         return calendar1.get(Calendar.WEEK_OF_YEAR) ==calendar2.get(Calendar.WEEK_OF_YEAR)
     }
 
+    fun getXAxisDate(d: Date, timeMode: TimeMode): String{
+        val calendar = Calendar.getInstance()
+        val cYear=calendar.get(Calendar.YEAR)
+        calendar.time=d
+        return when(timeMode){
+            TimeMode.Day -> {
+                if(calendar.get(Calendar.YEAR)==cYear){
+                    "${calendar.get(Calendar.MONTH)+1}.${calendar.get(Calendar.DAY_OF_MONTH)}"
+                } else {
+                    "${calendar.get(Calendar.YEAR)%10}.${calendar.get(Calendar.MONTH)+1}.${calendar.get(Calendar.DAY_OF_MONTH)}"
+                }
+            }
+            TimeMode.Week -> {
+                "第${calendar.get(Calendar.WEEK_OF_YEAR)}周"
+            }
+            TimeMode.Month -> {
+                "${calendar.get(Calendar.YEAR)}.${calendar.get(Calendar.MONTH)+1}"
+            }
+            TimeMode.Year -> {
+                "${calendar.get(Calendar.YEAR)}"
+            }
+        }
 
+    }
 
     const val TAG = "DC"
 }

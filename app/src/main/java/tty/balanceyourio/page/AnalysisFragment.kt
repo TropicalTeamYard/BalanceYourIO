@@ -23,7 +23,9 @@ import tty.balanceyourio.data.BillRecordsProvider
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.model.TimeMode
-
+import tty.balanceyourio.util.DateConverter
+import java.text.DecimalFormat
+import java.util.*
 
 
 class AnalysisFragment : Fragment() {
@@ -31,82 +33,72 @@ class AnalysisFragment : Fragment() {
     private var helper: BYIOHelper? = null
     private lateinit var data:ArrayList<BillRecord>
     private lateinit var statisticsList: ArrayList<HashMap<IOType, Double>>
+    private lateinit var timeList: ArrayList<Date>
     private var timeMode=TimeMode.Day
     lateinit var chart: LineChart
     private lateinit var tfLight: Typeface
+    private val decimalFormat2 = DecimalFormat("#.##")
+    private val decimalFormat0 = DecimalFormat("#")
+    var ratio=0F
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         helper = context?.let { BYIOHelper(it) }
         return inflater.inflate(R.layout.fragment_analysis, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         chart=time_line_chart
         tfLight = Typeface.createFromAsset(context!!.assets, "OpenSans-Bold.ttf")
+        chart.description.isEnabled=false
+        chart.setNoDataText("暂无数据")
+        chart.setTouchEnabled(true)
+        chart.isDoubleTapToZoomEnabled=false
+        chart.isDragEnabled = true
+        chart.isScaleXEnabled = false
+        chart.isScaleYEnabled = false
+        chart.setPinchZoom(false)
+
+        val x = chart.xAxis
+        x.setLabelCount(7, false)
+        x.setAvoidFirstLastClipping(false)
+        x.textColor = resources.getColor(R.color.colorNormal, null)
+        x.position = XAxis.XAxisPosition.BOTTOM
+        x.setDrawGridLines(false)
+        x.isGranularityEnabled = true
+        x.axisLineColor = resources.getColor(R.color.colorNormal, null)
+
+        chart.axisLeft.isEnabled=false
+        chart.axisRight.isEnabled=false
+        chart.axisLeft.axisMinimum=0F
+        chart.axisRight.axisMinimum=0F
+
+        x.valueFormatter=object : ValueFormatter(){
+            override fun getFormattedValue(value: Float): String {
+                Log.d(TAG, decimalFormat0.format(value))
+                val pos=decimalFormat0.format(value).toInt()
+                if(pos<0 || pos>=timeList.size){
+                    return "..."
+                }
+                return DateConverter.getXAxisDate(timeList[pos], timeMode)
+            }
+        }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onResume() {
         super.onResume()
         data = helper!!.getBill()
-
         statisticsList=BillRecordsProvider.getBillRecordsForSumByTimeMode(data, timeMode)
-//        val desc=Description()
-//        desc.text="按日统计"
-//        chart.description = desc
-        chart.description.isEnabled=false
-//        chart.setBackgroundColor(resources.getColor(R.color.colorAccent, null))
-        chart.setNoDataText("暂无数据")
-        chart.setTouchEnabled(true)
-        chart.isDoubleTapToZoomEnabled=false
-        chart.isDragEnabled = true
-        chart.isScaleXEnabled = true
-        chart.isScaleYEnabled = false
-        chart.setPinchZoom(false)
-
-        val x = chart.xAxis
-        x.labelCount=7
-        x.setAvoidFirstLastClipping(true)
-        x.granularity=1F
-        //设置一页最大显示个数为7
-        val ratio = statisticsList.size.toFloat() / 7
-        //显示的时候是按照多大的比率缩放显示,1F表示不放大缩小
-        chart.zoom(ratio,1F,0F,0F)
-        x.isGranularityEnabled=true
-        x.textColor = resources.getColor(R.color.colorNormal, null)
-        x.position = XAxis.XAxisPosition.BOTTOM
-        x.setDrawGridLines(false)
-        x.axisLineColor = resources.getColor(R.color.colorNormal, null)
-
-        val yOutcome = chart.axisLeft
-        yOutcome.setLabelCount(7, false)
-        yOutcome.axisLineWidth=1F
-        yOutcome.textColor = resources.getColor(R.color.typeOutcome, null)
-        yOutcome.setDrawGridLines(false)
-        yOutcome.axisLineColor = resources.getColor(R.color.typeOutcome, null)
-
-        val yIncome = chart.axisRight
-        yIncome.setLabelCount(7, false)
-        yIncome.axisLineWidth=1F
-        yIncome.textColor = resources.getColor(R.color.typeIncome, null)
-        yIncome.setDrawGridLines(false)
-        yIncome.axisLineColor = resources.getColor(R.color.typeIncome, null)
-
-        setData(chart, statisticsList, timeMode)
-
-        x.valueFormatter=object : ValueFormatter(){
-            override fun getFormattedValue(value: Float): String {
-                val p=value.toInt()
-                return if(p>0 && p<statisticsList.size){
-                    "Pos.$p"
-                } else {
-                    ""
-                }
-            }
+        timeList=BillRecordsProvider.getBillRecordsForTimeListByTimeMode(data, timeMode)
+        if(ratio>=0){
+            ratio = statisticsList.size.toFloat() / 7
+            chart.zoom(ratio,1F,0F,0F)
+            ratio=-1F
         }
-
-        chart.invalidate()
+        setData(chart, statisticsList, timeMode)
 
     }
 
@@ -124,8 +116,10 @@ class AnalysisFragment : Fragment() {
         val valuesIncome = java.util.ArrayList<Entry>()
 
         for (i in 0 until statistics.size) {
-            valuesOutcome.add(Entry(i.toFloat(), statistics[i][IOType.Outcome]!!.toFloat()))
-            valuesIncome.add(Entry(i.toFloat(), statistics[i][IOType.Income]!!.toFloat()))
+            val valueOutcome: Float = Math.log(statistics[i][IOType.Outcome]!!+1).toFloat()
+            val valueIncome: Float = Math.log(statistics[i][IOType.Income]!!+1).toFloat()
+            valuesOutcome.add(Entry(i.toFloat(), valueOutcome))
+            valuesIncome.add(Entry(i.toFloat(), valueIncome))
         }
 
         val outcomeSet: LineDataSet
@@ -134,7 +128,7 @@ class AnalysisFragment : Fragment() {
             outcomeSet = chart.data.getDataSetByIndex(0) as LineDataSet
             outcomeSet.values = valuesOutcome
             incomeSet = chart.data.getDataSetByIndex(1) as LineDataSet
-            incomeSet.values = valuesOutcome
+            incomeSet.values = valuesIncome
             chart.data.notifyDataChanged()
             chart.notifyDataSetChanged()
         } else {
@@ -149,10 +143,15 @@ class AnalysisFragment : Fragment() {
             outcomeSet.fillColor = resources.getColor(R.color.typeOutcome, null)
             outcomeSet.fillAlpha = 100
             outcomeSet.setDrawHorizontalHighlightIndicator(true)
-            outcomeSet.fillFormatter = IFillFormatter { dataSet, dataProvider -> chart.axisLeft.axisMinimum }
+            outcomeSet.fillFormatter = IFillFormatter { _, _ -> chart.axisLeft.axisMinimum }
             outcomeSet.setDrawFilled(true)
             outcomeSet.setDrawValues(true)
             outcomeSet.valueTextColor = resources.getColor(R.color.typeOutcome, null)
+            outcomeSet.valueFormatter=object : ValueFormatter(){
+                override fun getFormattedValue(value: Float): String {
+                    return decimalFormat2.format(Math.pow(Math.E, value.toDouble())-1)
+                }
+            }
 
             incomeSet = LineDataSet(valuesIncome, "收入")
             incomeSet.mode = LineDataSet.Mode.CUBIC_BEZIER
@@ -166,10 +165,16 @@ class AnalysisFragment : Fragment() {
             incomeSet.fillAlpha = 100
             incomeSet.setDrawHorizontalHighlightIndicator(true)
 //            incomeSet.axisDependency = YAxis.AxisDependency.RIGHT
-            incomeSet.fillFormatter = IFillFormatter { dataSet, dataProvider -> chart.axisRight.axisMinimum }
+            incomeSet.fillFormatter = IFillFormatter { _, _ -> chart.axisRight.axisMinimum }
             incomeSet.setDrawFilled(true)
             incomeSet.setDrawValues(true)
             incomeSet.valueTextColor = resources.getColor(R.color.typeIncome, null)
+            incomeSet.valueFormatter=object : ValueFormatter(){
+                override fun getFormattedValue(value: Float): String {
+                    return decimalFormat2.format(Math.pow(Math.E, value.toDouble())-1)
+                }
+            }
+
 
             val data = LineData(outcomeSet, incomeSet)
             data.setValueTypeface(tfLight)

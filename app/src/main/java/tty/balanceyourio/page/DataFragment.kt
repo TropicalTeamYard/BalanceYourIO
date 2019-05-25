@@ -110,15 +110,15 @@ class DataFragment : Fragment(),
                     }
                     else ->{}
                 }
-
                 adapter.billList[cGroupP].removeAt(cChildrenP)
-
             }
 
 
             Log.d(TAG,"newCount::${adapter.dateList.count()}")
 
             adapter.notifyDataSetChanged()
+
+            
 
             fab_add_bill_record.show()
             linearLayout_data_month_overview.visibility=View.VISIBLE

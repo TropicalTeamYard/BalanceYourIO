@@ -60,7 +60,7 @@ class AddBillActivity : AppCompatActivity(),
 
     //private var isDateChoose=false
     private var shouldInputMoneyChange=true
-    private val decimalFormat = DecimalFormat("0.00")
+    private val decimalFormat = DecimalFormat("#.##")
 
     //endregion
     //region 重写方法
