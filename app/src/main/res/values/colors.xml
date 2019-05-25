@@ -8,9 +8,15 @@
     <color name="colorNormal">#999999</color>
     <color name="colorNormalDark">#333333</color>
     <color name="colorTypeChosenOutcome">#FFE0B2</color>
-    <color name="typeIncome">#81C784</color>
+    <color name="typeIncomeLight">#B2DFDB</color>
+    <color name="typeIncome">#4DB6AC</color>
+    <color name="typeIncomeDark">#009688</color>
+    <color name="typeOutcomeLight">#FFCDD2</color>
     <color name="typeOutcome">#FF8A65</color>
-    <color name="typeOthers">#969696</color>
+    <color name="typeOutcomeDark">#E53935</color>
+    <color name="typeOthersLight">#CFD8DC</color>
+    <color name="typeOthers">#78909C</color>
+    <color name="typeOthersDark">#666666</color>
     <color name="colorTypeChosenIncome">#C8E6C9</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
