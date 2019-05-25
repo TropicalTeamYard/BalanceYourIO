@@ -3,24 +3,27 @@
               android:id="@+id/type_container"
               android:orientation="vertical"
               android:padding="0dp"
-              android:layout_width="wrap_content"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
             android:clickable="true">
     <ImageView
             android:id="@+id/type_img"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@drawable/ic_pxl_camera"
             android:layout_gravity="center_horizontal"
-            android:padding="8dp"/>
+            android:padding="4dp"
+            android:background="@drawable/shape_circle"
+            android:backgroundTint="@color/typeOutcomeLight"/>
     <TextView
             android:id="@+id/type_class"
-            android:layout_width="48dp"
+            android:layout_width="match_parent"
             android:layout_height="24dp"
             android:paddingEnd="4dp"
             android:paddingStart="4dp"
-            android:text="@string/type"
+            android:text="啦啦啦"
             android:gravity="center"
+            android:textSize="12sp"
             android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

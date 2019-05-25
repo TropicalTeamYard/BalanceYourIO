@@ -27,7 +27,7 @@
             android:layout_marginTop="12dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/add_bill_toolbar"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp">
         <RadioButton
@@ -68,14 +68,14 @@
                 android:layout_weight="1"/>
     </RadioGroup>
 
+
+
     <android.support.v7.widget.RecyclerView
             android:id="@+id/add_bill_rec_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:layout_below="@+id/add_bill_radio_group"/>
+            android:layout_height="match_parent"
+            android:layout_below="@id/add_bill_radio_group"
+            android:layout_above="@+id/linear_input_box"/>
 
     <LinearLayout android:orientation="vertical"
                   android:id="@+id/linear_input_box"

@@ -2,6 +2,9 @@ package tty.balanceyourio.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +36,7 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConv
         return source.count()
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         val iconRes:Int = rConverter.getResID( source[p1]["icon"] as Int)
@@ -48,9 +52,20 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConv
 
         try {
             if((source[p1]["chosen"] as Boolean?)!!){
-                p0.imageView.setColorFilter(0xaaffff00.toInt())
+                p0.imageView.background.setTint(context.getColor(
+                when(source[p1]["type"] as Int)
+                {
+                    0->R.color.typeOutcomeLight
+                    1->R.color.typeIncomeLight
+                    else ->R.color.typeOthersLight
+                }
+                ))
+
+
+                //p0.imageView.setColorFilter(0xaaffff00.toInt())
             } else {
-                p0.imageView.setColorFilter(0x00ffffff.toInt())
+                p0.imageView.background.setTint(context.getColor(R.color.transparent))
+                //p0.imageView.setColorFilter(0x00ffffff.toInt())
             }
         } catch (e: NullPointerException){
 
