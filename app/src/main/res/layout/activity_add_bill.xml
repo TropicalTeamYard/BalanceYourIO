@@ -102,37 +102,37 @@
                       android:layout_width="match_parent"
                       android:layout_height="36dp"
                       android:gravity="center_vertical"
+                      android:layout_marginStart="8dp"
                       android:text="@string/today"
                       android:textColor="@color/colorNormal"
                       android:textSize="16sp"/>
         </LinearLayout>
-        <LinearLayout
+        <EditText
+                android:id="@+id/add_input_money"
+                android:clickable="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-            <EditText
-                    android:id="@+id/add_bill_ed_remark"
-                    android:background="@drawable/shape_dash"
-                    android:hint="@string/input_remark"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="36dp"
-                    android:inputType="text"
-                    android:paddingStart="8dp"/>
-            <EditText
-                    android:id="@+id/add_input_money"
-                    android:clickable="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:hint="@string/default_amount"
-                    android:background="@drawable/border"
-                    android:inputType="numberDecimal"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:gravity="center"
-                    android:textSize="24sp"
-                    android:textColor="@color/colorNormalDark"/>
-        </LinearLayout>
+                android:layout_height="match_parent"
+                android:hint="@string/default_amount"
+                android:background="@drawable/border_transparent"
+                android:inputType="numberDecimal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:textSize="36sp"
+                android:textColor="@color/colorNormalDark"/>
+        <EditText
+                android:id="@+id/add_bill_ed_remark"
+                android:background="@drawable/shape_dash"
+                android:hint="@string/input_remark"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:inputType="text"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"/>
 
         <Button android:id="@+id/add_bill_bt_save"
                 android:layout_width="match_parent"
@@ -141,6 +141,8 @@
                 android:text="@string/save"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:textSize="20sp"/>
     </LinearLayout>
 
