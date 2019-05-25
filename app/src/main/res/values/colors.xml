@@ -10,6 +10,7 @@
     <color name="colorTypeChosenOutcome">#FFE0B2</color>
     <color name="typeIncomeLight">#B2DFDB</color>
     <color name="typeIncome">#4DB6AC</color>
+    <color name="typeInRadio">#FFD740</color>
     <color name="typeIncomeDark">#009688</color>
     <color name="typeOutcomeLight">#FFCDD2</color>
     <color name="typeOutcome">#FF8A65</color>
