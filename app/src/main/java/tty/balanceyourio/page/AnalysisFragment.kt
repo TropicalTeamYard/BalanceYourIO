@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioGroup
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -29,9 +30,31 @@ import java.text.DecimalFormat
 import java.util.*
 
 
-class AnalysisFragment : Fragment() {
+class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
+    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+        when(checkedId) {
+            R.id.radio_mode_day -> {
+                timeMode=TimeMode.Day
+            }
+
+            R.id.radio_mode_week -> {
+                timeMode=TimeMode.Week
+            }
+
+            R.id.radio_mode_month -> {
+                timeMode=TimeMode.Month
+            }
+
+            R.id.radio_mode_year -> {
+                timeMode=TimeMode.Year
+            }
+        }
+
+        updateData()
+    }
+
     fun updateData() {
-        Log.d(TAG, "update DATA")
+//        Log.d(TAG, "update DATA")
         getDataAndShow()
     }
 
@@ -90,6 +113,8 @@ class AnalysisFragment : Fragment() {
             }
         }
 
+        choose_chart_view_mode.setOnCheckedChangeListener(this)
+
     }
 
 
@@ -103,11 +128,15 @@ class AnalysisFragment : Fragment() {
         data = helper!!.getBill()
         statisticsList = BillRecordsProvider.getBillRecordsForSumByTimeMode(data, timeMode)
         timeList = BillRecordsProvider.getBillRecordsForTimeListByTimeMode(data, timeMode)
-        if (ratio >= 0) {
-            ratio = statisticsList.size.toFloat() / 7
-            chart.zoom(ratio, 1F, 0F, 0F)
-            ratio = -1F
+        chart.zoom(0F, 1F, 0F, 0F)
+        ratio = statisticsList.size.toFloat() / when(timeMode){
+            TimeMode.Day -> 7
+            TimeMode.Week -> 8
+            TimeMode.Month -> 12
+            TimeMode.Year -> 12
         }
+        chart.zoom(ratio, 1F, 0F, 0F)
+        ratio = -1F
         setData(chart, statisticsList, timeMode)
         chart.invalidate()
     }

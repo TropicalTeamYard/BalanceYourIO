@@ -6,20 +6,43 @@
         android:layout_height="match_parent"
         tools:context=".page.AnalysisFragment">
 
-    <!--    <tty.balanceyourio.widget.ShowBillChart-->
-    <!--            android:id="@+id/analysis_chart"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="240dp"-->
-    <!--            android:paddingTop="16dp"-->
-    <!--            android:paddingStart="8dp"-->
-    <!--            android:paddingEnd="16dp"-->
-    <!--            app:timeMode="year"-->
-    <!--            android:paddingBottom="16dp"-->
-    <!--            app:titleColor="@color/white"-->
-    <!--            app:chartMode="list"/>-->
+    <RadioGroup
+            android:id="@+id/choose_chart_view_mode"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:checkedButton="@id/radio_mode_day"
+            android:layout_height="wrap_content">
+        <RadioButton
+                android:id="@+id/radio_mode_year"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="年"/>
+        <RadioButton
+                android:id="@+id/radio_mode_month"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="月"/>
+        <RadioButton
+                android:id="@+id/radio_mode_week"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="周"/>
+        <RadioButton
+                android:id="@+id/radio_mode_day"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="日"/>
+    </RadioGroup>
 
     <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/time_line_chart"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/choose_chart_view_mode"
             android:layout_width="match_parent"
             android:layout_height="240dp"/>
 

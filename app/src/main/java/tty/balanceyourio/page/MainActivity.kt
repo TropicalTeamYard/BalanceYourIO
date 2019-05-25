@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
@@ -15,7 +14,7 @@ import tty.balanceyourio.interfaces.BillRecordDeleted
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener, BillRecordDeleted {
     override fun notifyUpdate() {
-        Log.d(TAG, "interface notifyUpdate")
+//        Log.d(TAG, "interface notifyUpdate")
         val analysisFragment: AnalysisFragment = adapter?.getItem(1) as AnalysisFragment
         analysisFragment.updateData()
     }
