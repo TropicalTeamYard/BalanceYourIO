@@ -67,7 +67,7 @@ class DataFragment : Fragment(),
         fab_add_bill_record.setOnClickListener {
             startActivity(Intent(this.context, AddBillActivity::class.java))
         }
-        
+
         catLayoutParams=CoordinatorLayout.LayoutParams(NumberFormatter.dp2px(context!!, 120F), NumberFormatter.dp2px(context!!, 120F))
 
         layout_data_month_overview.setOnTouchListener { v, event ->
@@ -110,11 +110,11 @@ class DataFragment : Fragment(),
                         catL = 0
                         catR = catL + v.width
                     }
-
                     if (catR > screenWidth) {
                         catR = screenWidth
                         catL = catR - v.width
                     }
+
                     v.layout(catL, catT, catR, catB)
                     lastCatX = event.rawX.toInt()
                     lastCatY = event.rawY.toInt()
@@ -122,6 +122,12 @@ class DataFragment : Fragment(),
                 }
 
                 MotionEvent.ACTION_UP -> {
+                    if(catR > screenWidth - NumberFormatter.dp2px(context!!, 80F) && catB > screenHeight - NumberFormatter.dp2px(context!!, 80F)) {
+                        catR = screenWidth - NumberFormatter.dp2px(context!!, 80F)
+                        catL = catR - v.width
+                        catB = screenHeight - NumberFormatter.dp2px(context!!, 120F)
+                        catT = catB - v.height
+                    }
                     if(catB >= screenHeight - NumberFormatter.dp2px(context!!, 48F)){
                         catB = screenHeight
                         catT = screenHeight - v.height
