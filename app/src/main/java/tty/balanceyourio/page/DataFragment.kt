@@ -4,15 +4,18 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.AbsListView.OnScrollListener.*
 import android.widget.AdapterView
 import android.widget.ExpandableListView
+import android.widget.ImageView
 import kotlinx.android.synthetic.main.fragment_data.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.ShowBillListAdapter
@@ -20,6 +23,7 @@ import tty.balanceyourio.interfaces.BillRecordDeleted
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.util.DateConverter
+import tty.balanceyourio.util.NumberFormatter
 
 
 class DataFragment : Fragment(),
@@ -33,6 +37,16 @@ class DataFragment : Fragment(),
     private var cGroupP = 0
     private var cChildrenP = 0
     private lateinit var billRecordDeleted: BillRecordDeleted
+    private var lastCatX = 0
+    private var lastCatY = 0
+    private var screenWidth: Int = 0
+    private var screenHeight: Int = 0
+    private var isLastHide = false
+    private var catL = 0
+    private var catR = 0
+    private var catT = 0
+    private var catB = 0
+    private lateinit var catLayoutParams: CoordinatorLayout.LayoutParams
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -48,9 +62,101 @@ class DataFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        screenWidth=resources.displayMetrics.widthPixels
+        screenHeight=resources.displayMetrics.heightPixels
         fab_add_bill_record.setOnClickListener {
             startActivity(Intent(this.context, AddBillActivity::class.java))
         }
+        
+        catLayoutParams=CoordinatorLayout.LayoutParams(NumberFormatter.dp2px(context!!, 120F), NumberFormatter.dp2px(context!!, 120F))
+
+        layout_data_month_overview.setOnTouchListener { v, event ->
+            screenWidth=resources.displayMetrics.widthPixels
+            screenHeight=resources.displayMetrics.heightPixels
+            when(event.action){
+                MotionEvent.ACTION_DOWN -> {
+                    data_month_outcome.visibility=View.VISIBLE
+                    data_month_budget.visibility=View.VISIBLE
+                    overview_cat.setImageDrawable(resources.getDrawable(R.drawable.cat_1, null))
+                    lastCatX=event.rawX.toInt()
+                    lastCatY=event.rawY.toInt()
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    val dx=(event.rawX - lastCatX).toInt()
+                    val dy=(event.rawY - lastCatY).toInt()
+                    catL=v.left+dx
+                    catR=v.right+dx
+                    catT=v.top+dy
+                    catB=v.bottom+dy
+                    if(catB > screenHeight){
+                        catB = screenHeight
+                        catT = catB - v.height
+                    }
+                    if (catT < 0) {
+                        catT = 0
+                        catB = catT + v.height
+                    }
+                    if (catL < 0) {
+//                        if(isLastHide){
+//                            catL=0
+//                            catR = catL + v.width
+//                            isLastHide=false
+//                        } else {
+//                            catL = -NumberFormatter.dp2px(context!!, 65F)
+//                            catR = catL + v.width
+//                            isLastHide=true
+//                        }
+                        catL = 0
+                        catR = catL + v.width
+                    }
+
+                    if (catR > screenWidth) {
+                        catR = screenWidth
+                        catL = catR - v.width
+                    }
+                    v.layout(catL, catT, catR, catB)
+                    lastCatX = event.rawX.toInt()
+                    lastCatY = event.rawY.toInt()
+                    v.postInvalidate()
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    if(catB >= screenHeight - NumberFormatter.dp2px(context!!, 48F)){
+                        catB = screenHeight
+                        catT = screenHeight - v.height
+                    } else {
+                        if((catL + v.width/2)<screenWidth/2){
+                            catL = -NumberFormatter.dp2px(context!!, 65F)
+                            catR = catL + v.width
+                            overview_cat.setImageDrawable(resources.getDrawable(R.drawable.cat_left_0, null))
+                            overview_cat.scaleType=ImageView.ScaleType.FIT_END
+                        } else {
+                            catR = screenWidth + NumberFormatter.dp2px(context!!, 65F)
+                            catL = catR - v.width
+                            overview_cat.setImageDrawable(resources.getDrawable(R.drawable.cat_right_0, null))
+                            overview_cat.scaleType=ImageView.ScaleType.FIT_START
+                        }
+
+                        data_month_outcome.visibility=View.GONE
+                        data_month_budget.visibility=View.GONE
+                    }
+
+
+
+                    v.layout(catL, catT, catR, catB)
+                    v.postInvalidate()
+                    catLayoutParams.leftMargin = v.left
+                    catLayoutParams.topMargin = v.top
+                    catLayoutParams.rightMargin = v.right
+                    catLayoutParams.topMargin = v.top
+                    v.layoutParams=catLayoutParams
+                }
+            }
+            Log.d(TAG, "ldmo on touch")
+            true
+        }
+
     }
 
     override fun onResume() {
@@ -131,7 +237,7 @@ class DataFragment : Fragment(),
             billRecordDeleted.notifyUpdate()
 
             fab_add_bill_record.show()
-            linearLayout_data_month_overview.visibility=View.VISIBLE
+//            layout_data_month_overview.visibility=View.VISIBLE
 
         } catch (e:Exception){
             e.printStackTrace()
@@ -163,12 +269,12 @@ class DataFragment : Fragment(),
                         firstVisibleItem > lastVisibleItemPosition -> {
 //                            Log.i(TAG, "onScroll: -------->up")
                             fab_add_bill_record.hide()
-                            linearLayout_data_month_overview.visibility=View.GONE
+//                            layout_data_month_overview.visibility=View.GONE
                         }
                         firstVisibleItem < lastVisibleItemPosition -> {
 //                            Log.i(TAG, "onScroll: -------->down")
                             fab_add_bill_record.show()
-                            linearLayout_data_month_overview.visibility=View.VISIBLE
+//                            layout_data_month_overview.visibility=View.VISIBLE
                         }
                         else -> return
                     }
@@ -200,7 +306,6 @@ class DataFragment : Fragment(),
     }
 
     //endregion
-
 
     companion object{
         const val TAG = "DF"

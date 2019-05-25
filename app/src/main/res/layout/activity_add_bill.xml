@@ -86,12 +86,12 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/add_bill_choose_date"
                 android:orientation="horizontal"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp">
             <ImageView
                     android:layout_width="36dp"
-                    android:id="@+id/add_bill_choose_date"
                     android:layout_height="36dp"
                     android:layout_marginStart="4dp"
                     android:padding="4dp"
@@ -121,7 +121,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:textSize="36sp"
-                android:textColor="@color/colorNormalDark"/>
+                android:textColor="@color/colorNormalDark" android:focusable="true"/>
         <EditText
                 android:id="@+id/add_bill_ed_remark"
                 android:background="@drawable/shape_dash"

@@ -133,13 +133,9 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
                 return ""
             }
         }
-//        timeModeChart.axisRight.zeroLineWidth=5F
-//        timeModeChart.axisLeft.zeroLineWidth=5F
-//        timeModeChart.axisLeft.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
-//        timeModeChart.axisRight.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
 
-//        val limitY0=LimitLine(0F, "0")
-//        timeModeChart.axisLeft.addLimitLine(limitY0)
+        timeModeChart.axisLeft.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
+        timeModeChart.axisRight.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
 
         x.valueFormatter=object : ValueFormatter(){
             override fun getFormattedValue(value: Float): String {

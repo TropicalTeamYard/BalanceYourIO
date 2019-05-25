@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="false">-->
+<!--    <item android:drawable="@drawable/cat_left_0" android:duration="1000" />-->
+<!--    <item android:drawable="@drawable/cat_1" android:duration="1000" />-->
+<!--</animation-list>-->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+</set>

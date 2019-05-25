@@ -8,48 +8,40 @@
 
     <ExpandableListView android:background="@color/white" android:id="@+id/elv_show_bill_data" android:layout_width="match_parent" android:layout_height="match_parent" />
 
-    <LinearLayout
-            android:id="@+id/linearLayout_data_month_overview"
-            android:layout_width="wrap_content"
-            android:layout_gravity="start|bottom"
-            android:layout_margin="@dimen/fab_margin"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_alignParentEnd="true"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:background="@drawable/border_accent"
-            android:layout_below="@id/main_toolbar">
-        <TextView android:id="@+id/data_month"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textSize="16sp"
-                  android:textStyle="bold"
-                  android:text="2019.5"
-                  android:textColor="@color/white"/>
+    <RelativeLayout
+            android:id="@+id/layout_data_month_overview"
+            android:layout_gravity="bottom|start"
+            android:layout_width="120dp"
+            android:layout_height="120dp">
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:src="@drawable/cat_1"
+                   android:id="@+id/overview_cat"
+                   android:scaleType="fitEnd"/>
         <TextView
-                android:text="预算: 2000"
+                android:text="@string/default_budget"
                 android:textStyle="bold"
                 android:textColor="@color/typeIncome"
-                android:textSize="18sp"
-                android:layout_marginTop="4dp"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:visibility="visible"
                 android:id="@+id/data_month_budget"/>
         <TextView
-                android:text="支出: 2000"
+                android:text="@string/default_outcome"
                 android:textStyle="bold"
+                android:layout_below="@id/data_month_budget"
                 android:textColor="@color/typeOutcome"
-                android:textSize="18sp"
-                android:layout_marginTop="6dp"
+                android:textSize="16sp"
+                android:layout_marginTop="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:visibility="visible"
                 android:id="@+id/data_month_outcome"/>
-    </LinearLayout>
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
