@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
+import tty.balanceyourio.util.DateConverter
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -47,7 +48,7 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
         if (record.tag!=null)
             contentValues.put("tag",record.tag!!)
         if (record.time!= null)
-            contentValues.put("time",SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(record.time!!))
+            contentValues.put("time",DateConverter.getString(record.time!!))
         if (record.ioType!= IOType.Unset) {
             contentValues.put(
                 "iotype", when (record.ioType) {
@@ -89,6 +90,46 @@ class BYIOHelper(context : Context): SQLiteOpenHelper(context, DB_NAME,null, DB_
      */
     fun getBill():ArrayList<BillRecord> {
         val cursor = readableDatabase.rawQuery("select * from $NAME_BILL", arrayOf<String>())
+        val data=ArrayList<BillRecord>()
+        if(cursor.moveToFirst() && cursor.count > 0){
+            do {
+                val billRecord=BillRecord()
+                billRecord.id=cursor.getInt(cursor.getColumnIndex("_id"))
+                billRecord.time=simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex("time")))
+                billRecord.ioType=when(cursor.getInt(cursor.getColumnIndex("iotype"))){
+                    1 -> IOType.Income
+                    2 -> IOType.Outcome
+                    0 -> IOType.Other
+                    else -> IOType.Unset
+                }
+                billRecord.channel=cursor.getString(cursor.getColumnIndex("channel"))
+                billRecord.goodsType=cursor.getString(cursor.getColumnIndex("goodstype"))
+                billRecord.amount=cursor.getString(cursor.getColumnIndex("amount")).toDouble()
+                billRecord.tag=cursor.getString(cursor.getColumnIndex("tag"))
+                billRecord.remark=cursor.getString(cursor.getColumnIndex("remark"))
+                data.add(billRecord)
+            } while (cursor.moveToNext())
+        }
+        try {
+            cursor.close()
+            writableDatabase.close()
+        } catch (e:SQLException){
+            e.printStackTrace()
+        }
+
+        return data
+    }
+
+    fun getBill(from:Date, to:Date):ArrayList<BillRecord>{
+        DateConverter.cutToDate(from)
+        val calendar = Calendar.getInstance()
+        calendar.time = to
+        calendar.add(Calendar.DATE,1)
+        DateConverter.cutToDate(calendar.time)
+
+
+        val cursor = readableDatabase.rawQuery("select * from $NAME_BILL where datetime(time) between datetime(?) and datetime(?)",
+            arrayOf<String>(DateConverter.getString(from),DateConverter.getString(calendar.time)))
         val data=ArrayList<BillRecord>()
         if(cursor.moveToFirst() && cursor.count > 0){
             do {
