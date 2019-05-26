@@ -1,5 +1,6 @@
 package tty.balanceyourio.data
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import tty.balanceyourio.converter.CategoryConverter
@@ -149,18 +150,21 @@ object BillRecordsProvider {
         return Tuple(timeModeBill, timeModeSum, timeModeList)
     }
 
-    fun getIOSumByGoodsType(context: Context, billRecords: ArrayList<BillRecord>): HashMap<String, Float> {
-        val result = HashMap<String, Float>()
-        for(bill: BillRecord in billRecords){
-            val goodstype = bill.goodsType?.let { getFriendString(context, it) }
+    @SuppressLint("UseSparseArrays")
+    fun getIOSumByGoodsType(context: Context, billRecords: List<BillRecord>): HashMap<Int, Float> {
+        val result = HashMap<Int, Float>()
 
+        for(bill: BillRecord in billRecords){
+            val goodstype = getFriendKey(bill.goodsType)
+            result[goodstype] = (result[goodstype] ?: 0F) + bill.amount.toFloat()
         }
         return result
     }
 
 }
 
-fun getFriendString(context: Context, input:String):String{
+
+fun getFriendString(context: Context, input: String):String{
     val value: String
     value = if (input.startsWith("key.")){
         val key:Int? =  input.substring(4).toIntOrNull()
@@ -172,6 +176,17 @@ fun getFriendString(context: Context, input:String):String{
         input
     }
     return value
+}
+
+fun getFriendKey(input :String?): Int{
+    if(input==null){
+        return -1
+    }
+    return if (input.startsWith("key.")){
+        input.substring(4).toIntOrNull() ?: -1
+    } else {
+        -1
+    }
 }
 
 enum class ArrayType{

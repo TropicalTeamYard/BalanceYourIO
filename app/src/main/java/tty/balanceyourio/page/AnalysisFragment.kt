@@ -23,6 +23,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import kotlinx.android.synthetic.main.fragment_analysis.*
 import tty.balanceyourio.R
 import tty.balanceyourio.data.BYIOHelper
+import tty.balanceyourio.data.BillRecordsProvider
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.model.TimeMode
@@ -170,7 +171,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         detailTypeChart.setPinchZoom(false)
         detailTypeChart.isDragDecelerationEnabled=true
         detailTypeChart.dragDecelerationFrictionCoef=0.5F
-        detailTypeChart.setFitBars(false)
+        detailTypeChart.setFitBars(true)
 
         //endregion
 
@@ -243,9 +244,8 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
             TimeMode.Year -> 5
         }
         timeModeChart.zoom(timeModeChartZoomRatio, 1F, 0F, 0F)
-        timeModeChart.moveViewToX(moveToX)
+        timeModeChart.moveViewToX(moveToX - 1)
         setDataForTimeModeChart(timeModeChart, timeModeIOList)
-
         timeModeChart.invalidate()
     }
 
@@ -335,15 +335,21 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
     }
 
     private fun setDataForDetailTypeChart(chart: BarChart, detail: List<BillRecord>){
-        val barWidth = 5f
-        val spaceForBar = 8f
+        val barWidth = 1f
+        val spaceForBar = 2f
         val values = ArrayList<BarEntry>()
 
-        for (i in 0 until detail.size) {
-            val `val` = detail[i].amount.toFloat()
-            values.add(
-                BarEntry(i * spaceForBar, `val`)
-            )
+        val dataSum = BillRecordsProvider.getIOSumByGoodsType(this.context!!, detail)
+
+        var i = 0
+
+        for(entry in dataSum){
+            i++
+            values.add(BarEntry(i.toFloat() * spaceForBar, entry.value))
+        }
+
+        for(n in i .. 6){
+            values.add(BarEntry(n.toFloat() * spaceForBar, 0F))
         }
 
         val set1: BarDataSet
@@ -354,7 +360,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
             chart.data.notifyDataChanged()
             chart.notifyDataSetChanged()
         } else {
-            set1 = BarDataSet(values, "DataSet 1")
+            set1 = BarDataSet(values, "收支分类")
 
             set1.setDrawIcons(false)
 
@@ -362,6 +368,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
             dataSets.add(set1)
 
             val data = BarData(dataSets)
+            data.setDrawValues(true)
             data.setValueTextSize(10f)
             data.setValueTypeface(tfBold)
             data.barWidth = barWidth
