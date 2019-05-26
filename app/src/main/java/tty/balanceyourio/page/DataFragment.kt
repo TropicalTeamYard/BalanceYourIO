@@ -7,10 +7,7 @@ import android.os.Bundle
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.Fragment
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AbsListView
 import android.widget.AbsListView.OnScrollListener.*
 import android.widget.AdapterView
@@ -39,9 +36,8 @@ class DataFragment : Fragment(),
     private lateinit var billRecordDeleted: BillRecordDeleted
     private var lastCatX = 0
     private var lastCatY = 0
-    private var screenWidth: Int = 0
-    private var screenHeight: Int = 0
-    private var isLastHide = false
+    private var layoutWidth = 0
+    private var layoutHeight = 0
     private var catL = 0
     private var catR = 0
     private var catT = 0
@@ -62,17 +58,27 @@ class DataFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        screenWidth=resources.displayMetrics.widthPixels
-        screenHeight=resources.displayMetrics.heightPixels
         fab_add_bill_record.setOnClickListener {
             startActivity(Intent(this.context, AddBillActivity::class.java))
         }
 
         catLayoutParams=CoordinatorLayout.LayoutParams(NumberFormatter.dp2px(context!!, 120F), NumberFormatter.dp2px(context!!, 120F))
+        
+        layout_data_page.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                if(layout_data_page.viewTreeObserver.isAlive){
+                    layout_data_page.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    layoutWidth=layout_data_page.width
+                    layoutHeight=layout_data_page.height
+                }
+            }
+
+        })
+
 
         layout_data_month_overview.setOnTouchListener { v, event ->
-            screenWidth=resources.displayMetrics.widthPixels
-            screenHeight=resources.displayMetrics.heightPixels
+
+
             when(event.action){
                 MotionEvent.ACTION_DOWN -> {
                     data_month_outcome.visibility=View.VISIBLE
@@ -80,6 +86,7 @@ class DataFragment : Fragment(),
                     overview_cat.setImageDrawable(resources.getDrawable(R.drawable.cat_1, null))
                     lastCatX=event.rawX.toInt()
                     lastCatY=event.rawY.toInt()
+
                 }
 
                 MotionEvent.ACTION_MOVE -> {
@@ -89,8 +96,9 @@ class DataFragment : Fragment(),
                     catR=v.right+dx
                     catT=v.top+dy
                     catB=v.bottom+dy
-                    if(catB > screenHeight){
-                        catB = screenHeight
+//                    Log.d(TAG, "x: $catL, y: $catB")
+                    if(catB > layoutHeight + NumberFormatter.dp2px(context!!, 48F)) {
+                        catB = layoutHeight + NumberFormatter.dp2px(context!!, 48F)
                         catT = catB - v.height
                     }
                     if (catT < 0) {
@@ -98,20 +106,11 @@ class DataFragment : Fragment(),
                         catB = catT + v.height
                     }
                     if (catL < 0) {
-//                        if(isLastHide){
-//                            catL=0
-//                            catR = catL + v.width
-//                            isLastHide=false
-//                        } else {
-//                            catL = -NumberFormatter.dp2px(context!!, 65F)
-//                            catR = catL + v.width
-//                            isLastHide=true
-//                        }
                         catL = 0
                         catR = catL + v.width
                     }
-                    if (catR > screenWidth) {
-                        catR = screenWidth
+                    if (catR > layoutWidth) {
+                        catR = layoutWidth
                         catL = catR - v.width
                     }
 
@@ -122,24 +121,24 @@ class DataFragment : Fragment(),
                 }
 
                 MotionEvent.ACTION_UP -> {
-                    if(catR > screenWidth - NumberFormatter.dp2px(context!!, 80F) && catB > screenHeight - NumberFormatter.dp2px(context!!, 80F)) {
-                        catR = screenWidth - NumberFormatter.dp2px(context!!, 80F)
+                    if(catR > layoutWidth - NumberFormatter.dp2px(context!!, 80F) && catB > layoutHeight - NumberFormatter.dp2px(context!!, 80F)) {
+                        catR = layoutWidth - NumberFormatter.dp2px(context!!, 80F)
                         catL = catR - v.width
-                        catB = screenHeight - NumberFormatter.dp2px(context!!, 120F)
+                        catB = layoutHeight - NumberFormatter.dp2px(context!!, 80F)
                         catT = catB - v.height
                     }
 
-                    if(catB >= screenHeight - NumberFormatter.dp2px(context!!, 48F)){
-                        catB = screenHeight
-                        catT = screenHeight - v.height
+                    if(catB > layoutHeight){
+                        catB = layoutHeight + NumberFormatter.dp2px(context!!, 48F)
+                        catT = catB - v.height
                     } else {
-                        if((catL + v.width/2)<screenWidth/2){
+                        if((catL + v.width/2) < layoutWidth/2){
                             catL = -NumberFormatter.dp2px(context!!, 69F)
                             catR = catL + v.width
                             overview_cat.setImageDrawable(resources.getDrawable(R.drawable.cat_left_0, null))
                             overview_cat.scaleType=ImageView.ScaleType.FIT_END
                         } else {
-                            catR = screenWidth + NumberFormatter.dp2px(context!!, 69F)
+                            catR = layoutWidth + NumberFormatter.dp2px(context!!, 69F)
                             catL = catR - v.width
                             overview_cat.setImageDrawable(resources.getDrawable(R.drawable.cat_right_0, null))
                             overview_cat.scaleType=ImageView.ScaleType.FIT_START
