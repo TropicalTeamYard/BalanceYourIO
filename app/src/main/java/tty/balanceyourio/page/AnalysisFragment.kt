@@ -27,6 +27,7 @@ import tty.balanceyourio.data.BillRecordsProvider
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.model.TimeMode
+import tty.balanceyourio.provider.BillRecordProvider
 import tty.balanceyourio.util.DateConverter
 import tty.balanceyourio.util.NumberFormatter
 import tty.balanceyourio.util.NumberFormatter.decimalFormat0
@@ -80,7 +81,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
     private lateinit var data:ArrayList<BillRecord>
     private lateinit var timeModeIOList: ArrayList<HashMap<IOType, Double>>
     private lateinit var timeModeList: ArrayList<Date>
-    private lateinit var timeModeBillRecord: ArrayList<ArrayList<BillRecord>>
+    private lateinit var timeModeBillRecord: ArrayList<List<BillRecord>>
     private var timeMode=TimeMode.Day
     private lateinit var timeModeChart: LineChart
     private lateinit var detailTypeChart: BarChart
@@ -188,7 +189,35 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
     private fun getDataAndShow() {
         data = helper!!.getBill()
 
-        val join= BillRecordsProvider.getBillRecordsByTimeMode(data, timeMode)
+//        val join= BillRecordsProvider.getBillRecordsByTimeMode(data, timeMode)
+//        timeModeBillRecord = join.item1
+//        timeModeIOList = join.item2
+//        timeModeList = join.item3
+
+        //timeMode = TimeMode.Day
+
+        //data.sortByDescending { it.time }
+        //Log.d(TAG,"timeFirst:${data.first().time!!}")
+        //Log.d(TAG,"timeLast:${data.last().time!!}")
+
+        val join =
+            BillRecordProvider.toAnalysis(
+                when(timeMode){
+                    TimeMode.Day->{
+                        BillRecordProvider.joinGroupByDay(data)
+                    }
+                    TimeMode.Week->{
+                        BillRecordProvider.joinGroupByWeek(data)
+                    }
+                    TimeMode.Month->{
+                        BillRecordProvider.joinGroupByMonth(data)
+                    }
+                    else ->{
+                        BillRecordProvider.joinGroupByYear(data)
+                    }
+                })
+
+
         timeModeBillRecord = join.item1
         timeModeIOList = join.item2
         timeModeList = join.item3
@@ -291,7 +320,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         }
     }
 
-    private fun setDataForDetailTypeChart(chart: BarChart, detail: ArrayList<BillRecord>){
+    private fun setDataForDetailTypeChart(chart: BarChart, detail: List<BillRecord>){
         val barWidth = 5f
         val spaceForBar = 8f
         val values = ArrayList<BarEntry>()
