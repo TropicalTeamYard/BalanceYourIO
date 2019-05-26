@@ -1,7 +1,8 @@
 package tty.balanceyourio.data
 
+import android.content.Context
 import android.util.Log
-import android.util.SparseArray
+import tty.balanceyourio.converter.CategoryConverter
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.model.TimeMode
@@ -148,14 +149,29 @@ object BillRecordsProvider {
         return Tuple(timeModeBill, timeModeSum, timeModeList)
     }
 
-    fun getIOSumByGoodsType(billRecords: ArrayList<BillRecord>): SparseArray<Float> {
-        val result = SparseArray<Float>()
+    fun getIOSumByGoodsType(context: Context, billRecords: ArrayList<BillRecord>): HashMap<String, Float> {
+        val result = HashMap<String, Float>()
         for(bill: BillRecord in billRecords){
+            val goodstype = bill.goodsType?.let { getFriendString(context, it) }
 
         }
         return result
     }
 
+}
+
+fun getFriendString(context: Context, input:String):String{
+    val value: String
+    value = if (input.startsWith("key.")){
+        val key:Int? =  input.substring(4).toIntOrNull()
+        if (key != null)
+            context.getString(CategoryConverter().getResID(key))
+        else
+            "KeyNotFound"
+    } else {
+        input
+    }
+    return value
 }
 
 enum class ArrayType{

@@ -1,6 +1,8 @@
 package tty.balanceyourio.adapter
 
+import android.annotation.TargetApi
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -112,6 +114,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
         return groupPosition.toLong()
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
         val view: View
         val viewHolder: ChildViewHolder

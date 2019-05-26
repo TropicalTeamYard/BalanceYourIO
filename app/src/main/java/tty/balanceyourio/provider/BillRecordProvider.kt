@@ -61,7 +61,7 @@ class BillRecordProvider(var context:Context)
             var start :Date = DateConverter.cutToDate(Date())
             var end:Date = DateConverter.cutToDate(Date())
 
-            if (!data.isEmpty()){
+            if (data.isNotEmpty()){
                 start = DateConverter.cutToDate( data.last().time!!)
                 end = if (DateConverter.cutToDate(data.first().time!!) > end) DateConverter.cutToDate(data.first().time!!) else end
             }

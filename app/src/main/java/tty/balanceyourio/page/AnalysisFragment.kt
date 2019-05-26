@@ -23,7 +23,6 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import kotlinx.android.synthetic.main.fragment_analysis.*
 import tty.balanceyourio.R
 import tty.balanceyourio.data.BYIOHelper
-import tty.balanceyourio.data.BillRecordsProvider
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.IOType
 import tty.balanceyourio.model.TimeMode
@@ -87,6 +86,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
     private lateinit var detailTypeChart: BarChart
     private lateinit var tfBold: Typeface
     private var timeModeChartZoomRatio = 0F
+    private var moveToX = 0F
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         helper = context?.let { BYIOHelper(it) }
@@ -222,6 +222,19 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         timeModeIOList = join.item2
         timeModeList = join.item3
 
+        val calendar = Calendar.getInstance()
+
+        moveToX = when(timeMode){
+            TimeMode.Day -> timeModeList.indexOf(DateConverter.cutToDate(calendar.time)).toFloat()
+            TimeMode.Week -> timeModeList.indexOf(DateConverter.cutToWeek(calendar.time)).toFloat()
+            TimeMode.Month -> timeModeList.indexOf(DateConverter.cutToMonth(calendar.time)).toFloat()
+            TimeMode.Year -> timeModeList.indexOf(DateConverter.cutToYear(calendar.time)).toFloat()
+        }
+
+        if(moveToX<0){
+            moveToX=0F
+        }
+
         timeModeChart.zoom(0F, 1F, 0F, 0F)
         timeModeChartZoomRatio = timeModeIOList.size.toFloat() / when(timeMode){
             TimeMode.Day -> 6
@@ -230,6 +243,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
             TimeMode.Year -> 5
         }
         timeModeChart.zoom(timeModeChartZoomRatio, 1F, 0F, 0F)
+        timeModeChart.moveViewToX(moveToX)
         setDataForTimeModeChart(timeModeChart, timeModeIOList)
 
         timeModeChart.invalidate()
