@@ -128,17 +128,18 @@ class DataFragment : Fragment(),
                         catB = screenHeight - NumberFormatter.dp2px(context!!, 120F)
                         catT = catB - v.height
                     }
+
                     if(catB >= screenHeight - NumberFormatter.dp2px(context!!, 48F)){
                         catB = screenHeight
                         catT = screenHeight - v.height
                     } else {
                         if((catL + v.width/2)<screenWidth/2){
-                            catL = -NumberFormatter.dp2px(context!!, 65F)
+                            catL = -NumberFormatter.dp2px(context!!, 69F)
                             catR = catL + v.width
                             overview_cat.setImageDrawable(resources.getDrawable(R.drawable.cat_left_0, null))
                             overview_cat.scaleType=ImageView.ScaleType.FIT_END
                         } else {
-                            catR = screenWidth + NumberFormatter.dp2px(context!!, 65F)
+                            catR = screenWidth + NumberFormatter.dp2px(context!!, 69F)
                             catL = catR - v.width
                             overview_cat.setImageDrawable(resources.getDrawable(R.drawable.cat_right_0, null))
                             overview_cat.scaleType=ImageView.ScaleType.FIT_START
