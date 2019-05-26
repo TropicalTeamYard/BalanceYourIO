@@ -63,7 +63,7 @@ class DataFragment : Fragment(),
         }
 
         catLayoutParams=CoordinatorLayout.LayoutParams(NumberFormatter.dp2px(context!!, 120F), NumberFormatter.dp2px(context!!, 120F))
-        
+
         layout_data_page.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 if(layout_data_page.viewTreeObserver.isAlive){
@@ -72,12 +72,9 @@ class DataFragment : Fragment(),
                     layoutHeight=layout_data_page.height
                 }
             }
-
         })
 
-
         layout_data_month_overview.setOnTouchListener { v, event ->
-
 
             when(event.action){
                 MotionEvent.ACTION_DOWN -> {
@@ -148,8 +145,6 @@ class DataFragment : Fragment(),
                         data_month_budget.visibility=View.GONE
                     }
 
-
-
                     v.layout(catL, catT, catR, catB)
                     v.postInvalidate()
                     catLayoutParams.leftMargin = v.left
@@ -162,7 +157,6 @@ class DataFragment : Fragment(),
             Log.d(TAG, "ldmo on touch")
             true
         }
-
     }
 
     override fun onResume() {

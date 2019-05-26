@@ -15,11 +15,10 @@ import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import kotlinx.android.synthetic.main.fragment_analysis.*
 import tty.balanceyourio.R
@@ -33,6 +32,7 @@ import tty.balanceyourio.util.NumberFormatter
 import tty.balanceyourio.util.NumberFormatter.decimalFormat0
 import tty.balanceyourio.util.NumberFormatter.decimalFormat2
 import java.util.*
+import kotlin.collections.ArrayList
 
 @TargetApi(Build.VERSION_CODES.M)
 class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChartValueSelectedListener {
@@ -43,6 +43,11 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
     override fun onValueSelected(e: Entry?, h: Highlight?) {
         Log.d(TAG, "Entry Selected X: ${decimalFormat0.format(e?.x)} Y: ${decimalFormat2.format(e?.y?.toDouble()?.let { NumberFormatter.logToDouble(it)-1 })}")
         //TODO SELECTED UI
+        val pos = decimalFormat0.format(e?.x).toInt()
+        if(pos !in 0 until timeModeBillRecord.size){
+            return
+        }
+        setDataForDetailTypeChart(detailTypeChart, timeModeBillRecord[pos])
     }
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
@@ -73,13 +78,14 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
 
     private var helper: BYIOHelper? = null
     private lateinit var data:ArrayList<BillRecord>
-    private lateinit var statisticsList: ArrayList<HashMap<IOType, Double>>
-    private lateinit var timeList: ArrayList<Date>
+    private lateinit var timeModeIOList: ArrayList<HashMap<IOType, Double>>
+    private lateinit var timeModeList: ArrayList<Date>
+    private lateinit var timeModeBillRecord: ArrayList<ArrayList<BillRecord>>
     private var timeMode=TimeMode.Day
     private lateinit var timeModeChart: LineChart
     private lateinit var detailTypeChart: BarChart
     private lateinit var tfBold: Typeface
-    private var ratio = 0F
+    private var timeModeChartZoomRatio = 0F
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         helper = context?.let { BYIOHelper(it) }
@@ -92,6 +98,8 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         detailTypeChart=detail_bar_chart
 
         tfBold = Typeface.createFromAsset(context!!.assets, "OpenSans-Bold.ttf")
+
+        //region 设置图表属性
         timeModeChart.description.isEnabled=false
         timeModeChart.setNoDataText("暂无数据")
         timeModeChart.setTouchEnabled(true)
@@ -104,14 +112,14 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         timeModeChart.isDragDecelerationEnabled=true
         timeModeChart.dragDecelerationFrictionCoef=0.5F
 
-        val x = timeModeChart.xAxis
-        x.setLabelCount(7, false)
-        x.setAvoidFirstLastClipping(true)
-        x.textColor = resources.getColor(R.color.colorNormal, null)
-        x.position = XAxis.XAxisPosition.BOTTOM
-        x.setDrawGridLines(false)
-        x.isGranularityEnabled = true
-        x.axisLineColor = resources.getColor(R.color.colorNormal, null)
+        val xAxisTimeMode = timeModeChart.xAxis
+        xAxisTimeMode.setLabelCount(7, false)
+        xAxisTimeMode.setAvoidFirstLastClipping(true)
+        xAxisTimeMode.textColor = resources.getColor(R.color.colorNormal, null)
+        xAxisTimeMode.position = XAxis.XAxisPosition.BOTTOM
+        xAxisTimeMode.setDrawGridLines(false)
+        xAxisTimeMode.isGranularityEnabled = true
+        xAxisTimeMode.axisLineColor = resources.getColor(R.color.colorNormal, null)
 
 
         timeModeChart.axisLeft.isEnabled=true
@@ -137,16 +145,35 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         timeModeChart.axisLeft.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
         timeModeChart.axisRight.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
 
-        x.valueFormatter=object : ValueFormatter(){
+        xAxisTimeMode.valueFormatter=object : ValueFormatter(){
             override fun getFormattedValue(value: Float): String {
 //                Log.d(TAG, decimalFormat0.format(value))
                 val pos=decimalFormat0.format(value).toInt()
-                if(pos<0 || pos>=timeList.size){
+                if(pos<0 || pos>=timeModeList.size){
                     return "..."
                 }
-                return DateConverter.getXAxisDate(timeList[pos], timeMode)
+                return DateConverter.getXAxisDate(timeModeList[pos], timeMode)
             }
         }
+
+        //endregion
+        //region 设置细节图表属性
+
+        detailTypeChart.description.isEnabled=false
+        detailTypeChart.setNoDataText("该时间段暂无数据")
+        detailTypeChart.setTouchEnabled(true)
+        detailTypeChart.isDoubleTapToZoomEnabled=false
+        detailTypeChart.isDragEnabled = true
+//        detailTypeChart.isScaleXEnabled = false
+//        detailTypeChart.isScaleYEnabled = false
+        detailTypeChart.setPinchZoom(false)
+        detailTypeChart.isDragDecelerationEnabled=true
+        detailTypeChart.dragDecelerationFrictionCoef=0.5F
+        detailTypeChart.setFitBars(false)
+
+        //endregion
+
+
 
         choose_chart_view_mode.setOnCheckedChangeListener(this)
 
@@ -160,17 +187,21 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
 
     private fun getDataAndShow() {
         data = helper!!.getBill()
-        statisticsList = BillRecordsProvider.getBillRecordsForSumByTimeMode(data, timeMode)
-        timeList = BillRecordsProvider.getBillRecordsForTimeListByTimeMode(data, timeMode)
+
+        val join= BillRecordsProvider.getBillRecordsByTimeMode(data, timeMode)
+        timeModeBillRecord = join.item1
+        timeModeIOList = join.item2
+        timeModeList = join.item3
+
         timeModeChart.zoom(0F, 1F, 0F, 0F)
-        ratio = statisticsList.size.toFloat() / when(timeMode){
-            TimeMode.Day -> 7
-            TimeMode.Week -> 8
-            TimeMode.Month -> 12
-            TimeMode.Year -> 12
+        timeModeChartZoomRatio = timeModeIOList.size.toFloat() / when(timeMode){
+            TimeMode.Day -> 6
+            TimeMode.Week -> 5
+            TimeMode.Month -> 4
+            TimeMode.Year -> 5
         }
-        timeModeChart.zoom(ratio, 1F, 0F, 0F)
-        setDataForTimeModeChart(timeModeChart, statisticsList)
+        timeModeChart.zoom(timeModeChartZoomRatio, 1F, 0F, 0F)
+        setDataForTimeModeChart(timeModeChart, timeModeIOList)
 
         timeModeChart.invalidate()
     }
@@ -252,7 +283,6 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
                 }
             }
 
-
             val data = LineData(outcomeSet, incomeSet)
             data.setValueTypeface(tfBold)
             data.setValueTextSize(9f)
@@ -262,7 +292,41 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
     }
 
     private fun setDataForDetailTypeChart(chart: BarChart, detail: ArrayList<BillRecord>){
+        val barWidth = 5f
+        val spaceForBar = 8f
+        val values = ArrayList<BarEntry>()
 
+        for (i in 0 until detail.size) {
+            val `val` = detail[i].amount.toFloat()
+            values.add(
+                BarEntry(i * spaceForBar, `val`)
+            )
+        }
+
+        val set1: BarDataSet
+
+        if (chart.data != null && chart.data.dataSetCount > 0) {
+            set1 = chart.data.getDataSetByIndex(0) as BarDataSet
+            set1.values = values
+            chart.data.notifyDataChanged()
+            chart.notifyDataSetChanged()
+        } else {
+            set1 = BarDataSet(values, "DataSet 1")
+
+            set1.setDrawIcons(false)
+
+            val dataSets = ArrayList<IBarDataSet>()
+            dataSets.add(set1)
+
+            val data = BarData(dataSets)
+            data.setValueTextSize(10f)
+            data.setValueTypeface(tfBold)
+            data.barWidth = barWidth
+            chart.data = data
+
+        }
+
+        chart.invalidate()
     }
 
     companion object{
