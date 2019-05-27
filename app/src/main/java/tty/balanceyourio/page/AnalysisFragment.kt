@@ -16,6 +16,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.IFillFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
@@ -289,7 +290,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
 //            outcomeSet.fillAlpha = 20
 //            outcomeSet.setDrawHorizontalHighlightIndicator(true)
 //            outcomeSet.fillFormatter = IFillFormatter { _, _ -> chart.axisLeft.axisMaximum }
-//            outcomeSet.fillFormatter = IFillFormatter { _, _ -> 0F }
+            outcomeSet.fillFormatter = IFillFormatter { _, _ -> 0F }
             outcomeSet.setDrawFilled(true)
             outcomeSet.fillDrawable=ColorDrawable(resources.getColor(R.color.typeOutcomeAlpha, null))
             outcomeSet.fillAlpha = 20
@@ -314,7 +315,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
 //            incomeSet.fillAlpha = 100
 //            incomeSet.setDrawHorizontalHighlightIndicator(true)
 //            incomeSet.fillFormatter = IFillFormatter { _, _ -> chart.axisRight.axisMinimum }
-//            incomeSet.fillFormatter = IFillFormatter { _, _ -> 0F }
+            incomeSet.fillFormatter = IFillFormatter { _, _ -> 0F }
             incomeSet.setDrawFilled(true)
             incomeSet.fillDrawable=ColorDrawable(resources.getColor(R.color.typeIncomeAlpha, null))
             incomeSet.setDrawValues(true)
