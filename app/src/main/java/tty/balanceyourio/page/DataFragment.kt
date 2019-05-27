@@ -93,7 +93,6 @@ class DataFragment : Fragment(),
                     catR=v.right+dx
                     catT=v.top+dy
                     catB=v.bottom+dy
-//                    Log.d(TAG, "x: $catL, y: $catB")
                     if(catB > layoutHeight + NumberFormatter.dp2px(context!!, 48F)) {
                         catB = layoutHeight + NumberFormatter.dp2px(context!!, 48F)
                         catT = catB - v.height
@@ -237,7 +236,6 @@ class DataFragment : Fragment(),
             billRecordDeleted.notifyUpdate()
 
             fab_add_bill_record.show()
-//            layout_data_month_overview.visibility=View.VISIBLE
 
         } catch (e:Exception){
             e.printStackTrace()
@@ -259,8 +257,8 @@ class DataFragment : Fragment(),
         elv_show_bill_data.setOnChildClickListener(this)
         elv_show_bill_data.onItemLongClickListener = this
 
-        var scrollFlag = false;// 标记是否滑动
-        var lastVisibleItemPosition = 0;// 标记上次滑动位置
+        var scrollFlag = false // 标记是否滑动
+        var lastVisibleItemPosition = 0 // 标记上次滑动位置
 
         elv_show_bill_data.setOnScrollListener(object : AbsListView.OnScrollListener {
             override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
@@ -269,12 +267,10 @@ class DataFragment : Fragment(),
                         firstVisibleItem > lastVisibleItemPosition -> {
 //                            Log.i(TAG, "onScroll: -------->up")
                             fab_add_bill_record.hide()
-//                            layout_data_month_overview.visibility=View.GONE
                         }
                         firstVisibleItem < lastVisibleItemPosition -> {
 //                            Log.i(TAG, "onScroll: -------->down")
                             fab_add_bill_record.show()
-//                            layout_data_month_overview.visibility=View.VISIBLE
                         }
                         else -> return
                     }
