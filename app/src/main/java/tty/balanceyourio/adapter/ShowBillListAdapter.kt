@@ -3,7 +3,6 @@ package tty.balanceyourio.adapter
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,8 +66,14 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
 
     }
 
-    override fun getGroup(groupPosition: Int): Any {
+    override fun getGroup(groupPosition: Int): ArrayList<BillRecord> {
         return billList[groupPosition]
+    }
+
+    fun getGroupDate(groupPosition: Int?): Date? {
+        if(dateList.isEmpty() || groupPosition==null)
+            return null
+        return dateList[groupPosition]
     }
 
     override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean {
@@ -94,8 +99,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             viewHolder = view.tag as ParentViewHolder
         }
 
-        viewHolder.date.text = DateConverter.getFriendDateString(
-        (getChild(groupPosition,0) as BillRecord).time!!)
+        viewHolder.date.text = DateConverter.getFriendDateString((getChild(groupPosition,0) as BillRecord).time!!)
 
         viewHolder.income.text = "${context.resources.getString(R.string.income)} ${decimalFormat.format(daySumList[groupPosition][IOType.Income])}"
         viewHolder.outcome.text = "${context.resources.getString(R.string.outcome)} ${decimalFormat.format(daySumList[groupPosition][IOType.Outcome])}"
@@ -106,7 +110,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
         return billList[groupPosition].size
     }
 
-    override fun getChild(groupPosition: Int, childPosition: Int): Any {
+    override fun getChild(groupPosition: Int, childPosition: Int): BillRecord {
         return billList[groupPosition][childPosition]
     }
 

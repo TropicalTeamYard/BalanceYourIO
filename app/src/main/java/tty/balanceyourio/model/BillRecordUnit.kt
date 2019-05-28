@@ -1,6 +1,5 @@
 package tty.balanceyourio.model
 
-import tty.balanceyourio.util.DateConverter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -9,13 +8,13 @@ import kotlin.collections.ArrayList
  */
 class BillRecordUnit
 {
-    lateinit var startTime:Date
+    lateinit var startTime: Date
     lateinit var timeMode: TimeMode
 
     var data:List<BillRecord> = ArrayList()
 
     fun isEmpty():Boolean{
-        return data.size == 0
+        return data.isEmpty()
     }
 
     var outcomeSum = 0.0

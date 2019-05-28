@@ -16,11 +16,15 @@ import android.widget.ImageView
 import kotlinx.android.synthetic.main.fragment_data.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.ShowBillListAdapter
+import tty.balanceyourio.data.BYIOHelper
 import tty.balanceyourio.interfaces.BillRecordDeleted
 import tty.balanceyourio.model.BillRecord
+import tty.balanceyourio.model.GroupDateTuple
 import tty.balanceyourio.model.IOType
+import tty.balanceyourio.provider.BillRecordProvider
 import tty.balanceyourio.util.DateConverter
 import tty.balanceyourio.util.NumberFormatter
+import java.util.*
 
 
 class DataFragment : Fragment(),
@@ -42,7 +46,8 @@ class DataFragment : Fragment(),
     private var catR = 0
     private var catT = 0
     private var catB = 0
-    private lateinit var catLayoutParams: CoordinatorLayout.LayoutParams
+    private lateinit var catParams: CoordinatorLayout.LayoutParams
+    private var firstGroup: GroupDateTuple<Int?, Date?> = GroupDateTuple(null, null)
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -62,7 +67,8 @@ class DataFragment : Fragment(),
             startActivity(Intent(this.context, AddBillActivity::class.java))
         }
 
-        catLayoutParams=CoordinatorLayout.LayoutParams(NumberFormatter.dp2px(context!!, 120F), NumberFormatter.dp2px(context!!, 120F))
+        catParams = CoordinatorLayout.LayoutParams(NumberFormatter.dp2px(context!!, 120F), NumberFormatter.dp2px(context!!, 120F))
+//        expParams = CoordinatorLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
         layout_data_page.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -146,16 +152,17 @@ class DataFragment : Fragment(),
 
                     v.layout(catL, catT, catR, catB)
                     v.postInvalidate()
-                    catLayoutParams.leftMargin = v.left
-                    catLayoutParams.topMargin = v.top
-                    catLayoutParams.rightMargin = v.right
-                    catLayoutParams.topMargin = v.top
-                    v.layoutParams=catLayoutParams
+                    catParams.leftMargin = v.left
+                    catParams.topMargin = v.top
+                    catParams.rightMargin = v.right
+                    catParams.topMargin = v.top
+                    v.layoutParams=catParams
                 }
             }
             Log.d(TAG, "ldmo on touch")
             true
         }
+
     }
 
     override fun onResume() {
@@ -214,6 +221,10 @@ class DataFragment : Fragment(),
                 adapter.dateList.removeAt(cGroupP)
                 adapter.billList.removeAt(cGroupP)
                 adapter.daySumList.removeAt(cGroupP)
+                if(adapter.getGroupDate(0) == null) {
+                    firstGroup = GroupDateTuple(null, null)
+                    data_month_outcome.text = "支出: null"
+                }
             } else {
                 val a = adapter.billList[cGroupP][cChildrenP]
                 when(a.ioType){
@@ -248,7 +259,13 @@ class DataFragment : Fragment(),
         elv_show_bill_data.setAdapter(adapter)
         elv_show_bill_data.setGroupIndicator(null)
 
-        // 默认展开所有项
+        firstGroup.position = 0
+        firstGroup.date = adapter.getGroupDate(0)
+        if(firstGroup.position!=null){
+            onMonthChange()
+        }
+
+        //默认展开所有项
         //TODO @HHR 完成COUNT为0时(没有子项时的显示文案)
         for (i in 0 until adapter.groupCount){
             elv_show_bill_data.expandGroup(i)
@@ -257,8 +274,8 @@ class DataFragment : Fragment(),
         elv_show_bill_data.setOnChildClickListener(this)
         elv_show_bill_data.onItemLongClickListener = this
 
-        var scrollFlag = false // 标记是否滑动
-        var lastVisibleItemPosition = 0 // 标记上次滑动位置
+        var scrollFlag = false //标记是否滑动
+        var lastVisibleItemPosition = 0 //标记上次滑动位置
 
         elv_show_bill_data.setOnScrollListener(object : AbsListView.OnScrollListener {
             override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
@@ -274,7 +291,22 @@ class DataFragment : Fragment(),
                         }
                         else -> return
                     }
-                    lastVisibleItemPosition = firstVisibleItem;
+                    lastVisibleItemPosition = firstVisibleItem
+                }
+                //判断月份是否有切换的逻辑
+
+                val packedPosition = elv_show_bill_data.getExpandableListPosition(firstVisibleItem)
+                val groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition)
+//                val childPosition = ExpandableListView.getPackedPositionChild(packedPosition)
+//                Log.d(TAG, "First POS: $firstVisibleItem, GROUP: $groupPosition, CHILD: $childPosition")
+                if(firstGroup.date !=null && adapter.getGroupDate(groupPosition) != firstGroup.date){
+                    //TODO(执行月份变化的判断)
+                    if(firstGroup.position != null && adapter.getGroupDate(groupPosition) != null && !DateConverter.equalMonth(firstGroup.date!!, adapter.getGroupDate(groupPosition)!!)){
+                        firstGroup.position = groupPosition
+                        firstGroup.date = adapter.getGroupDate(groupPosition)
+                        onMonthChange()
+                    }
+
                 }
             }
 
@@ -285,11 +317,11 @@ class DataFragment : Fragment(),
                         scrollFlag = false
 
                         if (elv_show_bill_data.lastVisiblePosition == elv_show_bill_data.count - 1) {
-//                            Log.d(TAG, "elv move to bottom")
+                            //Log.d(TAG, "elv move to bottom")
                         }
 
                         if (elv_show_bill_data.firstVisiblePosition == 0) {
-//                            Log.d(TAG, "elv move to top")
+                            //Log.d(TAG, "elv move to top")
                         }
                     }
                     //when moving
@@ -299,6 +331,18 @@ class DataFragment : Fragment(),
                 }
             }
         })
+
+    }
+
+    private fun onMonthChange() {
+        Log.d(TAG, "MONTH CHANGED: ${DateConverter.cutToMonth(firstGroup.date!!)}")
+        val start = Calendar.getInstance()
+        start.time = DateConverter.cutToMonth(firstGroup.date!!)
+        val end = start.clone() as Calendar
+        end.set(Calendar.DAY_OF_MONTH, end.getActualMaximum(Calendar.DAY_OF_MONTH))
+        val info=BillRecordProvider.joinGroupByMonth(start.time, end.time, BYIOHelper(context!!).getBill(start.time, end.time))
+        data_month_outcome.text="支出: ${NumberFormatter.decimalFormat2.format(info[0].outcomeSum)}"
+
     }
 
     //endregion

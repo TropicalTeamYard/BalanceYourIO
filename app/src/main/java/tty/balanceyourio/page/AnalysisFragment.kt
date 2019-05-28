@@ -192,8 +192,8 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         data = helper!!.getBill()
 
 //        val join= BillRecordsProvider.getBillRecordsByTimeMode(data, timeMode)
-//        timeModeBillRecord = join.item1
-//        timeModeIOList = join.item2
+//        timeModeBillRecord = join.position
+//        timeModeIOList = join.date
 //        timeModeList = join.item3
 
         //timeMode = TimeMode.Day

@@ -37,13 +37,11 @@ class BillRecordProvider(var context:Context)
     fun getAllBillRecordsGroupByDay():ArrayList<BillRecordUnit>{
         val data:ArrayList<BillRecord> = BYIOHelper(context).getBill()
 
-        if (data.size > 0)
-        {
+        return if (data.size > 0) {
             data.sortByDescending { it.time }
-            return joinGroupByDay(data.last().time!!,data.first().time!!,data,false)
-        }
-        else {
-            return ArrayList()
+            joinGroupByDay(data.last().time!!,data.first().time!!,data,false)
+        } else {
+            ArrayList()
         }
     }
 
@@ -73,6 +71,7 @@ class BillRecordProvider(var context:Context)
 
             return joinGroupByDay(start,end,data,false)
         }
+
         fun joinGroupByDay(start:Date, end:Date,data:ArrayList<BillRecord>,sort:Boolean = true):ArrayList<BillRecordUnit>{
             if (sort)
                 data.sortByDescending { it.time }
@@ -114,6 +113,7 @@ class BillRecordProvider(var context:Context)
             }
             return result
         }
+
         fun joinGroupByWeek(data:ArrayList<BillRecord>):ArrayList<BillRecordUnit>{
             data.sortByDescending { it.time }
 
@@ -132,6 +132,7 @@ class BillRecordProvider(var context:Context)
 
             return joinGroupByWeek(start,end,data,false)
         }
+
         fun joinGroupByWeek(start:Date, end:Date, data:ArrayList<BillRecord>, sort:Boolean = true):ArrayList<BillRecordUnit>{
             if (sort)
                 data.sortByDescending { it.time }
@@ -149,7 +150,7 @@ class BillRecordProvider(var context:Context)
                     if (DateConverter.cutToWeek( data[index].time !!) == cTime.time){
                         selected.add(data[index])
                     }
-                    index ++;
+                    index ++
                 }
 
                 val unit = BillRecordUnit()
@@ -173,12 +174,13 @@ class BillRecordProvider(var context:Context)
             }
             return result
         }
+
         fun joinGroupByMonth(data:ArrayList<BillRecord>):ArrayList<BillRecordUnit>{
             data.sortByDescending { it.time }
 
             var start :Date = DateConverter.cutToMonth(Date())
             var end:Date = DateConverter.cutToMonth(Date())
-            if (!data.isEmpty()){
+            if (data.isNotEmpty()){
                 start = DateConverter.cutToMonth( data.last().time!!)
                 end = if (DateConverter.cutToMonth(data.first().time!!) > end) DateConverter.cutToMonth(data.first().time!!) else end
             }
@@ -191,6 +193,7 @@ class BillRecordProvider(var context:Context)
 
             return joinGroupByMonth(start,end,data,false)
         }
+
         fun joinGroupByMonth(start:Date,end:Date,data:ArrayList<BillRecord>,sort:Boolean = true):ArrayList<BillRecordUnit>{
             if (sort)
                 data.sortByDescending { it.time }
@@ -231,6 +234,7 @@ class BillRecordProvider(var context:Context)
             }
             return result
         }
+
         fun joinGroupByYear(data:ArrayList<BillRecord>):ArrayList<BillRecordUnit>{
             data.sortByDescending { it.time }
 
@@ -250,6 +254,7 @@ class BillRecordProvider(var context:Context)
 
             return joinGroupByYear(start,end,data,false)
         }
+
         fun joinGroupByYear(start:Date,end:Date,data:ArrayList<BillRecord>,sort:Boolean = true):ArrayList<BillRecordUnit>{
             if (sort)
                 data.sortByDescending { it.time }

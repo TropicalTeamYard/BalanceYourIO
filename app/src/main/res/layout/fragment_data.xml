@@ -8,7 +8,13 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".page.DataFragment">
 
-    <ExpandableListView android:background="@color/white" android:id="@+id/elv_show_bill_data" android:layout_width="match_parent" android:layout_height="match_parent" />
+    <ExpandableListView
+            android:background="@color/white"
+            android:overScrollMode="ifContentScrolls"
+            android:id="@+id/elv_show_bill_data"
+            android:childDivider="@color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     <RelativeLayout
             android:id="@+id/layout_data_month_overview"
