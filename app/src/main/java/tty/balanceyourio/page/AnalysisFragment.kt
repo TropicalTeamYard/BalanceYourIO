@@ -180,27 +180,40 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         //endregion
         //region 设置细节图表属性
 
-        detailTypeChart.description.isEnabled=false
+        detailTypeChart.description.isEnabled = false
         detailTypeChart.setNoDataText("该时间段暂无数据")
         detailTypeChart.setTouchEnabled(true)
-        detailTypeChart.isDoubleTapToZoomEnabled=false
+        detailTypeChart.isDoubleTapToZoomEnabled = false
+        detailTypeChart.xAxis.setAvoidFirstLastClipping(true)
         detailTypeChart.isDragEnabled = true
         detailTypeChart.setScaleEnabled(false)
         detailTypeChart.axisRight.axisMinimum = 0F
         detailTypeChart.axisLeft.axisMinimum = 0F
         detailTypeChart.xAxis.position=XAxis.XAxisPosition.BOTTOM
         detailTypeChart.setDrawGridBackground(false)
+        detailTypeChart.xAxis.setDrawGridLines(false)
+        detailTypeChart.axisLeft.setDrawGridLines(false)
+        detailTypeChart.axisRight.setDrawGridLines(false)
+        detailTypeChart.axisLeft.isEnabled = false
+        detailTypeChart.axisRight.isEnabled = false
         detailTypeChart.setPinchZoom(false)
-        detailTypeChart.isDragDecelerationEnabled=true
-        detailTypeChart.dragDecelerationFrictionCoef=0.5F
+        detailTypeChart.isDragDecelerationEnabled = true
+        detailTypeChart.dragDecelerationFrictionCoef = 0.5F
         detailTypeChart.setFitBars(true)
+
 
         detailTypeChart.xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-                if(value >= detailTypeSum.size || value < 0){
+                val pos = -value.toInt()
+                //return "$value"
+
+                if(pos >= detailTypeSum.size || pos < 0){
                     return ""
                 }
-                return getFriendString(context!!, "key.${detailTypeSum[value.toInt()/2].goodstype}")
+
+                //Log.d(TAG, "xAxis $value")
+
+                return getFriendString(context!!, "key.${detailTypeSum[pos].goodstype}")
             }
         }
 
@@ -372,14 +385,14 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
     }
 
     private fun setDataForDetailTypeChart(chart: BarChart, dataSum: ArrayList<TypeSum>){
-        val barWidth = 1f
-        val spaceForBar = 2f
+        val barWidth = 0.5f
+        val spaceForBar = 1f
         val values = ArrayList<BarEntry>()
 
         var i = 0
 
         for(item in dataSum){
-            values.add(BarEntry(-i.toFloat() * spaceForBar, item.sum))
+            values.add(BarEntry(-i.toFloat() * spaceForBar, Math.log(item.sum.toDouble()).toFloat()))
             i++
         }
 
@@ -409,6 +422,15 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
             data.barWidth = barWidth
             chart.data = data
 
+        }
+
+        set1.valueFormatter = object : ValueFormatter(){
+            override fun getFormattedValue(value: Float): String {
+                if(value == 0.0F){
+                    return ""
+                }
+                return decimalFormat2.format(NumberFormatter.logToDouble(value.toDouble()))
+            }
         }
 
         chart.invalidate()
