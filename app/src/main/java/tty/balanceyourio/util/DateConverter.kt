@@ -152,7 +152,7 @@ object DateConverter {
         val calendar2=Calendar.getInstance()
         calendar1.time=d1
         calendar2.time=d2
-        return calendar1.get(Calendar.WEEK_OF_YEAR) ==calendar2.get(Calendar.WEEK_OF_YEAR)
+        return calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR) && calendar1.get(Calendar.WEEK_OF_YEAR) == calendar2.get(Calendar.WEEK_OF_YEAR)
     }
 
     fun getXAxisDate(d: Date, timeMode: TimeMode): String{

@@ -25,6 +25,8 @@ import kotlinx.android.synthetic.main.fragment_analysis.*
 import tty.balanceyourio.R
 import tty.balanceyourio.data.BYIOHelper
 import tty.balanceyourio.data.BillRecordsProvider
+import tty.balanceyourio.data.TypeSum
+import tty.balanceyourio.data.getFriendString
 import tty.balanceyourio.model.BillRecord
 import tty.balanceyourio.model.BillRecordUnit
 import tty.balanceyourio.model.TimeMode
@@ -48,6 +50,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
 //    private lateinit var timeModeBillRecord: ArrayList<ArrayList<BillRecord>>
 
     private lateinit var billRecordUnits: ArrayList<BillRecordUnit>
+    private var detailTypeSum: ArrayList<TypeSum> = ArrayList()
 
 
     private var timeMode=TimeMode.Day
@@ -62,7 +65,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
 
     override fun onNothingSelected() {
         Log.d(TAG, "Nothing Selected")
-        setDataForDetailTypeChart(detailTypeChart, BillRecordUnit())
+        setDataForDetailTypeChart(detailTypeChart, ArrayList())
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -72,7 +75,8 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         if(pos !in 0 until billRecordUnits.size){
             return
         }
-        setDataForDetailTypeChart(detailTypeChart, billRecordUnits[pos])
+        detailTypeSum = BillRecordsProvider.getIOSumByGoodsType(billRecordUnits[pos])
+        setDataForDetailTypeChart(detailTypeChart, detailTypeSum)
     }
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
@@ -93,6 +97,8 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
                 timeMode=TimeMode.Year
             }
         }
+
+        onNothingSelected()
 
         updateData()
     }
@@ -179,16 +185,22 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         detailTypeChart.setTouchEnabled(true)
         detailTypeChart.isDoubleTapToZoomEnabled=false
         detailTypeChart.isDragEnabled = true
-        detailTypeChart.axisLeft.isInverted = true
-        detailTypeChart.axisRight.isEnabled = false
+        detailTypeChart.setScaleEnabled(false)
+        detailTypeChart.axisRight.axisMinimum = 0F
+        detailTypeChart.axisLeft.axisMinimum = 0F
+        detailTypeChart.xAxis.position=XAxis.XAxisPosition.BOTTOM
+        detailTypeChart.setDrawGridBackground(false)
         detailTypeChart.setPinchZoom(false)
         detailTypeChart.isDragDecelerationEnabled=true
         detailTypeChart.dragDecelerationFrictionCoef=0.5F
         detailTypeChart.setFitBars(true)
 
-        detailTypeChart.axisLeft.valueFormatter = object : ValueFormatter() {
+        detailTypeChart.xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-                return super.getFormattedValue(value)
+                if(value >= detailTypeSum.size || value < 0){
+                    return ""
+                }
+                return getFriendString(context!!, "key.${detailTypeSum[value.toInt()/2].goodstype}")
             }
         }
 
@@ -359,12 +371,10 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         }
     }
 
-    private fun setDataForDetailTypeChart(chart: BarChart, detail: BillRecordUnit){
+    private fun setDataForDetailTypeChart(chart: BarChart, dataSum: ArrayList<TypeSum>){
         val barWidth = 1f
         val spaceForBar = 2f
         val values = ArrayList<BarEntry>()
-
-        val dataSum = BillRecordsProvider.getIOSumByGoodsType(detail)
 
         var i = 0
 
