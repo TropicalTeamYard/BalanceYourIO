@@ -10,7 +10,6 @@
 
     <ExpandableListView
             android:background="@color/white"
-            android:overScrollMode="ifContentScrolls"
             android:id="@+id/elv_show_bill_data"
             android:childDivider="@color/transparent"
             android:layout_width="match_parent"

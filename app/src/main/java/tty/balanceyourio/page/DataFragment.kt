@@ -68,8 +68,10 @@ class DataFragment : Fragment(),
         }
 
         catParams = CoordinatorLayout.LayoutParams(NumberFormatter.dp2px(context!!, 120F), NumberFormatter.dp2px(context!!, 120F))
-//        expParams = CoordinatorLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
+        /**
+         * 测量@layout_data_page的高度和宽度
+         */
         layout_data_page.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 if(layout_data_page.viewTreeObserver.isAlive){
@@ -79,6 +81,7 @@ class DataFragment : Fragment(),
                 }
             }
         })
+
 
         layout_data_month_overview.setOnTouchListener { v, event ->
 
@@ -221,9 +224,10 @@ class DataFragment : Fragment(),
                 adapter.dateList.removeAt(cGroupP)
                 adapter.billList.removeAt(cGroupP)
                 adapter.daySumList.removeAt(cGroupP)
+                //判断是否所有Group都被删除了
                 if(adapter.getGroupDate(0) == null) {
                     firstGroup = GroupDateTuple(null, null)
-                    data_month_outcome.text = "支出: null"
+                    data_month_outcome.text = resources.getString(R.string.default_outcome)
                 }
             } else {
                 val a = adapter.billList[cGroupP][cChildrenP]
@@ -282,11 +286,11 @@ class DataFragment : Fragment(),
                 if (scrollFlag) {
                     when {
                         firstVisibleItem > lastVisibleItemPosition -> {
-//                            Log.i(TAG, "onScroll: -------->up")
+                            //Log.i(TAG, "onScroll: -------->up")
                             fab_add_bill_record.hide()
                         }
                         firstVisibleItem < lastVisibleItemPosition -> {
-//                            Log.i(TAG, "onScroll: -------->down")
+                            //Log.i(TAG, "onScroll: -------->down")
                             fab_add_bill_record.show()
                         }
                         else -> return
@@ -341,7 +345,7 @@ class DataFragment : Fragment(),
         val end = start.clone() as Calendar
         end.set(Calendar.DAY_OF_MONTH, end.getActualMaximum(Calendar.DAY_OF_MONTH))
         val info=BillRecordProvider.joinGroupByMonth(start.time, end.time, BYIOHelper(context!!).getBill(start.time, end.time))
-        data_month_outcome.text="支出: ${NumberFormatter.decimalFormat2.format(info[0].outcomeSum)}"
+        data_month_outcome.text="${resources.getString(R.string.outcome)}: ${NumberFormatter.decimalFormat2.format(info[0].outcomeSum)}"
 
     }
 

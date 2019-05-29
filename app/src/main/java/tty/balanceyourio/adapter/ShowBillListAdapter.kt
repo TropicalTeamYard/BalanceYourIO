@@ -27,6 +27,9 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
     var billList: ArrayList<ArrayList<BillRecord>> = ArrayList()
     var dateList: ArrayList<Date> = ArrayList()
     var daySumList: ArrayList<HashMap<IOType, Double>> = ArrayList()
+
+
+
     private val decimalFormat=DecimalFormat("#.##")
 
     init{

@@ -44,6 +44,6 @@
     <string name="mode_month">Month</string>
     <string name="mode_week">Week</string>
     <string name="mode_day">Day</string>
-    <string name="default_outcome">OUTCOME: 0</string>
+    <string name="default_outcome">OUTCOME: NULL</string>
     <string name="default_budget">BUDGET: 2000</string>
 </resources>
