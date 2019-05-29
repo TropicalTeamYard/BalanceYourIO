@@ -45,10 +45,6 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
 
     private lateinit var data: ArrayList<BillRecord>
 
-//    private lateinit var timeModeIOList: ArrayList<HashMap<IOType, Double>>
-//    private lateinit var timeModeList: ArrayList<Date>
-//    private lateinit var timeModeBillRecord: ArrayList<ArrayList<BillRecord>>
-
     private lateinit var billRecordUnits: ArrayList<BillRecordUnit>
     private var detailTypeSum: ArrayList<TypeSum> = ArrayList()
 
@@ -121,17 +117,17 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         tfBold = Typeface.createFromAsset(context!!.assets, "OpenSans-Bold.ttf")
 
         //region 设置图表属性
-        timeModeChart.description.isEnabled=false
+        timeModeChart.description.isEnabled = false
         timeModeChart.setNoDataText("暂无数据")
         timeModeChart.setTouchEnabled(true)
-        timeModeChart.isDoubleTapToZoomEnabled=false
+        timeModeChart.isDoubleTapToZoomEnabled = false
         timeModeChart.isDragEnabled = true
         timeModeChart.isScaleXEnabled = false
         timeModeChart.isScaleYEnabled = false
         timeModeChart.setPinchZoom(false)
         timeModeChart.setOnChartValueSelectedListener(this)
-        timeModeChart.isDragDecelerationEnabled=true
-        timeModeChart.dragDecelerationFrictionCoef=0.5F
+        timeModeChart.isDragDecelerationEnabled = true
+        timeModeChart.dragDecelerationFrictionCoef = 0.5F
 
         val xAxisTimeMode = timeModeChart.xAxis
         xAxisTimeMode.setLabelCount(7, false)
@@ -205,14 +201,9 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         detailTypeChart.xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 val pos = -value.toInt()
-                //return "$value"
-
                 if(pos >= detailTypeSum.size || pos < 0){
                     return ""
                 }
-
-                //Log.d(TAG, "xAxis $value")
-
                 return getFriendString(context!!, "key.${detailTypeSum[pos].goodstype}")
             }
         }
@@ -232,32 +223,6 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
     private fun getDataAndShow() {
         data = helper!!.getBill()
 
-//        val join= BillRecordsProvider.getBillRecordsByTimeMode(data, timeMode)
-//        timeModeBillRecord = join.position
-//        timeModeIOList = join.date
-//        timeModeList = join.item3
-//        timeMode = TimeMode.Day
-//        data.sortByDescending { it.time }
-//        Log.d(TAG,"timeFirst:${data.first().time!!}")
-//        Log.d(TAG,"timeLast:${data.last().time!!}")
-
-//        val join = BillRecordProvider.toAnalysis(
-//                when(timeMode){
-//                    TimeMode.Day->{
-//                        BillRecordProvider.joinGroupByDay(data)
-//                    }
-//                    TimeMode.Week->{
-//                        BillRecordProvider.joinGroupByWeek(data)
-//                    }
-//                    TimeMode.Month->{
-//                        BillRecordProvider.joinGroupByMonth(data)
-//                    }
-//                    else ->{
-//                        BillRecordProvider.joinGroupByYear(data)
-//                    }
-//                }
-//        )
-
         billRecordUnits = when(timeMode){
             TimeMode.Day->{
                 BillRecordProvider.joinGroupByDay(data)
@@ -272,11 +237,6 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
                 BillRecordProvider.joinGroupByYear(data)
             }
         }
-
-//
-//        timeModeBillRecord = join.item1
-//        timeModeIOList = join.item2
-//        timeModeList = join.item3
 
         val calendar = Calendar.getInstance()
 
@@ -335,10 +295,6 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
             outcomeSet.setCircleColor(resources.getColor(R.color.typeOutcome, null))
             outcomeSet.highLightColor = resources.getColor(R.color.typeOutcome, null)
             outcomeSet.color = resources.getColor(R.color.typeOutcome, null)
-//            outcomeSet.fillColor = resources.getColor(R.color.typeOutcome, null)
-//            outcomeSet.fillAlpha = 20
-//            outcomeSet.setDrawHorizontalHighlightIndicator(true)
-//            outcomeSet.fillFormatter = IFillFormatter { _, _ -> chart.axisLeft.axisMaximum }
             outcomeSet.fillFormatter = IFillFormatter { _, _ -> 0F }
             outcomeSet.setDrawFilled(true)
             outcomeSet.fillDrawable=ColorDrawable(resources.getColor(R.color.typeOutcomeAlpha, null))
@@ -360,10 +316,6 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
             incomeSet.setCircleColor(resources.getColor(R.color.typeIncome, null))
             incomeSet.highLightColor = resources.getColor(R.color.typeIncome, null)
             incomeSet.color = resources.getColor(R.color.typeIncome, null)
-//            incomeSet.fillColor = resources.getColor(R.color.typeIncome, null)
-//            incomeSet.fillAlpha = 100
-//            incomeSet.setDrawHorizontalHighlightIndicator(true)
-//            incomeSet.fillFormatter = IFillFormatter { _, _ -> chart.axisRight.axisMinimum }
             incomeSet.fillFormatter = IFillFormatter { _, _ -> 0F }
             incomeSet.setDrawFilled(true)
             incomeSet.fillDrawable=ColorDrawable(resources.getColor(R.color.typeIncomeAlpha, null))
@@ -408,7 +360,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
             chart.data.notifyDataChanged()
             chart.notifyDataSetChanged()
         } else {
-            set1 = BarDataSet(values, "收支分类")
+            set1 = BarDataSet(values, "支出")
 
             set1.setDrawIcons(false)
 
