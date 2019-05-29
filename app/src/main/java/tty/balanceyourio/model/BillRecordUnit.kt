@@ -11,7 +11,7 @@ class BillRecordUnit
     lateinit var startTime: Date
     lateinit var timeMode: TimeMode
 
-    var data:List<BillRecord> = ArrayList()
+    var data:ArrayList<BillRecord> = ArrayList()
 
     fun isEmpty():Boolean{
         return data.isEmpty()

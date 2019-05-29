@@ -119,7 +119,7 @@ class BillRecordProvider(var context:Context)
 
             var start :Date = DateConverter.cutToWeek(Date())
             var end:Date = DateConverter.cutToWeek(Date())
-            if (!data.isEmpty()){
+            if (data.isNotEmpty()){
                 start = DateConverter.cutToWeek( data.last().time!!)
                 end = if (DateConverter.cutToWeek(data.first().time!!) > end) DateConverter.cutToWeek(data.first().time!!) else end
             }
@@ -301,16 +301,18 @@ class BillRecordProvider(var context:Context)
             data.removeIf{ it.isEmpty() }
         }
 
-        //TODO("在DataFragment中进行优化，从而不需要使用转换函数")
+        //TODO("在AnalysisFragment中进行优化，从而不需要使用转换函数")
         /**
          * 为了兼容wcf的数据分析器而做的转换函数
          */
-        fun toAnalysis(data:ArrayList<BillRecordUnit>):Tuple<ArrayList<List<BillRecord>>,ArrayList<HashMap<IOType,Double>>,ArrayList<Date>> {
-            val a = ArrayList<List< BillRecord>>()
+        fun toAnalysis(data: ArrayList<BillRecordUnit>):
+                Tuple<ArrayList<ArrayList<BillRecord>>,ArrayList<HashMap<IOType,Double>>,ArrayList<Date>>
+        {
+            val a = ArrayList<ArrayList< BillRecord>>()
             val b = ArrayList<HashMap<IOType,Double>>()
             val c = ArrayList<Date>()
 
-            for ( i in 0 until  data.size){
+            for ( i in 0 until data.size){
                 a.add(data[i].data)
                 val map = HashMap<IOType,Double>()
                 map[IOType.Income] = data[i].incomeSum

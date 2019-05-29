@@ -92,7 +92,6 @@ class DataFragment : Fragment(),
                     overview_cat.setImageDrawable(resources.getDrawable(R.drawable.cat_1, null))
                     lastCatX=event.rawX.toInt()
                     lastCatY=event.rawY.toInt()
-
                 }
 
                 MotionEvent.ACTION_MOVE -> {

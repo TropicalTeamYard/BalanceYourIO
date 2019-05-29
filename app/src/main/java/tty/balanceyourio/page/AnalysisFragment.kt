@@ -26,7 +26,7 @@ import tty.balanceyourio.R
 import tty.balanceyourio.data.BYIOHelper
 import tty.balanceyourio.data.BillRecordsProvider
 import tty.balanceyourio.model.BillRecord
-import tty.balanceyourio.model.IOType
+import tty.balanceyourio.model.BillRecordUnit
 import tty.balanceyourio.model.TimeMode
 import tty.balanceyourio.provider.BillRecordProvider
 import tty.balanceyourio.util.DateConverter
@@ -38,18 +38,41 @@ import kotlin.collections.ArrayList
 
 @TargetApi(Build.VERSION_CODES.M)
 class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChartValueSelectedListener {
+
+    private var helper: BYIOHelper? = null
+
+    private lateinit var data: ArrayList<BillRecord>
+
+//    private lateinit var timeModeIOList: ArrayList<HashMap<IOType, Double>>
+//    private lateinit var timeModeList: ArrayList<Date>
+//    private lateinit var timeModeBillRecord: ArrayList<ArrayList<BillRecord>>
+
+    private lateinit var billRecordUnits: ArrayList<BillRecordUnit>
+
+
+    private var timeMode=TimeMode.Day
+
+    private lateinit var timeModeChart: LineChart
+    private lateinit var detailTypeChart: BarChart
+
+    private lateinit var tfBold: Typeface
+
+    private var timeModeChartZoomRatio = 0F
+    private var moveToX = 0F
+
     override fun onNothingSelected() {
         Log.d(TAG, "Nothing Selected")
+        setDataForDetailTypeChart(detailTypeChart, BillRecordUnit())
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
         Log.d(TAG, "Entry Selected X: ${decimalFormat0.format(e?.x)} Y: ${decimalFormat2.format(e?.y?.toDouble()?.let { NumberFormatter.logToDouble(it)-1 })}")
         //TODO SELECTED UI
         val pos = decimalFormat0.format(e?.x).toInt()
-        if(pos !in 0 until timeModeBillRecord.size){
+        if(pos !in 0 until billRecordUnits.size){
             return
         }
-        setDataForDetailTypeChart(detailTypeChart, timeModeBillRecord[pos])
+        setDataForDetailTypeChart(detailTypeChart, billRecordUnits[pos])
     }
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
@@ -78,17 +101,6 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         getDataAndShow()
     }
 
-    private var helper: BYIOHelper? = null
-    private lateinit var data:ArrayList<BillRecord>
-    private lateinit var timeModeIOList: ArrayList<HashMap<IOType, Double>>
-    private lateinit var timeModeList: ArrayList<Date>
-    private lateinit var timeModeBillRecord: ArrayList<List<BillRecord>>
-    private var timeMode=TimeMode.Day
-    private lateinit var timeModeChart: LineChart
-    private lateinit var detailTypeChart: BarChart
-    private lateinit var tfBold: Typeface
-    private var timeModeChartZoomRatio = 0F
-    private var moveToX = 0F
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         helper = context?.let { BYIOHelper(it) }
@@ -133,6 +145,9 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         timeModeChart.axisRight.axisMaximum=13.9F
         timeModeChart.axisRight.setDrawZeroLine(true)
         timeModeChart.axisLeft.setDrawZeroLine(true)
+        timeModeChart.axisLeft.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
+        timeModeChart.axisRight.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
+
         timeModeChart.axisLeft.valueFormatter=object : ValueFormatter(){
             override fun getFormattedValue(value: Float): String {
                 return ""
@@ -145,17 +160,14 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
             }
         }
 
-        timeModeChart.axisLeft.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
-        timeModeChart.axisRight.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
-
         xAxisTimeMode.valueFormatter=object : ValueFormatter(){
             override fun getFormattedValue(value: Float): String {
 //                Log.d(TAG, decimalFormat0.format(value))
                 val pos=decimalFormat0.format(value).toInt()
-                if(pos<0 || pos>=timeModeList.size){
+                if(pos<0 || pos>=billRecordUnits.size){
                     return "..."
                 }
-                return DateConverter.getXAxisDate(timeModeList[pos], timeMode)
+                return DateConverter.getXAxisDate(billRecordUnits[pos].startTime, timeMode)
             }
         }
 
@@ -167,16 +179,20 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         detailTypeChart.setTouchEnabled(true)
         detailTypeChart.isDoubleTapToZoomEnabled=false
         detailTypeChart.isDragEnabled = true
-//        detailTypeChart.isScaleXEnabled = false
-//        detailTypeChart.isScaleYEnabled = false
+        detailTypeChart.axisLeft.isInverted = true
+        detailTypeChart.axisRight.isEnabled = false
         detailTypeChart.setPinchZoom(false)
         detailTypeChart.isDragDecelerationEnabled=true
         detailTypeChart.dragDecelerationFrictionCoef=0.5F
         detailTypeChart.setFitBars(true)
 
+        detailTypeChart.axisLeft.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return super.getFormattedValue(value)
+            }
+        }
+
         //endregion
-
-
 
         choose_chart_view_mode.setOnCheckedChangeListener(this)
 
@@ -195,50 +211,58 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
 //        timeModeBillRecord = join.position
 //        timeModeIOList = join.date
 //        timeModeList = join.item3
+//        timeMode = TimeMode.Day
+//        data.sortByDescending { it.time }
+//        Log.d(TAG,"timeFirst:${data.first().time!!}")
+//        Log.d(TAG,"timeLast:${data.last().time!!}")
 
-        //timeMode = TimeMode.Day
+//        val join = BillRecordProvider.toAnalysis(
+//                when(timeMode){
+//                    TimeMode.Day->{
+//                        BillRecordProvider.joinGroupByDay(data)
+//                    }
+//                    TimeMode.Week->{
+//                        BillRecordProvider.joinGroupByWeek(data)
+//                    }
+//                    TimeMode.Month->{
+//                        BillRecordProvider.joinGroupByMonth(data)
+//                    }
+//                    else ->{
+//                        BillRecordProvider.joinGroupByYear(data)
+//                    }
+//                }
+//        )
 
-        //data.sortByDescending { it.time }
-        //Log.d(TAG,"timeFirst:${data.first().time!!}")
-        //Log.d(TAG,"timeLast:${data.last().time!!}")
+        billRecordUnits = when(timeMode){
+            TimeMode.Day->{
+                BillRecordProvider.joinGroupByDay(data)
+            }
+            TimeMode.Week->{
+                BillRecordProvider.joinGroupByWeek(data)
+            }
+            TimeMode.Month->{
+                BillRecordProvider.joinGroupByMonth(data)
+            }
+            else ->{
+                BillRecordProvider.joinGroupByYear(data)
+            }
+        }
 
-        val join =
-            BillRecordProvider.toAnalysis(
-                when(timeMode){
-                    TimeMode.Day->{
-                        BillRecordProvider.joinGroupByDay(data)
-                    }
-                    TimeMode.Week->{
-                        BillRecordProvider.joinGroupByWeek(data)
-                    }
-                    TimeMode.Month->{
-                        BillRecordProvider.joinGroupByMonth(data)
-                    }
-                    else ->{
-                        BillRecordProvider.joinGroupByYear(data)
-                    }
-                })
-
-
-        timeModeBillRecord = join.item1
-        timeModeIOList = join.item2
-        timeModeList = join.item3
+//
+//        timeModeBillRecord = join.item1
+//        timeModeIOList = join.item2
+//        timeModeList = join.item3
 
         val calendar = Calendar.getInstance()
 
-        moveToX = when(timeMode){
-            TimeMode.Day -> timeModeList.indexOf(DateConverter.cutToDate(calendar.time)).toFloat()
-            TimeMode.Week -> timeModeList.indexOf(DateConverter.cutToWeek(calendar.time)).toFloat()
-            TimeMode.Month -> timeModeList.indexOf(DateConverter.cutToMonth(calendar.time)).toFloat()
-            TimeMode.Year -> timeModeList.indexOf(DateConverter.cutToYear(calendar.time)).toFloat()
-        }
+        moveToX = findDatePosition(billRecordUnits, calendar.time, timeMode).toFloat()
 
         if(moveToX<0){
             moveToX=0F
         }
 
         timeModeChart.zoom(0F, 1F, 0F, 0F)
-        timeModeChartZoomRatio = timeModeIOList.size.toFloat() / when(timeMode){
+        timeModeChartZoomRatio = billRecordUnits.size.toFloat() / when(timeMode){
             TimeMode.Day -> 6
             TimeMode.Week -> 5
             TimeMode.Month -> 4
@@ -246,7 +270,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         }
         timeModeChart.zoom(timeModeChartZoomRatio, 1F, 0F, 0F)
         timeModeChart.moveViewToX(moveToX - 1)
-        setDataForTimeModeChart(timeModeChart, timeModeIOList)
+        setDataForTimeModeChart(timeModeChart, billRecordUnits)
         timeModeChart.invalidate()
     }
 
@@ -256,14 +280,14 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         helper?.close()
     }
 
-    private fun setDataForTimeModeChart(chart: LineChart, statistics: ArrayList<HashMap<IOType, Double>>) {
+    private fun setDataForTimeModeChart(chart: LineChart, billRecordUnits: ArrayList<BillRecordUnit>) {
 
         val valuesOutcome = ArrayList<Entry>()
         val valuesIncome = ArrayList<Entry>()
 
-        for (i in 0 until statistics.size) {
-            val valueOutcome: Float = Math.log(statistics[i][IOType.Outcome]!!+1).toFloat()
-            val valueIncome: Float = Math.log(statistics[i][IOType.Income]!!+1).toFloat()
+        for (i in 0 until billRecordUnits.size) {
+            val valueOutcome: Float = Math.log(billRecordUnits[i].outcomeSum + 1).toFloat()
+            val valueIncome: Float = Math.log(billRecordUnits[i].incomeSum + 1).toFloat()
             valuesOutcome.add(Entry(i.toFloat(), -valueOutcome))
             valuesIncome.add(Entry(i.toFloat(), valueIncome))
         }
@@ -335,22 +359,22 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         }
     }
 
-    private fun setDataForDetailTypeChart(chart: BarChart, detail: List<BillRecord>){
+    private fun setDataForDetailTypeChart(chart: BarChart, detail: BillRecordUnit){
         val barWidth = 1f
         val spaceForBar = 2f
         val values = ArrayList<BarEntry>()
 
-        val dataSum = BillRecordsProvider.getIOSumByGoodsType(this.context!!, detail)
+        val dataSum = BillRecordsProvider.getIOSumByGoodsType(detail)
 
         var i = 0
 
-        for(entry in dataSum){
+        for(item in dataSum){
+            values.add(BarEntry(-i.toFloat() * spaceForBar, item.sum))
             i++
-            values.add(BarEntry(i.toFloat() * spaceForBar, entry.value))
         }
 
         for(n in i .. 6){
-            values.add(BarEntry(n.toFloat() * spaceForBar, 0F))
+            values.add(BarEntry(-n.toFloat() * spaceForBar, 0F))
         }
 
         val set1: BarDataSet
@@ -382,5 +406,41 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
 
     companion object{
         const val TAG = "AF"
+
+        fun findDatePosition(billRecordUnits: ArrayList<BillRecordUnit>, date: Date, timeMode: TimeMode): Int{
+            if(billRecordUnits.isEmpty()){
+                return -1
+            }
+
+            for(i in 0 until billRecordUnits.size) {
+                val billRecordUnit = billRecordUnits[i]
+                when(timeMode){
+                    TimeMode.Day -> {
+                        if(DateConverter.equalDate(billRecordUnit.startTime, date)){
+                            return i
+                        }
+                    }
+                    TimeMode.Week -> {
+                        if(DateConverter.equalWeek(billRecordUnit.startTime, date)){
+                            return i
+                        }
+                    }
+                    TimeMode.Month -> {
+                        if(DateConverter.equalMonth(billRecordUnit.startTime, date)){
+                            return i
+                        }
+                    }
+                    TimeMode.Year -> {
+                        if(DateConverter.equalYear(billRecordUnit.startTime, date)){
+                            return i
+                        }
+                    }
+                }
+            }
+
+            return -1
+
+        }
+
     }
 }

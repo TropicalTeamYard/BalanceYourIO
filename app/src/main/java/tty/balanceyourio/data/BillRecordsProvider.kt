@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import tty.balanceyourio.converter.CategoryConverter
-import tty.balanceyourio.model.BillRecord
-import tty.balanceyourio.model.IOType
-import tty.balanceyourio.model.TimeMode
-import tty.balanceyourio.model.Tuple
+import tty.balanceyourio.model.*
 import tty.balanceyourio.util.DateConverter
 import tty.balanceyourio.widget.ShowBillChart
 import java.util.*
@@ -151,14 +148,24 @@ object BillRecordsProvider {
     }
 
     @SuppressLint("UseSparseArrays")
-    fun getIOSumByGoodsType(context: Context, billRecords: List<BillRecord>): HashMap<Int, Float> {
-        val result = HashMap<Int, Float>()
+    fun getIOSumByGoodsType(billRecordUnit: BillRecordUnit): ArrayList<TypeSum> {
+        val typeSums = ArrayList<TypeSum>()
+        val ioMap = HashMap<Int, Float>()
 
-        for(bill: BillRecord in billRecords){
+        for(bill: BillRecord in billRecordUnit.data){
             val goodstype = getFriendKey(bill.goodsType)
-            result[goodstype] = (result[goodstype] ?: 0F) + bill.amount.toFloat()
+            ioMap[goodstype] = (ioMap[goodstype] ?: 0F) + bill.amount.toFloat()
         }
-        return result
+
+        for(entry in ioMap){
+            typeSums.add(TypeSum(entry.key, entry.value))
+        }
+
+        typeSums.sortByDescending {
+            it.sum
+        }
+
+        return typeSums
     }
 
 }
@@ -188,6 +195,8 @@ fun getFriendKey(input :String?): Int{
         -1
     }
 }
+
+data class TypeSum(var goodstype: Int, var sum: Float)
 
 enum class ArrayType{
     Sum,
