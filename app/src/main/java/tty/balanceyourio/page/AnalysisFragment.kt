@@ -194,7 +194,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
         detailTypeChart.axisRight.isEnabled = false
         detailTypeChart.setPinchZoom(false)
         detailTypeChart.isDragDecelerationEnabled = true
-        detailTypeChart.dragDecelerationFrictionCoef = 0.5F
+        detailTypeChart.dragDecelerationFrictionCoef = 0.05F
         detailTypeChart.setFitBars(true)
 
 
