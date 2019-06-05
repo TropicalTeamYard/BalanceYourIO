@@ -1,6 +1,5 @@
 package tty.balanceyourio.page
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -12,9 +11,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.RadioGroup
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_bill.*
@@ -27,7 +24,6 @@ import tty.balanceyourio.model.IOType
 import tty.balanceyourio.provider.IOTypeProvider
 import tty.balanceyourio.util.AmountConvert
 import tty.balanceyourio.util.DateConverter
-import java.text.DecimalFormat
 import java.util.*
 
 /**
@@ -287,7 +283,6 @@ class AddBillActivity : AppCompatActivity(),
      * 当选中的时间改变时
      */
     override fun getDate(date: Date) {
-        //isDateChoose=true
         billRecord.time=date
         add_bill_show_date.text=DateConverter.getSimpleString(date)
         Log.d(TAG, DateConverter.getString(billRecord.time!!))

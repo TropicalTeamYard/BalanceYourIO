@@ -65,7 +65,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
-        Log.d(TAG, "Entry Selected X: ${decimalFormat0.format(e?.x)} Y: ${decimalFormat2.format(e?.y?.toDouble()?.let { NumberFormatter.logToDouble(it)-1 })}")
+        Log.d(TAG, "Entry Selected X: ${decimalFormat0.format(e?.x)} Y: ${decimalFormat2.format(e?.y?.toDouble()?.let { NumberFormatter.logToDouble(it) - 1 })}")
         //TODO SELECTED UI
         val pos = decimalFormat0.format(e?.x).toInt()
         if(pos !in 0 until billRecordUnits.size){
@@ -360,7 +360,7 @@ class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChart
             chart.data.notifyDataChanged()
             chart.notifyDataSetChanged()
         } else {
-            set1 = BarDataSet(values, "支出")
+            set1 = BarDataSet(values, "类别")
 
             set1.setDrawIcons(false)
 

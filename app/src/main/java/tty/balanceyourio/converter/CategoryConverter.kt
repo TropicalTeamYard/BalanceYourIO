@@ -25,7 +25,7 @@ class CategoryConverter: RConverter{
     }
 
     override val count: Int
-        get() = 11
+        get() = 14
 
 
     companion object {
