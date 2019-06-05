@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Default-->
     <color name="colorPrimaryLight">#4FC3F7</color>
     <color name="colorPrimary">#03A9F4</color>
     <color name="colorPrimaryDark">#03A9F4</color>
     <color name="colorAccent">#FFD740</color>
+    <!--LightTheme-->
+    <color name="colorBackgroundLight">#EEEEEE</color>
+    <color name="colorForegroundLight">#222222</color>
+    <!--DarkTheme-->
+    <color name="colorBackgroundDark">#111111</color>
+    <color name="colorTextColorSecondaryDark">#BBBBBB</color>
+    <color name="colorForegroundDark">#DDDDDD</color>
+
     <color name="colorNormalLight">#AAAAAA</color>
     <color name="colorNormal">#999999</color>
     <color name="colorNormalDark">#333333</color>

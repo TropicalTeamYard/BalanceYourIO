@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
-              android:background="@color/colorTheme"
+              android:background="?android:colorBackground"
               android:layout_width="match_parent"
               android:layout_height="32dp">
     <TextView android:id="@+id/show_bill_date"
@@ -9,7 +9,7 @@
               android:textSize="14sp"
               android:height="36dp"
               android:padding="6dp"
-              android:textColor="@color/colorNormal"
+              android:textColor="?android:textColorSecondary"
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"

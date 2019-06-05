@@ -23,7 +23,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:textColor="@color/colorNormalDark"
+                android:textColor="?android:textColor"
                 android:text="@string/food"
                 android:textSize="16sp"/>
         <TextView
@@ -34,13 +34,20 @@
                 android:layout_marginTop="0dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:textColor="@color/colorNormalLight"
+                android:textColor="?android:textColorSecondary"
                 android:ellipsize="end"
                 android:textSize="14sp"
                 android:maxLines="1"
                 android:gravity="center_vertical"
                 android:text="@string/input_remark"/>
     </LinearLayout>
-    <TextView android:id="@+id/show_bill_money" android:layout_width="wrap_content" android:layout_height="48dp" android:gravity="center|end" android:textSize="20sp" android:text="@string/default_money" android:paddingEnd="6dp"/>
+    <TextView
+            android:id="@+id/show_bill_money"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center|end"
+            android:textSize="20sp"
+            android:text="@string/default_money"
+            android:paddingEnd="6dp"/>
 
 </LinearLayout>
