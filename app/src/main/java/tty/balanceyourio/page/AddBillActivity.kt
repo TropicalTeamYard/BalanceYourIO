@@ -65,9 +65,6 @@ class AddBillActivity : AppCompatActivity(),
 
     private var prevStr:String = ""
     private var prevStart:Int = -1
-    //private var isDateChoose=false
-    private var shouldInputMoneyChange=true
-    private val decimalFormat = DecimalFormat("#.##")
 
     //endregion
     //region 重写方法
@@ -83,7 +80,6 @@ class AddBillActivity : AppCompatActivity(),
             dialog.show(this.supportFragmentManager,"CDF")
         }
         add_input_money.addTextChangedListener(this)
-        //add_input_money.setOnClickListener(this)
         add_input_money.setSelectAllOnFocus(true)
         add_input_money.hint = BillRecord.defaultAmount.toString()
 

@@ -52,24 +52,20 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConv
 
         try {
             if((source[p1]["chosen"] as Boolean?)!!){
-                p0.imageView.background.setTint(context.getColor(
-                when(source[p1]["type"] as Int)
-                {
-                    0->R.color.typeOutcomeLight
-                    1->R.color.typeIncomeLight
-                    else ->R.color.typeOthersLight
-                }
-                ))
-
-
-                //p0.imageView.setColorFilter(0xaaffff00.toInt())
+                p0.imageView.background.setTint(
+                    context.getColor(
+                        when(source[p1]["type"] as Int)
+                        {
+                            0->R.color.typeOutcomeLight
+                            1->R.color.typeIncomeLight
+                            else ->R.color.typeOthersLight
+                        }
+                    )
+                )
             } else {
                 p0.imageView.background.setTint(context.getColor(R.color.transparent))
-                //p0.imageView.setColorFilter(0x00ffffff.toInt())
             }
-        } catch (e: NullPointerException){
-
-        }
+        } catch (e: NullPointerException){ }
     }
 
     interface OnItemClickListener:View.OnClickListener{
