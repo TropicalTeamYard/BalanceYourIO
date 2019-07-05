@@ -3,16 +3,15 @@
               android:orientation="horizontal"
               android:background="?android:colorBackground"
               android:layout_width="match_parent"
-              android:layout_height="32dp">
+              android:layout_height="28dp">
     <TextView android:id="@+id/show_bill_date"
               android:gravity="center_vertical"
               android:textSize="14sp"
-              android:height="36dp"
-              android:padding="6dp"
               android:textColor="?android:textColorSecondary"
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"
+              android:layout_marginStart="12dp"
               android:text="@string/default_date"/>
     <LinearLayout
             android:layout_width="wrap_content"

@@ -4,12 +4,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorActivatedHighlight">@color/colorBackgroundAccentLight</item>
         <item name="android:colorBackground">@color/colorBackgroundLight</item>
         <item name="android:colorForeground">@color/colorForegroundLight</item>
         <item name="android:textColor">@color/colorForegroundLight</item>
-        <item name="android:textColorSecondary">@color/colorTextColorSecondaryDark</item>
+        <item name="android:textColorSecondary">@color/textColorSecondaryLight</item>
         <item name="android:colorEdgeEffect">@color/colorForegroundLight</item>
-        <item name="android:textColorHint">@color/colorForegroundLight</item>
+        <item name="android:textColorHint">@color/textColorHintLight</item>
     </style>
 
 <!--    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->

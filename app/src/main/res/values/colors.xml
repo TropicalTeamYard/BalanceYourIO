@@ -6,11 +6,14 @@
     <color name="colorPrimaryDark">#03A9F4</color>
     <color name="colorAccent">#FFD740</color>
     <!--LightTheme-->
-    <color name="colorBackgroundLight">#EEEEEE</color>
+    <color name="colorBackgroundAccentLight">#FFFFFF</color>
+    <color name="colorBackgroundLight">#F8F8F8</color>
     <color name="colorForegroundLight">#222222</color>
+    <color name="textColorHintLight">#AAAAAA</color>
+    <color name="textColorSecondaryLight">#999999</color>
     <!--DarkTheme-->
     <color name="colorBackgroundDark">#111111</color>
-    <color name="colorTextColorSecondaryDark">#BBBBBB</color>
+    <color name="textColorSecondaryDark">#BBBBBB</color>
     <color name="colorForegroundDark">#DDDDDD</color>
 
     <color name="colorNormalLight">#AAAAAA</color>

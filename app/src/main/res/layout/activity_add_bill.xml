@@ -17,65 +17,67 @@
             android:padding="0dp"
             app:contentInsetStart="8dp"
             app:contentInsetStartWithNavigation="8dp"/>
-
-    <RadioGroup
-            android:id="@+id/add_bill_radio_group"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:gravity="center_horizontal"
-            android:checkedButton="@id/add_bill_radio_outcome"
-            android:layout_marginTop="12dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/add_bill_toolbar"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp">
-        <RadioButton
-                android:id="@+id/add_bill_radio_outcome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/outcome"
-                android:textSize="18sp"
-                android:padding="4dp"
-                android:background="@drawable/radio_background_left"
-                android:button="@null"
-                android:gravity="center"
-                android:textColor="@drawable/radio_select_text"
-                android:layout_weight="1"/>
-        <RadioButton
-                android:id="@+id/add_bill_radio_income"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:gravity="center"
-                android:background="@drawable/radio_background_center"
-                android:textSize="18sp"
-                android:padding="4dp"
-                android:textColor="@drawable/radio_select_text"
-                android:text="@string/income"
-                android:layout_weight="1"/>
-        <RadioButton
-                android:id="@+id/add_bill_radio_others"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:textSize="18sp"
-                android:padding="4dp"
-                android:gravity="center"
-                android:textColor="@drawable/radio_select_text"
-                android:background="@drawable/radio_background_right"
-                android:text="@string/others"
-                android:layout_weight="1"/>
-    </RadioGroup>
-
-
-
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/add_bill_rec_view"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/add_bill_radio_group"
-            android:layout_above="@+id/linear_input_box"/>
+            android:layout_below="@id/add_bill_toolbar"
+            android:layout_above="@+id/linear_input_box"
+            android:orientation="vertical"
+            android:background="?android:colorActivatedHighlight">
+        <RadioGroup
+                android:id="@+id/add_bill_radio_group"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:checkedButton="@id/add_bill_radio_outcome"
+                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/add_bill_toolbar"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp">
+            <RadioButton
+                    android:id="@+id/add_bill_radio_outcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/outcome"
+                    android:textSize="18sp"
+                    android:padding="4dp"
+                    android:background="@drawable/radio_background_left"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:textColor="@drawable/radio_select_text"
+                    android:layout_weight="1"/>
+            <RadioButton
+                    android:id="@+id/add_bill_radio_income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:background="@drawable/radio_background_center"
+                    android:textSize="18sp"
+                    android:padding="4dp"
+                    android:textColor="@drawable/radio_select_text"
+                    android:text="@string/income"
+                    android:layout_weight="1"/>
+            <RadioButton
+                    android:id="@+id/add_bill_radio_others"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:textSize="18sp"
+                    android:padding="4dp"
+                    android:gravity="center"
+                    android:textColor="@drawable/radio_select_text"
+                    android:background="@drawable/radio_background_right"
+                    android:text="@string/others"
+                    android:layout_weight="1"/>
+        </RadioGroup>
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/add_bill_rec_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </LinearLayout>
 
     <LinearLayout android:orientation="vertical"
                   android:id="@+id/linear_input_box"
