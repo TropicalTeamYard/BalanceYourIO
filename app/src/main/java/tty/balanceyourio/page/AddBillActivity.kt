@@ -2,10 +2,10 @@ package tty.balanceyourio.page
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -82,8 +82,8 @@ class AddBillActivity : AppCompatActivity(),
         adapter = AddBillIconAdapter(data, PxlIconConverter())
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
-        val layoutManager=GridLayoutManager(this, 6)
-        layoutManager.orientation=GridLayoutManager.VERTICAL
+        val layoutManager= GridLayoutManager(this, 6)
+        layoutManager.orientation= GridLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
         adapter.setOnItemClickListener(this)
 

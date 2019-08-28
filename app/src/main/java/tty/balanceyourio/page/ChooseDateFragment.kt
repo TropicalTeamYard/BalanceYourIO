@@ -4,14 +4,13 @@ package tty.balanceyourio.page
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
-import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_choose_date.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.HorizontalSelectView
@@ -62,7 +61,7 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
         }
     }
 
-    lateinit var sendDate: SendDate
+    private lateinit var sendDate: SendDate
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -100,7 +99,7 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
         recSelectTime.adapter = selectTimeAdapter
 
         val layoutManager = LinearLayoutManager(this.context)
-        layoutManager.orientation = LinearLayout.HORIZONTAL
+        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         recSelectTime.layoutManager = layoutManager
 
         recSelectTime.addOnScrollListener(object: RecyclerView.OnScrollListener(){
@@ -131,18 +130,13 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
 
     private fun confirmAndDismiss(){
         dismiss()
-        calendar.set(
-            year,
-            month,
-            day,
-            when(chooseTime){
+        calendar.set(year, month, day, when(chooseTime){
                 0->8
                 1->11
                 2->15
                 3->21
                 else->0
-            },
-            0)
+            }, 0)
         sendDate.getDate(calendar.time)
     }
 

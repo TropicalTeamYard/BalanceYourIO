@@ -2,7 +2,7 @@ package tty.balanceyourio.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -108,7 +108,8 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConv
         }
     }
 
-    inner class ViewHolder(v: View, private var listener:OnItemClickListener?):RecyclerView.ViewHolder(v),View.OnClickListener{
+    inner class ViewHolder(v: View, private var listener:OnItemClickListener?):
+        RecyclerView.ViewHolder(v),View.OnClickListener{
         override fun onClick(v: View?) {
             listener?.onItemClick(v,layoutPosition)
         }

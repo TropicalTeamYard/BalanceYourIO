@@ -168,7 +168,9 @@ class ShowBillChart : View {
         val contentHeight = height - paddingTop - paddingBottom
 
         title?.let {
-            canvas.drawText(it, paddingLeft + (contentWidth - textWidth) / 2, (textHeight+paddingTop), textPaint)
+            textPaint?.let { it1 ->
+                canvas.drawText(it, paddingLeft + (contentWidth - textWidth) / 2, (textHeight+paddingTop), it1)
+            }
         }
 
         data?.let {

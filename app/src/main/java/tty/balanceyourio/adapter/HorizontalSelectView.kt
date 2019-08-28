@@ -1,7 +1,7 @@
 package tty.balanceyourio.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +38,7 @@ class HorizontalSelectView: RecyclerView.Adapter<HorizontalSelectView.ViewHolder
         return timeList.size
     }
 
-    inner class ViewHolder(v: View):RecyclerView.ViewHolder(v) {
+    inner class ViewHolder(v: View): RecyclerView.ViewHolder(v) {
         var time: TextView = v.time_select_text
     }
 }

@@ -1,7 +1,7 @@
 package tty.balanceyourio.adapter
 
 import android.graphics.Bitmap
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +12,8 @@ import java.lang.NullPointerException
 import java.util.*
 
 @Deprecated("请改用AddBillIconAdapter")
-class AddBillRecyclerViewAdapter(private var data: List<HashMap<String, Any>>):RecyclerView.Adapter<AddBillRecyclerViewAdapter.ViewHolder>() {
+class AddBillRecyclerViewAdapter(private var data: List<HashMap<String, Any>>):
+    RecyclerView.Adapter<AddBillRecyclerViewAdapter.ViewHolder>() {
     private var mClickListener: OnItemClickListener? = null
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
