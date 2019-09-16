@@ -3,10 +3,10 @@ package tty.balanceyourio.page
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -44,7 +44,7 @@ class AddBillActivity : AppCompatActivity(),
 
 
     //region 变量与临时存储
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
 
     /**
      * 用于与类型的视图交互的数据，其项有：
@@ -87,10 +87,10 @@ class AddBillActivity : AppCompatActivity(),
 
         recyclerView = add_bill_rec_view
         adapter = AddBillIconAdapter(data, PxlIconConverter())
-        recyclerView.itemAnimator = DefaultItemAnimator()
+        recyclerView.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         recyclerView.adapter = adapter
-        val layoutManager=GridLayoutManager(this, 6)
-        layoutManager.orientation=GridLayoutManager.VERTICAL
+        val layoutManager= androidx.recyclerview.widget.GridLayoutManager(this, 6)
+        layoutManager.orientation= androidx.recyclerview.widget.GridLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
         adapter.setOnItemClickListener(this)
 

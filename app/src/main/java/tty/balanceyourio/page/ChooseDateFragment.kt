@@ -4,9 +4,9 @@ package tty.balanceyourio.page
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
@@ -17,13 +17,13 @@ import tty.balanceyourio.R
 import tty.balanceyourio.adapter.HorizontalSelectView
 import java.util.*
 
-class ChooseDateFragment : DialogFragment(), View.OnClickListener {
+class ChooseDateFragment : androidx.fragment.app.DialogFragment(), View.OnClickListener {
     private val calendar:Calendar=Calendar.getInstance()
     private var chooseTime=0
     private var year:Int=calendar.get(Calendar.YEAR)
     private var month:Int=calendar.get(Calendar.MONTH)
     private var day:Int=calendar.get(Calendar.DATE)
-    private lateinit var recSelectTime: RecyclerView
+    private lateinit var recSelectTime: androidx.recyclerview.widget.RecyclerView
     private lateinit var selectTimeAdapter: HorizontalSelectView
 
     override fun onClick(v: View?) {
@@ -99,17 +99,17 @@ class ChooseDateFragment : DialogFragment(), View.OnClickListener {
         selectTimeAdapter = HorizontalSelectView()
         recSelectTime.adapter = selectTimeAdapter
 
-        val layoutManager = LinearLayoutManager(this.context)
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this.context)
         layoutManager.orientation = LinearLayout.HORIZONTAL
         recSelectTime.layoutManager = layoutManager
 
-        recSelectTime.addOnScrollListener(object: RecyclerView.OnScrollListener(){
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+        recSelectTime.addOnScrollListener(object: androidx.recyclerview.widget.RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
                 Log.d("CDF", "newState: $newState")
 
             }
 
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
                 Log.d("CDF", "dx: $dx, dy: $dy, first pos: ${layoutManager.findFirstCompletelyVisibleItemPosition()}")
 
             }

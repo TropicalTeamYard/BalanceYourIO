@@ -1,7 +1,7 @@
 package tty.balanceyourio.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.item_type_time_select.view.*
 import tty.balanceyourio.R
 
-class HorizontalSelectView: RecyclerView.Adapter<HorizontalSelectView.ViewHolder>() {
+class HorizontalSelectView: androidx.recyclerview.widget.RecyclerView.Adapter<HorizontalSelectView.ViewHolder>() {
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         p0.time.text=timeList[p1]
     }
@@ -38,7 +38,7 @@ class HorizontalSelectView: RecyclerView.Adapter<HorizontalSelectView.ViewHolder
         return timeList.size
     }
 
-    inner class ViewHolder(v: View):RecyclerView.ViewHolder(v) {
+    inner class ViewHolder(v: View): androidx.recyclerview.widget.RecyclerView.ViewHolder(v) {
         var time: TextView = v.time_select_text
     }
 }

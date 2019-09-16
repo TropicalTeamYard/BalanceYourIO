@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +22,7 @@ import tty.balanceyourio.converter.RConverter
  * @param source 数据源，
  * @param rConverter index:int->resource:int 用于转换icon储存索引到资源的id
  */
-class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConverter: RConverter): RecyclerView.Adapter<AddBillIconAdapter.ViewHolder>(){
+class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConverter: RConverter): androidx.recyclerview.widget.RecyclerView.Adapter<AddBillIconAdapter.ViewHolder>(){
 
     private lateinit var context:Context
     private var mClickListener:OnItemClickListener?=null
@@ -97,7 +97,8 @@ class AddBillIconAdapter(var source:List<HashMap<String,Any>>, private var rConv
         }
     }
 
-    inner class ViewHolder(v: View, private var listener:OnItemClickListener?):RecyclerView.ViewHolder(v),View.OnClickListener{
+    inner class ViewHolder(v: View, private var listener:OnItemClickListener?):
+        androidx.recyclerview.widget.RecyclerView.ViewHolder(v),View.OnClickListener{
         override fun onClick(v: View?) {
             listener?.onItemClick(v,layoutPosition)
         }

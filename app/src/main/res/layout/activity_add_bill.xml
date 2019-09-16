@@ -5,7 +5,7 @@
                 android:layout_height="match_parent"
                 android:padding="0dp"
                 tools:context=".page.AddBillActivity">
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
             android:id="@+id/add_bill_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                     android:text="@string/others"
                     android:layout_weight="1"/>
         </RadioGroup>
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/add_bill_rec_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

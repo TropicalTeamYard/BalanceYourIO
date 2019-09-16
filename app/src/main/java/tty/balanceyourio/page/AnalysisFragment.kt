@@ -5,7 +5,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -39,7 +39,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @TargetApi(Build.VERSION_CODES.M)
-class AnalysisFragment : Fragment(), RadioGroup.OnCheckedChangeListener, OnChartValueSelectedListener {
+class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedChangeListener, OnChartValueSelectedListener {
 
     private var helper: BYIOHelper? = null
 

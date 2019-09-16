@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.app.Fragment
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.*
 import android.widget.AbsListView
@@ -27,7 +27,7 @@ import tty.balanceyourio.util.NumberFormatter
 import java.util.*
 
 
-class DataFragment : Fragment(),
+class DataFragment : androidx.fragment.app.Fragment(),
     ExpandableListView.OnChildClickListener,
     AdapterView.OnItemLongClickListener,
     ExpandableListView.OnGroupClickListener,
@@ -46,7 +46,7 @@ class DataFragment : Fragment(),
     private var catR = 0
     private var catT = 0
     private var catB = 0
-    private lateinit var catParams: CoordinatorLayout.LayoutParams
+    private lateinit var catParams: androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
     private var firstGroup: GroupDateTuple<Int?, Date?> = GroupDateTuple(null, null)
 
     override fun onAttach(context: Context?) {
@@ -67,7 +67,7 @@ class DataFragment : Fragment(),
             startActivity(Intent(this.context, AddBillActivity::class.java))
         }
 
-        catParams = CoordinatorLayout.LayoutParams(NumberFormatter.dp2px(context!!, 120F), NumberFormatter.dp2px(context!!, 120F))
+        catParams = androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams(NumberFormatter.dp2px(context!!, 120F), NumberFormatter.dp2px(context!!, 120F))
 
         /**
          * 测量@layout_data_page的高度和宽度

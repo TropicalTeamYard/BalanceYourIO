@@ -1,14 +1,14 @@
 package tty.balanceyourio.adapter
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import tty.balanceyourio.page.AnalysisFragment
 import tty.balanceyourio.page.DataFragment
 import tty.balanceyourio.page.UserFragment
 
-class MainFragmentAdapter(fm:FragmentManager): FragmentPagerAdapter(fm) {
-    private var pages: ArrayList<Fragment> = ArrayList()
+class MainFragmentAdapter(fm: androidx.fragment.app.FragmentManager): androidx.fragment.app.FragmentPagerAdapter(fm) {
+    private var pages: ArrayList<androidx.fragment.app.Fragment> = ArrayList()
 
     init {
         pages.add(DataFragment())
@@ -19,7 +19,7 @@ class MainFragmentAdapter(fm:FragmentManager): FragmentPagerAdapter(fm) {
         return pages.size
     }
 
-    override fun getItem(p0: Int): Fragment? {
+    override fun getItem(p0: Int): androidx.fragment.app.Fragment? {
         return pages[p0]
     }
 
