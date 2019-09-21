@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tty.balanceyourio">
+        package="tty.balanceyourio">
 
     <application
-        android:allowBackup="true"
-        android:icon="@drawable/icon"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".page.AddBillActivity" android:label="添加账目" android:launchMode="singleTask"/>
+            android:allowBackup="true"
+            android:icon="@drawable/icon"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".page.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".page.MainActivity" android:launchMode="singleTask">
+                android:name=".page.AddBillActivity"
+                android:label="添加账目"
+                android:launchMode="singleTask" />
+        <activity
+                android:name=".page.SettingsActivity"
+                android:label="@string/title_activity_settings"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+                android:name=".page.MainActivity"
+                android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

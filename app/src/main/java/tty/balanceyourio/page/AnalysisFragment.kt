@@ -5,7 +5,6 @@ import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -39,7 +38,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @TargetApi(Build.VERSION_CODES.M)
-class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedChangeListener, OnChartValueSelectedListener {
+class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedChangeListener,
+    OnChartValueSelectedListener {
 
     private var helper: BYIOHelper? = null
 
@@ -49,7 +49,7 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
     private var detailTypeSum: ArrayList<TypeSum> = ArrayList()
 
 
-    private var timeMode=TimeMode.Day
+    private var timeMode = TimeMode.Day
 
     private lateinit var timeModeChart: LineChart
     private lateinit var detailTypeChart: BarChart
@@ -65,10 +65,15 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
-        Log.d(TAG, "Entry Selected X: ${decimalFormat0.format(e?.x)} Y: ${decimalFormat2.format(e?.y?.toDouble()?.let { NumberFormatter.logToDouble(it)-1 })}")
+        Log.d(
+            TAG,
+            "Entry Selected X: ${decimalFormat0.format(e?.x)} Y: ${decimalFormat2.format(e?.y?.toDouble()?.let {
+                NumberFormatter.logToDouble(it) - 1
+            })}"
+        )
         //TODO SELECTED UI
         val pos = decimalFormat0.format(e?.x).toInt()
-        if(pos !in 0 until billRecordUnits.size){
+        if (pos !in 0 until billRecordUnits.size) {
             return
         }
         detailTypeSum = BillRecordsProvider.getIOSumByGoodsType(billRecordUnits[pos])
@@ -76,21 +81,21 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
     }
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-        when(checkedId) {
+        when (checkedId) {
             R.id.radio_mode_day -> {
-                timeMode=TimeMode.Day
+                timeMode = TimeMode.Day
             }
 
             R.id.radio_mode_week -> {
-                timeMode=TimeMode.Week
+                timeMode = TimeMode.Week
             }
 
             R.id.radio_mode_month -> {
-                timeMode=TimeMode.Month
+                timeMode = TimeMode.Month
             }
 
             R.id.radio_mode_year -> {
-                timeMode=TimeMode.Year
+                timeMode = TimeMode.Year
             }
         }
 
@@ -104,15 +109,19 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         helper = context?.let { BYIOHelper(it) }
         return inflater.inflate(R.layout.fragment_analysis, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        timeModeChart=time_line_chart
-        detailTypeChart=detail_bar_chart
+        timeModeChart = time_line_chart
+        detailTypeChart = detail_bar_chart
 
         tfBold = Typeface.createFromAsset(context!!.assets, "OpenSans-Bold.ttf")
 
@@ -139,34 +148,34 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
         xAxisTimeMode.axisLineColor = resources.getColor(R.color.colorNormal, null)
 
 
-        timeModeChart.axisLeft.isEnabled=true
-        timeModeChart.axisRight.isEnabled=true
-        timeModeChart.axisLeft.axisMaximum=13.9F
-        timeModeChart.axisLeft.axisMinimum=-13.9F
-        timeModeChart.axisRight.axisMinimum=-13.9F
-        timeModeChart.axisRight.axisMaximum=13.9F
+        timeModeChart.axisLeft.isEnabled = true
+        timeModeChart.axisRight.isEnabled = true
+        timeModeChart.axisLeft.axisMaximum = 13.9F
+        timeModeChart.axisLeft.axisMinimum = -13.9F
+        timeModeChart.axisRight.axisMinimum = -13.9F
+        timeModeChart.axisRight.axisMaximum = 13.9F
         timeModeChart.axisRight.setDrawZeroLine(true)
         timeModeChart.axisLeft.setDrawZeroLine(true)
-        timeModeChart.axisLeft.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
-        timeModeChart.axisRight.zeroLineColor=resources.getColor(R.color.colorNormalDark, null)
+        timeModeChart.axisLeft.zeroLineColor = resources.getColor(R.color.colorNormalDark, null)
+        timeModeChart.axisRight.zeroLineColor = resources.getColor(R.color.colorNormalDark, null)
 
-        timeModeChart.axisLeft.valueFormatter=object : ValueFormatter(){
+        timeModeChart.axisLeft.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 return ""
             }
         }
 
-        timeModeChart.axisRight.valueFormatter=object : ValueFormatter(){
+        timeModeChart.axisRight.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 return ""
             }
         }
 
-        xAxisTimeMode.valueFormatter=object : ValueFormatter(){
+        xAxisTimeMode.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
 //                Log.d(TAG, decimalFormat0.format(value))
-                val pos=decimalFormat0.format(value).toInt()
-                if(pos<0 || pos>=billRecordUnits.size){
+                val pos = decimalFormat0.format(value).toInt()
+                if (pos < 0 || pos >= billRecordUnits.size) {
                     return "..."
                 }
                 return DateConverter.getXAxisDate(billRecordUnits[pos].startTime, timeMode)
@@ -185,7 +194,7 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
         detailTypeChart.setScaleEnabled(false)
         detailTypeChart.axisRight.axisMinimum = 0F
         detailTypeChart.axisLeft.axisMinimum = 0F
-        detailTypeChart.xAxis.position=XAxis.XAxisPosition.BOTTOM
+        detailTypeChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         detailTypeChart.setDrawGridBackground(false)
         detailTypeChart.xAxis.setDrawGridLines(false)
         detailTypeChart.axisLeft.setDrawGridLines(false)
@@ -201,7 +210,7 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
         detailTypeChart.xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 val pos = -value.toInt()
-                if(pos >= detailTypeSum.size || pos < 0){
+                if (pos >= detailTypeSum.size || pos < 0) {
                     return ""
                 }
                 return getFriendString(context!!, "key.${detailTypeSum[pos].goodstype}")
@@ -223,17 +232,17 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
     private fun getDataAndShow() {
         data = helper!!.getBill()
 
-        billRecordUnits = when(timeMode){
-            TimeMode.Day->{
+        billRecordUnits = when (timeMode) {
+            TimeMode.Day -> {
                 BillRecordProvider.joinGroupByDay(data)
             }
-            TimeMode.Week->{
+            TimeMode.Week -> {
                 BillRecordProvider.joinGroupByWeek(data)
             }
-            TimeMode.Month->{
+            TimeMode.Month -> {
                 BillRecordProvider.joinGroupByMonth(data)
             }
-            else ->{
+            else -> {
                 BillRecordProvider.joinGroupByYear(data)
             }
         }
@@ -242,12 +251,12 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
 
         moveToX = findDatePosition(billRecordUnits, calendar.time, timeMode).toFloat()
 
-        if(moveToX<0){
-            moveToX=0F
+        if (moveToX < 0) {
+            moveToX = 0F
         }
 
         timeModeChart.zoom(0F, 1F, 0F, 0F)
-        timeModeChartZoomRatio = billRecordUnits.size.toFloat() / when(timeMode){
+        timeModeChartZoomRatio = billRecordUnits.size.toFloat() / when (timeMode) {
             TimeMode.Day -> 6
             TimeMode.Week -> 5
             TimeMode.Month -> 4
@@ -265,7 +274,10 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
         helper?.close()
     }
 
-    private fun setDataForTimeModeChart(chart: LineChart, billRecordUnits: ArrayList<BillRecordUnit>) {
+    private fun setDataForTimeModeChart(
+        chart: LineChart,
+        billRecordUnits: ArrayList<BillRecordUnit>
+    ) {
 
         val valuesOutcome = ArrayList<Entry>()
         val valuesIncome = ArrayList<Entry>()
@@ -297,14 +309,15 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
             outcomeSet.color = resources.getColor(R.color.typeOutcome, null)
             outcomeSet.fillFormatter = IFillFormatter { _, _ -> 0F }
             outcomeSet.setDrawFilled(true)
-            outcomeSet.fillDrawable=ColorDrawable(resources.getColor(R.color.typeOutcomeAlpha, null))
+            outcomeSet.fillDrawable =
+                ColorDrawable(resources.getColor(R.color.typeOutcomeAlpha, null))
             outcomeSet.fillAlpha = 20
             outcomeSet.setDrawValues(true)
-            outcomeSet.axisDependency=YAxis.AxisDependency.LEFT
+            outcomeSet.axisDependency = YAxis.AxisDependency.LEFT
             outcomeSet.valueTextColor = resources.getColor(R.color.typeOutcome, null)
-            outcomeSet.valueFormatter=object : ValueFormatter(){
+            outcomeSet.valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
-                    return decimalFormat2.format(Math.pow(Math.E, -value.toDouble())-1)
+                    return decimalFormat2.format(Math.pow(Math.E, -value.toDouble()) - 1)
                 }
             }
 
@@ -318,13 +331,14 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
             incomeSet.color = resources.getColor(R.color.typeIncome, null)
             incomeSet.fillFormatter = IFillFormatter { _, _ -> 0F }
             incomeSet.setDrawFilled(true)
-            incomeSet.fillDrawable=ColorDrawable(resources.getColor(R.color.typeIncomeAlpha, null))
+            incomeSet.fillDrawable =
+                ColorDrawable(resources.getColor(R.color.typeIncomeAlpha, null))
             incomeSet.setDrawValues(true)
-            incomeSet.axisDependency=YAxis.AxisDependency.RIGHT
+            incomeSet.axisDependency = YAxis.AxisDependency.RIGHT
             incomeSet.valueTextColor = resources.getColor(R.color.typeIncome, null)
-            incomeSet.valueFormatter=object : ValueFormatter(){
+            incomeSet.valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
-                    return decimalFormat2.format(Math.pow(Math.E, value.toDouble())-1)
+                    return decimalFormat2.format(Math.pow(Math.E, value.toDouble()) - 1)
                 }
             }
 
@@ -336,19 +350,24 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
         }
     }
 
-    private fun setDataForDetailTypeChart(chart: BarChart, dataSum: ArrayList<TypeSum>){
+    private fun setDataForDetailTypeChart(chart: BarChart, dataSum: ArrayList<TypeSum>) {
         val barWidth = 0.5f
         val spaceForBar = 1f
         val values = ArrayList<BarEntry>()
 
         var i = 0
 
-        for(item in dataSum){
-            values.add(BarEntry(-i.toFloat() * spaceForBar, Math.log(item.sum.toDouble()).toFloat()))
+        for (item in dataSum) {
+            values.add(
+                BarEntry(
+                    -i.toFloat() * spaceForBar,
+                    Math.log(item.sum.toDouble()).toFloat()
+                )
+            )
             i++
         }
 
-        for(n in i .. 6){
+        for (n in i..6) {
             values.add(BarEntry(-n.toFloat() * spaceForBar, 0F))
         }
 
@@ -376,9 +395,9 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
 
         }
 
-        set1.valueFormatter = object : ValueFormatter(){
+        set1.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-                if(value == 0.0F){
+                if (value == 0.0F) {
                     return ""
                 }
                 return decimalFormat2.format(NumberFormatter.logToDouble(value.toDouble()))
@@ -388,34 +407,38 @@ class AnalysisFragment : androidx.fragment.app.Fragment(), RadioGroup.OnCheckedC
         chart.invalidate()
     }
 
-    companion object{
+    companion object {
         const val TAG = "AF"
 
-        fun findDatePosition(billRecordUnits: ArrayList<BillRecordUnit>, date: Date, timeMode: TimeMode): Int{
-            if(billRecordUnits.isEmpty()){
+        fun findDatePosition(
+            billRecordUnits: ArrayList<BillRecordUnit>,
+            date: Date,
+            timeMode: TimeMode
+        ): Int {
+            if (billRecordUnits.isEmpty()) {
                 return -1
             }
 
-            for(i in 0 until billRecordUnits.size) {
+            for (i in 0 until billRecordUnits.size) {
                 val billRecordUnit = billRecordUnits[i]
-                when(timeMode){
+                when (timeMode) {
                     TimeMode.Day -> {
-                        if(DateConverter.equalDate(billRecordUnit.startTime, date)){
+                        if (DateConverter.equalDate(billRecordUnit.startTime, date)) {
                             return i
                         }
                     }
                     TimeMode.Week -> {
-                        if(DateConverter.equalWeek(billRecordUnit.startTime, date)){
+                        if (DateConverter.equalWeek(billRecordUnit.startTime, date)) {
                             return i
                         }
                     }
                     TimeMode.Month -> {
-                        if(DateConverter.equalMonth(billRecordUnit.startTime, date)){
+                        if (DateConverter.equalMonth(billRecordUnit.startTime, date)) {
                             return i
                         }
                     }
                     TimeMode.Year -> {
-                        if(DateConverter.equalYear(billRecordUnit.startTime, date)){
+                        if (DateConverter.equalYear(billRecordUnit.startTime, date)) {
                             return i
                         }
                     }

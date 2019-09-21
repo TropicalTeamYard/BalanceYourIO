@@ -2,30 +2,28 @@ package tty.balanceyourio.data
 
 import tty.balanceyourio.converter.CategoryConverter
 
-class BYIOCategory(var outcome: BYIOType, var income: BYIOType, var others: BYIOType)
-{
+class BYIOCategory(var outcome: BYIOType, var income: BYIOType, var others: BYIOType) {
     override fun toString(): String {
         var str = ""
-        str+="-----支出-----"
-        str+=outcome.toString()
-        str+="-----收入-----"
-        str+=income.toString()
-        str+="-----其他-----"
-        str+=others.toString()
+        str += "-----支出-----"
+        str += outcome.toString()
+        str += "-----收入-----"
+        str += income.toString()
+        str += "-----其他-----"
+        str += others.toString()
         return str
     }
 
-    fun getIconIndex(name:String):Int
-    {
-        for (i in tty.balanceyourio.data.BYIOCategory.getInstance().outcome){
+    fun getIconIndex(name: String): Int {
+        for (i in tty.balanceyourio.data.BYIOCategory.getInstance().outcome) {
             if (i.name == name)
                 return i.icon
         }
-        for (i in tty.balanceyourio.data.BYIOCategory.getInstance().income){
+        for (i in tty.balanceyourio.data.BYIOCategory.getInstance().income) {
             if (i.name == name)
                 return i.icon
         }
-        for (i in tty.balanceyourio.data.BYIOCategory.getInstance().others){
+        for (i in tty.balanceyourio.data.BYIOCategory.getInstance().others) {
             if (i.name == name)
                 return i.icon
         }
@@ -62,8 +60,7 @@ class BYIOCategory(var outcome: BYIOType, var income: BYIOType, var others: BYIO
 
         private var current: BYIOCategory? = null
 
-        fun getInstance(): BYIOCategory
-        {
+        fun getInstance(): BYIOCategory {
             if (current == null)
                 current = default
             return current!!
@@ -74,17 +71,16 @@ class BYIOCategory(var outcome: BYIOType, var income: BYIOType, var others: BYIO
 /**
  * 用于支持输入输出类型的操作
  */
-class BYIOType(vararg items: BYIONode):Iterable<BYIONode>
-{
+class BYIOType(vararg items: BYIONode) : Iterable<BYIONode> {
     override fun iterator(): Iterator<BYIONode> {
         return items.iterator()
     }
 
-    private var items:List<BYIONode> = items.toList()
+    private var items: List<BYIONode> = items.toList()
 
     override fun toString(): String {
-        var str =""
-        for (node in items){
+        var str = ""
+        for (node in items) {
             str += "- ${node.name}\n"
         }
         return str

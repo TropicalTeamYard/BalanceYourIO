@@ -1,6 +1,6 @@
 package tty.balanceyourio.model
 
-enum class IOType{
+enum class IOType {
     Unset,
     Income,
     Outcome,

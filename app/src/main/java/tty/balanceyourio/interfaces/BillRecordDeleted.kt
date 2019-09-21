@@ -1,5 +1,5 @@
 package tty.balanceyourio.interfaces
 
-interface BillRecordDeleted{
+interface BillRecordDeleted {
     fun notifyUpdate()
 }

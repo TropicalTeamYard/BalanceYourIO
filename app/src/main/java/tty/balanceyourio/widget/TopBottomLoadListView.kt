@@ -6,7 +6,8 @@ import android.util.Log
 import android.view.MotionEvent
 import android.widget.ExpandableListView
 
-class TopBottomLoadListView(context: Context?, attrs: AttributeSet?) : ExpandableListView(context, attrs) {
+class TopBottomLoadListView(context: Context?, attrs: AttributeSet?) :
+    ExpandableListView(context, attrs) {
 
     private var maxOverScrollYDis = 0
 
@@ -25,7 +26,8 @@ class TopBottomLoadListView(context: Context?, attrs: AttributeSet?) : Expandabl
             scrollX, scrollY,
             scrollRangeX, scrollRangeY,
             maxOverScrollX, maxOverScrollYDis / 3,
-            isTouchEvent)
+            isTouchEvent
+        )
     }
 
     override fun onTouchEvent(ev: MotionEvent): Boolean {
@@ -34,7 +36,7 @@ class TopBottomLoadListView(context: Context?, attrs: AttributeSet?) : Expandabl
             MotionEvent.ACTION_DOWN -> y1 = ev.getY(0)
             MotionEvent.ACTION_MOVE -> {
                 y2 = ev.getY(0)
-                maxOverScrollYDis = Math.abs (y2 - y1).toInt()
+                maxOverScrollYDis = Math.abs(y2 - y1).toInt()
             }
             MotionEvent.ACTION_UP -> {
                 maxOverScrollYDis = 0
@@ -48,7 +50,7 @@ class TopBottomLoadListView(context: Context?, attrs: AttributeSet?) : Expandabl
         return super.performClick()
     }
 
-    companion object{
+    companion object {
         const val TAG = "TBLLV"
     }
 }

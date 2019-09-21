@@ -13,22 +13,22 @@
         <item name="android:textColorHint">@color/textColorHintLight</item>
     </style>
 
-<!--    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
-<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
-<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-<!--        <item name="colorAccent">@color/colorAccent</item>-->
-<!--        <item name="android:colorBackground">@color/colorBackgroundDark</item>-->
-<!--        <item name="android:colorForeground">@color/colorForegroundDark</item>-->
-<!--        <item name="android:textColor">@color/colorForegroundDark</item>-->
-<!--        <item name="android:textColorSecondary">@color/colorTextColorSecondaryDark</item>-->
-<!--        <item name="android:colorEdgeEffect">@color/colorForegroundDark</item>-->
-<!--        <item name="android:textColorHint">@color/colorForegroundDark</item>-->
+    <!--    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+    <!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+    <!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+    <!--        <item name="colorAccent">@color/colorAccent</item>-->
+    <!--        <item name="android:colorBackground">@color/colorBackgroundDark</item>-->
+    <!--        <item name="android:colorForeground">@color/colorForegroundDark</item>-->
+    <!--        <item name="android:textColor">@color/colorForegroundDark</item>-->
+    <!--        <item name="android:textColorSecondary">@color/colorTextColorSecondaryDark</item>-->
+    <!--        <item name="android:colorEdgeEffect">@color/colorForegroundDark</item>-->
+    <!--        <item name="android:textColorHint">@color/colorForegroundDark</item>-->
 
-<!--    </style>-->
+    <!--    </style>-->
 
-<!--    <style name="Dialog" parent="@style/Theme.AppCompat.Dialog">-->
-<!--        <item name="android:windowBackground">@color/colorBackgroundDark</item>-->
-<!--    </style>-->
+    <!--    <style name="Dialog" parent="@style/Theme.AppCompat.Dialog">-->
+    <!--        <item name="android:windowBackground">@color/colorBackgroundDark</item>-->
+    <!--    </style>-->
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

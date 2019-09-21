@@ -1,22 +1,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
->
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/item_nav_record"
-        android:icon="@drawable/swap"
-        android:orderInCategory="100"
-        android:title="@string/records"
-        app:showAsAction="ifRoom" />
+            android:id="@+id/item_nav_record"
+            android:icon="@drawable/swap"
+            android:orderInCategory="100"
+            android:title="@string/records"
+            app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/item_nav_analysis"
-        android:icon="@drawable/ic_show_chart"
-        android:orderInCategory="101"
-        android:title="@string/analysis"
-        app:showAsAction="ifRoom" />
+            android:id="@+id/item_nav_analysis"
+            android:icon="@drawable/ic_show_chart"
+            android:orderInCategory="101"
+            android:title="@string/analysis"
+            app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/item_nav_user"
-        android:icon="@drawable/ic_sentiment_satisfied"
-        android:orderInCategory="102"
-        android:title="@string/info"
-        app:showAsAction="ifRoom" />
+            android:id="@+id/item_nav_user"
+            android:icon="@drawable/ic_sentiment_satisfied"
+            android:orderInCategory="102"
+            android:title="@string/info"
+            app:showAsAction="ifRoom" />
 </menu>

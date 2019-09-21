@@ -3,12 +3,12 @@ package tty.balanceyourio.converter
 import tty.balanceyourio.R
 
 
-class ColorIconConverter: RConverter {
+class ColorIconConverter : RConverter {
     override val count: Int
         get() = 24
 
     override fun getResID(index: Int): Int {
-        return when(index){
+        return when (index) {
             ADD_USER -> R.drawable.ic_color_adduser
             CALENDAR -> R.drawable.ic_color_calendar
             CONCAT -> R.drawable.ic_color_concat
@@ -43,24 +43,24 @@ class ColorIconConverter: RConverter {
         const val CONCAT = 2
         const val EXPLORE = 3
         const val FAVOR = 4
-        const val FAVUSER= 5
+        const val FAVUSER = 5
         const val HONOR = 6
         const val INFO = 7
         const val LOVE = 8
         const val MAP = 9
         const val MEDAL = 10
-        const val MEDICINE  = 11
+        const val MEDICINE = 11
         const val PHONE = 12
-        const val PIC= 13
+        const val PIC = 13
         const val PLAY = 14
         const val READ = 15
         const val SAFETY = 16
         const val SCHOOL = 17
         const val SHOPPING = 18
         const val STAMP = 19
-        const val TAG= 20
+        const val TAG = 20
         const val USER = 21
         const val USERCONFIG = 22
-        const val VISITOR  = 23
+        const val VISITOR = 23
     }
 }

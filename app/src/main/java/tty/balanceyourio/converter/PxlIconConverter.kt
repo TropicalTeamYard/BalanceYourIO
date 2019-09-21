@@ -6,9 +6,9 @@ import tty.balanceyourio.R
  * 在数据库中存储的类型名称用类型对应的数字代替，使用时根据@fun getResId(index: Int)获得res
  */
 
-class PxlIconConverter:RConverter{
+class PxlIconConverter : RConverter {
     override fun getResID(index: Int): Int {
-        return when(index){
+        return when (index) {
             CALENDAR -> R.drawable.ic_pxl_calendar
             CAMERA -> R.drawable.ic_pxl_camera
             CAR -> R.drawable.type_transportation

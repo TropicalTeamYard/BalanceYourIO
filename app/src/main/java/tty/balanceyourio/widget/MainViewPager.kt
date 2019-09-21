@@ -1,13 +1,12 @@
 package tty.balanceyourio.widget
 
 import android.content.Context
-import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import android.view.MotionEvent
 
-class MainViewPager: androidx.viewpager.widget.ViewPager {
-    constructor(context: Context):super(context)
-    constructor(context: Context, attributeSet: AttributeSet):super(context, attributeSet)
+class MainViewPager : androidx.viewpager.widget.ViewPager {
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
 
     private var isScroll: Boolean = false
 

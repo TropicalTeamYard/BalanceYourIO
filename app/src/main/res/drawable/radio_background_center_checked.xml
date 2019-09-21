@@ -15,22 +15,23 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/typeInRadio"/>
+            <solid android:color="@color/typeInRadio" />
             <stroke
                     android:width="1dp"
-                    android:color="@color/colorNormal"/>
+                    android:color="@color/colorNormal" />
         </shape>
     </item>
 
-    <item android:left="0dp"
-          android:top="1dp"
-          android:right="0dp"
-          android:bottom="1dp">
+    <item
+            android:bottom="1dp"
+            android:left="0dp"
+            android:right="0dp"
+            android:top="1dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/transparent"/>
+            <solid android:color="@color/transparent" />
             <stroke
                     android:width="1dp"
-                    android:color="@color/typeInRadio"/>
+                    android:color="@color/typeInRadio" />
         </shape>
     </item>
 

@@ -6,14 +6,13 @@ import kotlin.collections.ArrayList
 /**
  * 记录的集合，用于统计一个时间段的记录
  */
-class BillRecordUnit
-{
+class BillRecordUnit {
     lateinit var startTime: Date
     lateinit var timeMode: TimeMode
 
-    var data:ArrayList<BillRecord> = ArrayList()
+    var data: ArrayList<BillRecord> = ArrayList()
 
-    fun isEmpty():Boolean{
+    fun isEmpty(): Boolean {
         return data.isEmpty()
     }
 

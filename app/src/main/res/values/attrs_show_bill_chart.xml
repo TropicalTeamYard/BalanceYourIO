@@ -1,18 +1,18 @@
 <resources>
     <declare-styleable name="ShowBillChart">
-        <attr name="title" format="string"/>
+        <attr name="title" format="string" />
         <attr name="chartMode" format="enum">
-            <enum name="pie" value="0"/>
-            <enum name="broken_line" value="1"/>
-            <enum name="cylindrical" value="2"/>
-            <enum name="list" value="3"/>
+            <enum name="pie" value="0" />
+            <enum name="broken_line" value="1" />
+            <enum name="cylindrical" value="2" />
+            <enum name="list" value="3" />
         </attr>
         <attr name="timeMode" format="enum">
-            <enum name="day" value="0"/>
-            <enum name="week" value="1"/>
-            <enum name="month" value="2"/>
-            <enum name="year" value="3"/>
+            <enum name="day" value="0" />
+            <enum name="week" value="1" />
+            <enum name="month" value="2" />
+            <enum name="year" value="3" />
         </attr>
-        <attr name="titleColor" format="reference"/>
+        <attr name="titleColor" format="reference" />
     </declare-styleable>
 </resources>

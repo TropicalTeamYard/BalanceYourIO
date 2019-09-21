@@ -1,22 +1,17 @@
 package tty.balanceyourio.page
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_add_bill.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.AddBillIconAdapter
@@ -27,7 +22,6 @@ import tty.balanceyourio.model.IOType
 import tty.balanceyourio.provider.IOTypeProvider
 import tty.balanceyourio.util.AmountConvert
 import tty.balanceyourio.util.DateConverter
-import java.text.DecimalFormat
 import java.util.*
 
 /**
@@ -40,7 +34,7 @@ class AddBillActivity : AppCompatActivity(),
     RadioGroup.OnCheckedChangeListener,
     TextWatcher, View.OnClickListener,
     AddBillIconAdapter.OnItemClickListener,
-    ChooseDateFragment.SendDate{
+    ChooseDateFragment.SendDate {
 
 
     //region 变量与临时存储
@@ -56,15 +50,15 @@ class AddBillActivity : AppCompatActivity(),
      * chosen:Boolean 表示该项是否选中
      */
     private lateinit var data: ArrayList<HashMap<String, Any>>
-    private lateinit var adapter:AddBillIconAdapter
+    private lateinit var adapter: AddBillIconAdapter
 
     /**
      * 用于存储临时的数据
      */
     private var billRecord: BillRecord = BillRecord()
 
-    private var prevStr:String = ""
-    private var prevStart:Int = -1
+    private var prevStr: String = ""
+    private var prevStart: Int = -1
 
     //endregion
     //region 重写方法
@@ -76,8 +70,8 @@ class AddBillActivity : AppCompatActivity(),
         add_bill_radio_group.setOnCheckedChangeListener(this)
         add_bill_bt_save.setOnClickListener(this)
         add_bill_choose_date.setOnClickListener {
-            val dialog=ChooseDateFragment()
-            dialog.show(this.supportFragmentManager,"CDF")
+            val dialog = ChooseDateFragment()
+            dialog.show(this.supportFragmentManager, "CDF")
         }
         add_input_money.addTextChangedListener(this)
         add_input_money.setSelectAllOnFocus(true)
@@ -89,8 +83,8 @@ class AddBillActivity : AppCompatActivity(),
         adapter = AddBillIconAdapter(data, PxlIconConverter())
         recyclerView.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         recyclerView.adapter = adapter
-        val layoutManager= androidx.recyclerview.widget.GridLayoutManager(this, 6)
-        layoutManager.orientation= androidx.recyclerview.widget.GridLayoutManager.VERTICAL
+        val layoutManager = androidx.recyclerview.widget.GridLayoutManager(this, 6)
+        layoutManager.orientation = androidx.recyclerview.widget.GridLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
         adapter.setOnItemClickListener(this)
 
@@ -98,9 +92,9 @@ class AddBillActivity : AppCompatActivity(),
         billRecord.init()
 
         //如果是从更新入口进入则执行恢复数据
-        if(intent.extras!=null&&intent.hasExtra("id")){
-            billRecord = BYIOHelper(this).getBill(intent.getIntExtra("id",-1))
-            Log.d(TAG,"时间=${DateConverter.getSimpleString( billRecord.time!!)}")
+        if (intent.extras != null && intent.hasExtra("id")) {
+            billRecord = BYIOHelper(this).getBill(intent.getIntExtra("id", -1))
+            Log.d(TAG, "时间=${DateConverter.getSimpleString(billRecord.time!!)}")
         }
 
         setRecord(billRecord)
@@ -114,7 +108,7 @@ class AddBillActivity : AppCompatActivity(),
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when(item?.itemId){
+        return when (item?.itemId) {
             R.id.menu_add_bill_settings -> {
                 Toast.makeText(this, "编辑分类", Toast.LENGTH_SHORT).show()
                 true
@@ -134,20 +128,20 @@ class AddBillActivity : AppCompatActivity(),
      */
     override fun onItemClick(v: View?, position: Int) {
         Log.d(TAG, "pos: $position")
-        for(p in data){
-            p["chosen"]=false
+        for (p in data) {
+            p["chosen"] = false
         }
-        data[position]["chosen"]=true
+        data[position]["chosen"] = true
         billRecord.goodsType = data[position]["class"] as String
 
-        when(billRecord.ioType){
-            IOType.Outcome->{
+        when (billRecord.ioType) {
+            IOType.Outcome -> {
                 billRecord.outcomeP = position
             }
-            IOType.Income ->{
+            IOType.Income -> {
                 billRecord.incomeP = position
             }
-            IOType.Other ->{
+            IOType.Other -> {
                 billRecord.otherP = position
             }
             else -> billRecord.outcomeP = position
@@ -161,37 +155,39 @@ class AddBillActivity : AppCompatActivity(),
      * 目前该方法仅用于保存事件点击时
      */
     override fun onClick(v: View?) {
-        when(v?.id){
+        when (v?.id) {
             R.id.add_bill_bt_save -> {
                 Log.d(TAG, "SAVE")
                 try {
-                    var flag=false
-                    var type=""
-                    for(p in data){
-                        if(p["chosen"] as Boolean){
-                            flag=true
-                            type= p["class"] as String
+                    var flag = false
+                    var type = ""
+                    for (p in data) {
+                        if (p["chosen"] as Boolean) {
+                            flag = true
+                            type = p["class"] as String
                             break
                         }
                     }
-                    if(flag){
-                        add_bill_bt_save.isClickable=false
-                        Log.i(TAG,
+                    if (flag) {
+                        add_bill_bt_save.isClickable = false
+                        Log.i(
+                            TAG,
                             "mode: ${
-                            when(add_bill_radio_group.checkedRadioButtonId){
+                            when (add_bill_radio_group.checkedRadioButtonId) {
                                 R.id.add_bill_radio_income -> "income"
                                 R.id.add_bill_radio_outcome -> "outcome"
                                 R.id.add_bill_radio_others -> "others"
                                 else -> "#UNSET"
                             }}, " +
-                                    "type: $type, amount: ${billRecord.amount}")
+                                    "type: $type, amount: ${billRecord.amount}"
+                        )
 
 
                         billRecord.remark = add_bill_ed_remark.text.toString()
                         val helper = BYIOHelper(this)
                         helper.setBill(billRecord)
 
-                        Log.d(TAG,"添加了一条记录")
+                        Log.d(TAG, "添加了一条记录")
 
                         //endregion
                         //helper.printBill()
@@ -201,7 +197,7 @@ class AddBillActivity : AppCompatActivity(),
                     } else {
                         Toast.makeText(this, "请选择类型", Toast.LENGTH_SHORT).show()
                     }
-                } catch (e: TypeCastException){
+                } catch (e: TypeCastException) {
 
                 }
 
@@ -212,37 +208,33 @@ class AddBillActivity : AppCompatActivity(),
 
     override fun afterTextChanged(s: Editable?) {}
 
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
-    {
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         prevStr = s.toString()
         prevStart = start
 
-        Log.d(TAG,"字符串改变前:$s")
+        Log.d(TAG, "字符串改变前:$s")
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        if (s.toString() != prevStr){
-            if (s.toString() == ""){
+        if (s.toString() != prevStr) {
+            if (s.toString() == "") {
                 billRecord.amount = BillRecord.defaultAmount
-            }
-            else if (!AmountConvert.isBill(s.toString())){
+            } else if (!AmountConvert.isBill(s.toString())) {
                 add_input_money.setText(prevStr)
-                if(prevStr.isNotEmpty()){
-                    add_input_money.setSelection(prevStr.length,prevStr.length )
+                if (prevStr.isNotEmpty()) {
+                    add_input_money.setSelection(prevStr.length, prevStr.length)
                 }
 
-            }
-            else
-            {
+            } else {
                 prevStr = s.toString()
-                Log.d(TAG,"amount=${prevStr.toDouble()}")
+                Log.d(TAG, "amount=${prevStr.toDouble()}")
                 billRecord.amount = prevStr.toDouble()
             }
 
         }
 
 
-        Log.d(TAG,"字符串改变后:$s")
+        Log.d(TAG, "字符串改变后:$s")
     }
 
 
@@ -251,10 +243,10 @@ class AddBillActivity : AppCompatActivity(),
      * @see BillRecord.ioType
      */
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-        when(checkedId){
+        when (checkedId) {
             R.id.add_bill_radio_income -> {
                 setData(IOType.Income)
-                if (billRecord.incomeP in 0 until data.size){
+                if (billRecord.incomeP in 0 until data.size) {
                     data[billRecord.incomeP]["chosen"] = true
                 }
                 adapter.source = data
@@ -263,7 +255,7 @@ class AddBillActivity : AppCompatActivity(),
             }
             R.id.add_bill_radio_outcome -> {
                 setData(IOType.Outcome)
-                if (billRecord.outcomeP in 0 until data.size){
+                if (billRecord.outcomeP in 0 until data.size) {
                     data[billRecord.outcomeP]["chosen"] = true
                 }
                 adapter.source = data
@@ -271,7 +263,7 @@ class AddBillActivity : AppCompatActivity(),
             }
             R.id.add_bill_radio_others -> {
                 setData(IOType.Other)
-                if (billRecord.otherP in 0 until data.size){
+                if (billRecord.otherP in 0 until data.size) {
                     data[billRecord.otherP]["chosen"] = true
                 }
                 adapter.source = data
@@ -288,8 +280,8 @@ class AddBillActivity : AppCompatActivity(),
      */
     override fun getDate(date: Date) {
         //isDateChoose=true
-        billRecord.time=date
-        add_bill_show_date.text=DateConverter.getSimpleString(date)
+        billRecord.time = date
+        add_bill_show_date.text = DateConverter.getSimpleString(date)
         Log.d(TAG, DateConverter.getString(billRecord.time!!))
     }
 
@@ -299,49 +291,50 @@ class AddBillActivity : AppCompatActivity(),
     /**
      * 用于初始化页面，特别是修改已有的账目记录时
      */
-    private fun setRecord(record:BillRecord)
-    {
+    private fun setRecord(record: BillRecord) {
         add_bill_ed_remark.setText(record.remark)
 
         add_bill_show_date.text = DateConverter.getSimpleString(
-            if (record.time == null){
+            if (record.time == null) {
                 Date()
             } else {
                 record.time!!
             }
         )
 
-        add_bill_radio_group.check(when(record.ioType){
-            IOType.Outcome -> R.id.add_bill_radio_outcome
-            IOType.Income -> R.id.add_bill_radio_income
-            IOType.Other -> R.id.add_bill_radio_others
-            IOType.Unset -> R.id.add_bill_radio_outcome
-        })
+        add_bill_radio_group.check(
+            when (record.ioType) {
+                IOType.Outcome -> R.id.add_bill_radio_outcome
+                IOType.Income -> R.id.add_bill_radio_income
+                IOType.Other -> R.id.add_bill_radio_others
+                IOType.Unset -> R.id.add_bill_radio_outcome
+            }
+        )
 
         //添加：保存选中的记录
-        for (i in 0 until data.size){
+        for (i in 0 until data.size) {
             val p = data[i]
-            if (p["class"] == record.goodsType){
-                when(p["type"]){
-                    0->{
+            if (p["class"] == record.goodsType) {
+                when (p["type"]) {
+                    0 -> {
                         billRecord.outcomeP = i
                     }
-                    1->{
+                    1 -> {
                         billRecord.incomeP = i
                     }
-                    2->{
+                    2 -> {
                         billRecord.otherP = i
                     }
                 }
                 p["chosen"] = true
-            } else{
+            } else {
                 p["chosen"] = false
             }
         }
 
-        if (record.amount == BillRecord.defaultAmount){
+        if (record.amount == BillRecord.defaultAmount) {
             add_input_money.setText("")
-        }else{
+        } else {
             add_input_money.setText("${record.amount}")
         }
 
@@ -353,12 +346,12 @@ class AddBillActivity : AppCompatActivity(),
      * @see data 为指定的类型，主要用于和
      * @see adapter 进行交互
      */
-    private fun setData(type:IOType){
+    private fun setData(type: IOType) {
         billRecord.ioType = type
-        data = when(type){
-            IOType.Outcome->IOTypeProvider(this).outcomeTypeList
-            IOType.Income->IOTypeProvider(this).incomeTypeList
-            IOType.Other->IOTypeProvider(this).othersTypeList
+        data = when (type) {
+            IOType.Outcome -> IOTypeProvider(this).outcomeTypeList
+            IOType.Income -> IOTypeProvider(this).incomeTypeList
+            IOType.Other -> IOTypeProvider(this).othersTypeList
             else -> IOTypeProvider(this).outcomeTypeList
         }
     }

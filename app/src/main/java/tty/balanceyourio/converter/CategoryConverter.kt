@@ -3,9 +3,9 @@ package tty.balanceyourio.converter
 import tty.balanceyourio.R
 
 
-class CategoryConverter: RConverter{
+class CategoryConverter : RConverter {
     override fun getResID(index: Int): Int {
-        return when(index){
+        return when (index) {
             Education -> R.string.education
             Entertainment -> R.string.entertainment
             Food -> R.string.food

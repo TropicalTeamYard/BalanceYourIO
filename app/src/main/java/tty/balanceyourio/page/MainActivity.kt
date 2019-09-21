@@ -2,17 +2,17 @@ package tty.balanceyourio.page
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.viewpager.widget.ViewPager
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.MainFragmentAdapter
 import tty.balanceyourio.interfaces.BillRecordDeleted
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, androidx.viewpager.widget.ViewPager.OnPageChangeListener, BillRecordDeleted {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
+    androidx.viewpager.widget.ViewPager.OnPageChangeListener, BillRecordDeleted {
     override fun notifyUpdate() {
 //        Log.d(TAG, "interface notifyUpdate")
         val analysisFragment: AnalysisFragment = adapter?.getItem(1) as AnalysisFragment
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     //TODO @WCF 新建账本 自定义
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        return when(p0.itemId){
+        return when (p0.itemId) {
             R.id.item_nav_record -> {
                 main_viewPager.currentItem = 0
                 main_toolbar.title = "数据"
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     }
 
-    private var adapter: MainFragmentAdapter?=null
+    private var adapter: MainFragmentAdapter? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,10 +64,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setContentView(R.layout.activity_main)
         setSupportActionBar(main_toolbar)
         main_toolbar.title = "数据"
-        supportActionBar?.elevation=0F
+        supportActionBar?.elevation = 0F
 
         adapter = MainFragmentAdapter(supportFragmentManager)
-        main_viewPager.adapter=adapter
+        main_viewPager.adapter = adapter
 
         main_viewPager.addOnPageChangeListener(this)
         main_bottom_nav.setOnNavigationItemSelectedListener(this)
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when(item?.itemId){
+        return when (item?.itemId) {
             R.id.item_setting -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 true
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
     }
 
-    companion object{
+    companion object {
         const val TAG = "MA"
     }
 

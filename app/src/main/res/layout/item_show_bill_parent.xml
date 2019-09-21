@@ -1,35 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:background="?android:colorBackground"
-              android:layout_width="match_parent"
-              android:layout_height="28dp">
-    <TextView android:id="@+id/show_bill_date"
-              android:gravity="center_vertical"
-              android:textSize="14sp"
-              android:textColor="?android:textColorSecondary"
-              android:layout_width="0dp"
-              android:layout_height="match_parent"
-              android:layout_weight="1"
-              android:layout_marginStart="12dp"
-              android:text="@string/default_date"/>
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:background="?android:colorBackground"
+        android:orientation="horizontal">
+
+    <TextView
+            android:id="@+id/show_bill_date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/default_date"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="14sp" />
+
     <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-        <TextView android:id="@+id/show_bill_today_outcome"
-                  android:layout_gravity="center_vertical"
-                  android:layout_width="wrap_content"
-                  android:textColor="@color/typeOutcome"
-                  android:text="收入: 0"
-                  android:layout_marginEnd="16dp"
-                  android:layout_height="wrap_content"/>
-        <TextView android:id="@+id/show_bill_today_income"
-                  android:layout_gravity="center_vertical"
-                  android:layout_width="wrap_content"
-                  android:textColor="@color/typeIncome"
-                  android:text="支出: 0"
-                  android:layout_marginEnd="8dp"
-                  android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/show_bill_today_outcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:text="收入: 0"
+                android:textColor="@color/typeOutcome" />
+
+        <TextView
+                android:id="@+id/show_bill_today_income"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:text="支出: 0"
+                android:textColor="@color/typeIncome" />
     </LinearLayout>
 </LinearLayout>

@@ -22,16 +22,16 @@ import kotlin.collections.HashMap
 
 class ShowBillChart : View {
 
-    private var _title: String?=null
+    private var _title: String? = null
     private var _chartMode: ChartMode? = null
     private var _timeMode: TimeMode? = null
     private var _titleColor: Int = 0xFFFFFFFF.toInt()
 
-    private var timeModeBill=ArrayList<ArrayList<BillRecord>>()
-    private var timeModeSum=ArrayList<HashMap<IOType, Double>>()
+    private var timeModeBill = ArrayList<ArrayList<BillRecord>>()
+    private var timeModeSum = ArrayList<HashMap<IOType, Double>>()
     private var timeModeList = ArrayList<Date>()
 
-    private val decimalFormat= DecimalFormat("#.##")
+    private val decimalFormat = DecimalFormat("#.##")
 
     private var textPaint: TextPaint? = null
     private var textWidth: Float = 0F
@@ -39,8 +39,8 @@ class ShowBillChart : View {
 
     private var _data: ArrayList<BillRecord>? = null
 
-    private var positionStart=Position(0F, 0F)
-    private var positionEnd=Position(0F, 0F)
+    private var positionStart = Position(0F, 0F)
+    private var positionEnd = Position(0F, 0F)
 
     private var title: String?
         get() = _title
@@ -61,7 +61,7 @@ class ShowBillChart : View {
     private var chartMode: ChartMode?
         get() = _chartMode
         set(value) {
-            _chartMode=value
+            _chartMode = value
         }
 
     private var timeMode: TimeMode?
@@ -85,11 +85,15 @@ class ShowBillChart : View {
         init(attrs, 0)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    ) {
         init(attrs, defStyle)
     }
 
-    private fun dp2px(dpValue: Float) : Int {
+    private fun dp2px(dpValue: Float): Int {
         val scale = context.resources.displayMetrics.density;
         return ((dpValue * scale + 0.5f).toInt())
     }
@@ -102,32 +106,32 @@ class ShowBillChart : View {
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         super.onTouchEvent(event)
         performClick()
-        if(event?.y!! < textHeight+paddingTop){
+        if (event?.y!! < textHeight + paddingTop) {
             return false
         }
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 Log.d(TAG, "TOUCH DOWN")
-                positionStart.x=event.x
-                positionStart.y=event.y
+                positionStart.x = event.x
+                positionStart.y = event.y
             }
             MotionEvent.ACTION_MOVE -> {
-                positionEnd.x=event.x
-                positionEnd.y=event.y
+                positionEnd.x = event.x
+                positionEnd.y = event.y
 
-                if(positionEnd.x-positionStart.x>dp2px(2F)) {
+                if (positionEnd.x - positionStart.x > dp2px(2F)) {
                     Log.d(TAG, "MOVE RIGHT")
-                } else if(positionEnd.x-positionStart.x<dp2px(-2F)) {
+                } else if (positionEnd.x - positionStart.x < dp2px(-2F)) {
                     Log.d(TAG, "MOVE LEFT")
                 }
-                if(positionEnd.y-positionStart.y>dp2px(2F)) {
+                if (positionEnd.y - positionStart.y > dp2px(2F)) {
                     Log.d(TAG, "MOVE DOWN")
-                } else if(positionEnd.y-positionStart.y<dp2px(-2F)) {
+                } else if (positionEnd.y - positionStart.y < dp2px(-2F)) {
                     Log.d(TAG, "MOVE UP")
                 }
 
-                positionStart.x=event.x
-                positionStart.y=event.y
+                positionStart.x = event.x
+                positionStart.y = event.y
             }
             MotionEvent.ACTION_UP -> {
                 Log.d(TAG, "TOUCH UP")
@@ -139,10 +143,10 @@ class ShowBillChart : View {
 //                    Log.d(TAG, "MOVE LEFT")
 //                }
 //                Log.d(TAG, "init position")
-                positionEnd.x=0F
-                positionEnd.y=0F
-                positionStart.x=0F
-                positionStart.y=0F
+                positionEnd.x = 0F
+                positionEnd.y = 0F
+                positionStart.x = 0F
+                positionStart.y = 0F
             }
             MotionEvent.ACTION_OUTSIDE -> {
 
@@ -165,11 +169,11 @@ class ShowBillChart : View {
         val a = context.obtainStyledAttributes(attrs, R.styleable.ShowBillChart, defStyle, 0)
 
         _title = a.getString(R.styleable.ShowBillChart_title)
-        if(_title == null){
-            _title=""
+        if (_title == null) {
+            _title = ""
         }
 
-        _chartMode = when(a.getInt(R.styleable.ShowBillChart_chartMode, 3)){
+        _chartMode = when (a.getInt(R.styleable.ShowBillChart_chartMode, 3)) {
             0 -> ChartMode.Pie
             1 -> ChartMode.BrokenLine
             2 -> ChartMode.Cylindrical
@@ -177,7 +181,7 @@ class ShowBillChart : View {
             else -> ChartMode.List
         }
 
-        _timeMode = when(a.getInt(R.styleable.ShowBillChart_timeMode, 0)){
+        _timeMode = when (a.getInt(R.styleable.ShowBillChart_timeMode, 0)) {
             0 -> TimeMode.Day
             1 -> TimeMode.Week
             2 -> TimeMode.Month
@@ -222,7 +226,7 @@ class ShowBillChart : View {
         val contentHeight = height - paddingTop - paddingBottom
 
         title?.let {
-            canvas.drawText(it, paddingLeft.toFloat(), (textHeight+paddingTop), textPaint)
+            canvas.drawText(it, paddingLeft.toFloat(), (textHeight + paddingTop), textPaint as Paint)
         }
 
         data?.let {
@@ -230,12 +234,12 @@ class ShowBillChart : View {
             Log.d(TAG, "ChartMode: $chartMode")
             Log.d(TAG, "TimeMode: $timeMode")
 
-            when(chartMode){
+            when (chartMode) {
                 ChartMode.BrokenLine -> {
                     drawBrokenLineChart()
                 }
 
-                ChartMode.Pie ->{
+                ChartMode.Pie -> {
                     drawPieChart()
                 }
 
@@ -243,7 +247,7 @@ class ShowBillChart : View {
                     drawCylindricalChart()
                 }
 
-                else->{
+                else -> {
                     drawListChart()
                 }
             }
@@ -254,21 +258,21 @@ class ShowBillChart : View {
     /**
      * 折线图表格
      */
-    private fun drawBrokenLineChart(){
+    private fun drawBrokenLineChart() {
 
     }
 
     /**
      * 饼图表格
      */
-    private fun drawPieChart(){
+    private fun drawPieChart() {
 
     }
 
     /**
      * 柱形图表格
      */
-    private fun drawCylindricalChart(){
+    private fun drawCylindricalChart() {
 
 
     }
@@ -276,50 +280,53 @@ class ShowBillChart : View {
     /**
      * 列表表格
      */
-    private fun drawListChart(){
+    private fun drawListChart() {
         getTimeModeArray()
 //        timeModeBill
 //        timeModeList
 //        timeModeSum
     }
 
-    private fun clearTimeModeData(){
+    private fun clearTimeModeData() {
         timeModeBill.clear()
         timeModeList.clear()
         timeModeSum.clear()
     }
 
-    private fun getTimeModeArray(){
-        if(_data==null || data!!.size==0){
+    private fun getTimeModeArray() {
+        if (_data == null || data!!.size == 0) {
             return
         }
         Log.d(TAG, "data size: ${data!!.size}")
 
         clearTimeModeData()
 
-        when(timeMode){
+        when (timeMode) {
             TimeMode.Day -> {
-                val dateSet= HashSet<Date>()
-                for(i in 0 until _data!!.size){
+                val dateSet = HashSet<Date>()
+                for (i in 0 until _data!!.size) {
                     dateSet.add(DateConverter.cutToDate(_data!![i].time!!))
                     timeModeSum.add(HashMap())
-                    timeModeSum[i][IOType.Income]=0.0
-                    timeModeSum[i][IOType.Outcome]=0.0
-                    timeModeSum[i][IOType.Unset]=0.0
+                    timeModeSum[i][IOType.Income] = 0.0
+                    timeModeSum[i][IOType.Outcome] = 0.0
+                    timeModeSum[i][IOType.Unset] = 0.0
                 }
                 timeModeList = ArrayList(dateSet)
                 Log.d(TAG, "date size: ${timeModeList.size}")
                 timeModeList.sort()
                 timeModeList.reverse()
-                for(i in 0 until timeModeList.size){
-                    val tData=ArrayList<BillRecord>()
-                    for(j in 0 until _data!!.size){
-                        if(DateConverter.equalDate(_data!![j].time!!, timeModeList[i])){
+                for (i in 0 until timeModeList.size) {
+                    val tData = ArrayList<BillRecord>()
+                    for (j in 0 until _data!!.size) {
+                        if (DateConverter.equalDate(_data!![j].time!!, timeModeList[i])) {
                             tData.add(_data!![j])
-                            when(_data!![j].ioType){
-                                IOType.Income -> timeModeSum[i][IOType.Income] = timeModeSum[i][IOType.Income]!! + _data!![j].amount
-                                IOType.Outcome -> timeModeSum[i][IOType.Outcome] = timeModeSum[i][IOType.Outcome]!! + _data!![j].amount
-                                else -> timeModeSum[i][IOType.Unset] = timeModeSum[i][IOType.Unset]!! + _data!![j].amount
+                            when (_data!![j].ioType) {
+                                IOType.Income -> timeModeSum[i][IOType.Income] =
+                                    timeModeSum[i][IOType.Income]!! + _data!![j].amount
+                                IOType.Outcome -> timeModeSum[i][IOType.Outcome] =
+                                    timeModeSum[i][IOType.Outcome]!! + _data!![j].amount
+                                else -> timeModeSum[i][IOType.Unset] =
+                                    timeModeSum[i][IOType.Unset]!! + _data!![j].amount
                             }
                         }
                     }
@@ -330,27 +337,30 @@ class ShowBillChart : View {
             }
 
             TimeMode.Week -> {
-                val weekSet= HashSet<Date>()
-                for(i in 0 until _data!!.size){
+                val weekSet = HashSet<Date>()
+                for (i in 0 until _data!!.size) {
                     weekSet.add(DateConverter.cutToWeek(_data!![i].time!!))
                 }
                 timeModeList = ArrayList(weekSet)
                 Log.d(TAG, "week size: ${timeModeList.size}")
                 timeModeList.sort()
                 timeModeList.reverse()
-                for(i in 0 until timeModeList.size){
+                for (i in 0 until timeModeList.size) {
                     timeModeSum.add(HashMap())
-                    timeModeSum[i][IOType.Income]=0.0
-                    timeModeSum[i][IOType.Outcome]=0.0
-                    timeModeSum[i][IOType.Unset]=0.0
-                    val tData=ArrayList<BillRecord>()
-                    for(j in 0 until _data!!.size){
-                        if(DateConverter.equalWeek(_data!![j].time!!, timeModeList[i])){
+                    timeModeSum[i][IOType.Income] = 0.0
+                    timeModeSum[i][IOType.Outcome] = 0.0
+                    timeModeSum[i][IOType.Unset] = 0.0
+                    val tData = ArrayList<BillRecord>()
+                    for (j in 0 until _data!!.size) {
+                        if (DateConverter.equalWeek(_data!![j].time!!, timeModeList[i])) {
                             tData.add(_data!![j])
-                            when(_data!![j].ioType){
-                                IOType.Income -> timeModeSum[i][IOType.Income] = timeModeSum[i][IOType.Income]!! + _data!![j].amount
-                                IOType.Outcome -> timeModeSum[i][IOType.Outcome] = timeModeSum[i][IOType.Outcome]!! + _data!![j].amount
-                                else -> timeModeSum[i][IOType.Unset] = timeModeSum[i][IOType.Unset]!! + _data!![j].amount
+                            when (_data!![j].ioType) {
+                                IOType.Income -> timeModeSum[i][IOType.Income] =
+                                    timeModeSum[i][IOType.Income]!! + _data!![j].amount
+                                IOType.Outcome -> timeModeSum[i][IOType.Outcome] =
+                                    timeModeSum[i][IOType.Outcome]!! + _data!![j].amount
+                                else -> timeModeSum[i][IOType.Unset] =
+                                    timeModeSum[i][IOType.Unset]!! + _data!![j].amount
                             }
                         }
                     }
@@ -361,27 +371,30 @@ class ShowBillChart : View {
             }
 
             TimeMode.Month -> {
-                val monthSet= HashSet<Date>()
-                for(i in 0 until _data!!.size){
+                val monthSet = HashSet<Date>()
+                for (i in 0 until _data!!.size) {
                     monthSet.add(DateConverter.cutToMonth(_data!![i].time!!))
                 }
                 timeModeList = ArrayList(monthSet)
                 Log.d(TAG, "month size: ${timeModeList.size}")
                 timeModeList.sort()
                 timeModeList.reverse()
-                for(i in 0 until timeModeList.size){
+                for (i in 0 until timeModeList.size) {
                     timeModeSum.add(HashMap())
-                    timeModeSum[i][IOType.Income]=0.0
-                    timeModeSum[i][IOType.Outcome]=0.0
-                    timeModeSum[i][IOType.Unset]=0.0
-                    val tData=ArrayList<BillRecord>()
-                    for(j in 0 until _data!!.size){
-                        if(DateConverter.equalMonth(_data!![j].time!!, timeModeList[i])){
+                    timeModeSum[i][IOType.Income] = 0.0
+                    timeModeSum[i][IOType.Outcome] = 0.0
+                    timeModeSum[i][IOType.Unset] = 0.0
+                    val tData = ArrayList<BillRecord>()
+                    for (j in 0 until _data!!.size) {
+                        if (DateConverter.equalMonth(_data!![j].time!!, timeModeList[i])) {
                             tData.add(_data!![j])
-                            when(_data!![j].ioType){
-                                IOType.Income -> timeModeSum[i][IOType.Income] = timeModeSum[i][IOType.Income]!! + _data!![j].amount
-                                IOType.Outcome -> timeModeSum[i][IOType.Outcome] = timeModeSum[i][IOType.Outcome]!! + _data!![j].amount
-                                else -> timeModeSum[i][IOType.Unset] = timeModeSum[i][IOType.Unset]!! + _data!![j].amount
+                            when (_data!![j].ioType) {
+                                IOType.Income -> timeModeSum[i][IOType.Income] =
+                                    timeModeSum[i][IOType.Income]!! + _data!![j].amount
+                                IOType.Outcome -> timeModeSum[i][IOType.Outcome] =
+                                    timeModeSum[i][IOType.Outcome]!! + _data!![j].amount
+                                else -> timeModeSum[i][IOType.Unset] =
+                                    timeModeSum[i][IOType.Unset]!! + _data!![j].amount
                             }
                         }
                     }
@@ -392,27 +405,30 @@ class ShowBillChart : View {
             }
 
             TimeMode.Year -> {
-                val yearSet= HashSet<Date>()
-                for(i in 0 until _data!!.size){
+                val yearSet = HashSet<Date>()
+                for (i in 0 until _data!!.size) {
                     yearSet.add(DateConverter.cutToYear(_data!![i].time!!))
                 }
                 timeModeList = ArrayList(yearSet)
                 Log.d(TAG, "year size: ${timeModeList.size}")
                 timeModeList.sort()
                 timeModeList.reverse()
-                for(i in 0 until timeModeList.size){
+                for (i in 0 until timeModeList.size) {
                     timeModeSum.add(HashMap())
-                    timeModeSum[i][IOType.Income]=0.0
-                    timeModeSum[i][IOType.Outcome]=0.0
-                    timeModeSum[i][IOType.Unset]=0.0
-                    val tData=ArrayList<BillRecord>()
-                    for(j in 0 until _data!!.size){
-                        if(DateConverter.equalYear(_data!![j].time!!, timeModeList[i])){
+                    timeModeSum[i][IOType.Income] = 0.0
+                    timeModeSum[i][IOType.Outcome] = 0.0
+                    timeModeSum[i][IOType.Unset] = 0.0
+                    val tData = ArrayList<BillRecord>()
+                    for (j in 0 until _data!!.size) {
+                        if (DateConverter.equalYear(_data!![j].time!!, timeModeList[i])) {
                             tData.add(_data!![j])
-                            when(_data!![j].ioType){
-                                IOType.Income -> timeModeSum[i][IOType.Income] = timeModeSum[i][IOType.Income]!! + _data!![j].amount
-                                IOType.Outcome -> timeModeSum[i][IOType.Outcome] = timeModeSum[i][IOType.Outcome]!! + _data!![j].amount
-                                else -> timeModeSum[i][IOType.Unset] = timeModeSum[i][IOType.Unset]!! + _data!![j].amount
+                            when (_data!![j].ioType) {
+                                IOType.Income -> timeModeSum[i][IOType.Income] =
+                                    timeModeSum[i][IOType.Income]!! + _data!![j].amount
+                                IOType.Outcome -> timeModeSum[i][IOType.Outcome] =
+                                    timeModeSum[i][IOType.Outcome]!! + _data!![j].amount
+                                else -> timeModeSum[i][IOType.Unset] =
+                                    timeModeSum[i][IOType.Unset]!! + _data!![j].amount
                             }
                         }
                     }
@@ -425,9 +441,9 @@ class ShowBillChart : View {
 
     }
 
-    companion object{
+    companion object {
         const val TAG = "SBI"
     }
 
-    data class Position(var x: Float,var y:Float)
+    data class Position(var x: Float, var y: Float)
 }
