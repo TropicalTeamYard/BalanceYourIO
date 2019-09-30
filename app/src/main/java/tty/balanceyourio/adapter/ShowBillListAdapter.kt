@@ -1,5 +1,6 @@
 package tty.balanceyourio.adapter
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
@@ -33,9 +34,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
 
     init {
         val allBillRecord = BYIOHelper(context).getBill()
-        if (allBillRecord.size == 0) {
-            //TODO 记录数为0时
-        } else {
+        if (allBillRecord.size != 0) {
             val dateSet = HashSet<Date>()
             for (i in 0 until allBillRecord.size) {
                 dateSet.add(DateConverter.cutToDate(allBillRecord[i].time!!))
@@ -69,6 +68,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
             }
         }
 
+        //TODO 记录数为0时
     }
 
     override fun getGroup(groupPosition: Int): ArrayList<BillRecord> {
@@ -89,6 +89,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
         return true
     }
 
+    @SuppressLint("SetTextI18n")
     override fun getGroupView(
         groupPosition: Int,
         isExpanded: Boolean,
@@ -111,7 +112,7 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
         }
 
         viewHolder.date.text =
-            DateConverter.getFriendDateString((getChild(groupPosition, 0) as BillRecord).time!!)
+            DateConverter.getFriendDateString(getChild(groupPosition, 0).time!!)
 
         viewHolder.income.text =
             "${context.resources.getString(R.string.income)} ${decimalFormat.format(daySumList[groupPosition][IOType.Income])}"
@@ -160,9 +161,9 @@ class ShowBillListAdapter(var context: Context) : BaseExpandableListAdapter() {
 
         try {
             val goodsType = billRecord.goodsType!!
-            //Log.d("Adapter", goodsType);
-            val iconIndex = BYIOCategory.getInstance().getIconIndex(goodsType);
-            viewHolder.icon.setImageResource(PxlIconConverter().getResID(iconIndex));
+            //Log.d("Adapter", goodsType)
+            val iconIndex = BYIOCategory.getInstance().getIconIndex(goodsType)
+            viewHolder.icon.setImageResource(PxlIconConverter().getResID(iconIndex))
         } catch (e: Exception) {
             //DONE CHT 将索引转换为具体内容
             viewHolder.icon.setImageResource(R.drawable.type_others)
