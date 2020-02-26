@@ -1,5 +1,6 @@
 package tty.balanceyourio.page
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -45,7 +46,7 @@ class DataFragment : androidx.fragment.app.Fragment(),
     private var catR = 0
     private var catT = 0
     private var catB = 0
-    private lateinit var catParams: androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
+    private lateinit var catParams: CoordinatorLayout.LayoutParams
     private var firstGroup: GroupDateTuple<Int?, Date?> = GroupDateTuple(null, null)
 
     override fun onAttach(context: Context) {
@@ -70,7 +71,7 @@ class DataFragment : androidx.fragment.app.Fragment(),
             startActivity(Intent(this.context, AddBillActivity::class.java))
         }
 
-        catParams = androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams(
+        catParams = CoordinatorLayout.LayoutParams(
             NumberFormatter.dp2px(
                 context!!,
                 120F
@@ -93,7 +94,7 @@ class DataFragment : androidx.fragment.app.Fragment(),
 
 
         layout_data_month_overview.setOnTouchListener { v, event ->
-
+            v.performClick()
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     data_month_outcome.visibility = View.VISIBLE
@@ -389,6 +390,7 @@ class DataFragment : androidx.fragment.app.Fragment(),
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun onMonthChange() {
         Log.d(TAG, "MONTH CHANGED: ${DateConverter.cutToMonth(firstGroup.date!!)}")
         val start = Calendar.getInstance()
