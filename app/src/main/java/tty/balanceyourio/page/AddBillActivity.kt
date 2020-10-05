@@ -107,8 +107,8 @@ class AddBillActivity : AppCompatActivity(),
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.menu_add_bill_settings -> {
                 Toast.makeText(this, "编辑分类", Toast.LENGTH_SHORT).show()
                 true

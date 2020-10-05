@@ -110,8 +110,8 @@
                     android:layout_marginStart="4dp"
                     android:contentDescription="@string/choose_date"
                     android:padding="4dp"
-                    android:tint="?android:colorForeground"
-                    app:srcCompat="@drawable/ic_pxl_calendar" />
+                    app:srcCompat="@drawable/ic_pxl_calendar"
+                    app:tint="?android:colorForeground" />
 
             <TextView
                     android:id="@+id/add_bill_show_date"
