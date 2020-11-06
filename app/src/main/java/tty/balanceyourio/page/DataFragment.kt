@@ -13,6 +13,7 @@ import android.widget.AdapterView
 import android.widget.ExpandableListView
 import android.widget.ImageView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.res.ResourcesCompat
 import kotlinx.android.synthetic.main.fragment_data.*
 import tty.balanceyourio.R
 import tty.balanceyourio.adapter.ShowBillListAdapter
@@ -99,7 +100,13 @@ class DataFragment : androidx.fragment.app.Fragment(),
                 MotionEvent.ACTION_DOWN -> {
                     data_month_outcome.visibility = View.VISIBLE
                     data_month_budget.visibility = View.VISIBLE
-                    overview_cat.setImageDrawable(resources.getDrawable(R.drawable.cat_1, null))
+                    overview_cat.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.cat_1,
+                            null
+                        )
+                    )
                     lastCatX = event.rawX.toInt()
                     lastCatY = event.rawY.toInt()
                 }
@@ -154,20 +161,14 @@ class DataFragment : androidx.fragment.app.Fragment(),
                             catL = -NumberFormatter.dp2px(context!!, 69F)
                             catR = catL + v.width
                             overview_cat.setImageDrawable(
-                                resources.getDrawable(
-                                    R.drawable.cat_left_0,
-                                    null
-                                )
+                                ResourcesCompat.getDrawable(resources, R.drawable.cat_left_0, null)
                             )
                             overview_cat.scaleType = ImageView.ScaleType.FIT_END
                         } else {
                             catR = layoutWidth + NumberFormatter.dp2px(context!!, 69F)
                             catL = catR - v.width
                             overview_cat.setImageDrawable(
-                                resources.getDrawable(
-                                    R.drawable.cat_right_0,
-                                    null
-                                )
+                                ResourcesCompat.getDrawable(resources, R.drawable.cat_right_0, null)
                             )
                             overview_cat.scaleType = ImageView.ScaleType.FIT_START
                         }
